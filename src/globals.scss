@@ -5,6 +5,14 @@ body {
   background-image: linear-gradient(to bottom, #020917, #101725);
 }
 
+:root {
+  --primary-white: #FFFCF7
+  --primary-green: #C2D8B9;
+  --secondary-green: #EF40D0;
+  --primary-blue: #A1B5D8;
+  --primary-gray: #738290;
+}
+
 .content {
   display: flex;
   min-height: 100vh;
