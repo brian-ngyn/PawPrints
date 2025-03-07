@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  color: var(--primary-white);
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --primary-white: #fffcf7 --primary-green: #c2d8b9;
+  --secondary-green: #ef40d0;
+  --primary-blue: #a1b5d8;
+  --primary-gray: #738290;
+}
+
+.container {
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  position: relative;
+  width: 33%;
+  height: 90%;
+  display: flex;
+  box-shadow: 0 0 50px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 0.75rem (12px);
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+  }
+}
