@@ -1,0 +1,105 @@
+.shopPage {
+  width: 100%;
+  max-height: calc(100vh - 200px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.itemContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-blue);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  padding: 12px;
+  border-radius: 12px;
+
+  [id='brand'] {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  [id='name'] {
+    font-size: 1.1rem;
+    font-weight: 450;
+  }
+
+  [id='price'] {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+.addToCartButton {
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-green);
+  color: black;
+  padding: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.pageHeading {
+  font-size: 3rem;
+  font-weight: 550;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding: 12px 24px;
+  align-items: center;
+}
+
+.relative {
+  position: relative;
+  display: flex;
+}
+
+.priceRangeDropdown {
+  background-color: #cccccc;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid black;
+  position: absolute;
+  top: 50px;
+  left: 0;
+}
+
+.filterLabel {
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid grey;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid #cccccc;
+  margin-top: 2px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 150px;
+}
