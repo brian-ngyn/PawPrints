@@ -1,0 +1,30 @@
+.newPostButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  //padding: 5px 5px 5px 5px;
+  //width: 90%;
+  margin-top:5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 10px 0px var(--shadow-colour);
+  align-items: center;
+  background-color: var(--primary-green);
+  padding-left:10;
+  border-radius: 10px;
+  min-width: 175px;
+  min-height: 40px;
+}
+
+.newPostText {
+  display: block;
+  font-size: 1.5em;
+  color: var(--primary-black);
+  font-weight: bold;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  margin-left: 10px;
+}
+

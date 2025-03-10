@@ -1,0 +1,36 @@
+.searchbarBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  //padding: 5px 5px 5px 10px;
+  //width: 90%;
+  //margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  margin-top: 5px;
+  box-shadow: 0 2px 10px 0px var(--shadow-colour);
+  align-items: center;
+  border: 3.5px solid var(--primary-green);
+  //background-color: var(--primary-green);
+  padding-left:6;
+  border-radius: 40px;
+  //min-width:auto;
+  min-width: 200px;
+  //float:inline-start;
+  //width:200px;
+  overflow-x: hidden;
+  max-width:100%;
+  min-height: 35px;
+}
+
+.searchText {
+  display: block;
+  font-size: 0.75em;
+  color: var(--primary-black);
+  //font-weight: bold;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  margin-left: 10px;
+}
+

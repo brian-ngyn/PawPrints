@@ -21,32 +21,14 @@
   margin-bottom: 5px;
 }
 
-.postItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.postHeader {
-  display: flex;
-  width: 100%;
-  border-top-left-radius: 21px;
-  border-top-right-radius: 21px;
-  //border-color: 2px solid var(--primary-blue);
-  background-color: var(--primary-blue);
-  align-items: center;
-  justify-content: left;
-}
-
 .postUser {
   height: 100%;
-  margin: 10px;
-  width: 40%;
+  padding-left:15px;
+  width: 25%;
   //border: 2px dashed #000000;
 
   display: block;
-  font-size: 1.25em;
+  font-size: 1em;
   color: var(--primary-white);
   margin-top: 2px;
   margin-bottom: 2px;
@@ -64,15 +46,30 @@
   color: var(--primary-white);
 }
 
-.profileImage {
-  margin: 10px;
-  border-radius: 50%;
-  object-fit: cover;
-  //clip-path: circle(50%);
+.postItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 
+.postHeader {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  border-top-left-radius: 21px;
+  border-top-right-radius: 21px;
+  //border-color: 2px solid var(--primary-blue);
+  background-color: var(--primary-blue);
+  align-items: center;
+}
+
+
 .postContents {
-  margin: 25px;
+  margin: 10px;
+  margin-left:15px;
+  max-height: 20px;
+  overflow: hidden;
   //border-radius:25px;
 }
 
