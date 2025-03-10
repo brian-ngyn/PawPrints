@@ -24,7 +24,7 @@ const Post = (props: PostProps) => {
     <div className={styles.post}>
       <div className = {styles.postHeader}>
         <img src={props.userimgsrc} width="10%" height= "10%" alt="" border-radius="50"></img>
-        <div className = {styles.postUser}>{props.username}</div>
+        <div className = {styles.postUser}><h2>{props.username}</h2></div>
       </div>
       <div className = {styles.postContents}>
         {props.title}

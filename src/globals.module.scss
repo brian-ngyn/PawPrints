@@ -11,6 +11,7 @@ body {
   --secondary-green: #e4f0d0;
   --primary-blue: #a1b5d8;
   --primary-gray: #738290;
+  --shadow-colour: rgba(0,0,0,0.25);
 }
 
 .container {
@@ -26,9 +27,10 @@ body {
   width: 33%;
   height: 90%;
   display: flex;
-  box-shadow: 0 0 50px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 50px 12px var(--shadow-colour);
   border-radius: 0.75rem (12px);
   padding: 24px;
+  background-color: var(--primary-white);
 }
 
 @media (max-width: 768px) {
