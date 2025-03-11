@@ -12,6 +12,7 @@ import {
   faChevronLeft,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
+import PetCategorySelector from '../../components/ShopPageComponents/PetCategorySelector';
 
 type Item = {
   id: number;
@@ -24,6 +25,7 @@ type Item = {
   salePrice: number | null;
   brand: string;
   src: string;
+  pet: string;
 };
 
 const Shop = () => {
@@ -40,6 +42,7 @@ const Shop = () => {
         salePrice: 29.99,
         brand: 'Royal Canin',
         src: 'https://s7d2.scene7.com/is/image/PetSmart/5337879',
+        pet: 'Dog',
       },
       {
         id: 2,
@@ -52,6 +55,7 @@ const Shop = () => {
         salePrice: null,
         brand: 'Petmate',
         src: 'https://m.media-amazon.com/images/I/61Qp8dWizKL.jpg',
+        pet: 'Cat',
       },
       {
         id: 3,
@@ -64,6 +68,7 @@ const Shop = () => {
         salePrice: 12.99,
         brand: 'Kong',
         src: 'https://m.media-amazon.com/images/I/61eBrzrzWXL.jpg',
+        pet: 'Dog',
       },
       {
         id: 4,
@@ -76,6 +81,7 @@ const Shop = () => {
         salePrice: null,
         brand: 'Prevue Hendryx',
         src: 'https://m.media-amazon.com/images/I/91g-0EYgvvL._AC_UF1000,1000_QL80_.jpg',
+        pet: 'Bird',
       },
       {
         id: 5,
@@ -88,6 +94,7 @@ const Shop = () => {
         salePrice: 24.99,
         brand: 'Fluval',
         src: 'https://www.petland.ca/cdn/shop/files/fluval-fluval-07-series-external-canister-filter-29753314148454.jpg?v=1698691142',
+        pet: 'Fish',
       },
       {
         id: 6,
@@ -100,6 +107,7 @@ const Shop = () => {
         salePrice: null,
         brand: 'Flexi',
         src: 'https://s7d2.scene7.com/is/image/PetSmart/5268218',
+        pet: 'Dog',
       },
       {
         id: 7,
@@ -112,6 +120,7 @@ const Shop = () => {
         salePrice: 8.99,
         brand: 'Yeowww!',
         src: 'https://greenhawk.com/cdn/shop/products/17899.jpg?v=1689720428&width=1214',
+        pet: 'Cat',
       },
       {
         id: 8,
@@ -124,6 +133,7 @@ const Shop = () => {
         salePrice: null,
         brand: 'Kaytee',
         src: 'https://s7d2.scene7.com/is/image/PetSmart/5278512',
+        pet: 'Small Animal',
       },
       {
         id: 9,
@@ -136,6 +146,7 @@ const Shop = () => {
         salePrice: 9.99,
         brand: 'Blueberry Pet',
         src: 'https://m.media-amazon.com/images/I/71amhDeu9HL._AC_UF1000,1000_QL80_.jpg',
+        pet: 'Dog',
       },
       {
         id: 10,
@@ -148,6 +159,7 @@ const Shop = () => {
         salePrice: null,
         brand: 'Eheim',
         src: 'https://m.media-amazon.com/images/I/51YoQo5pOZL.jpg',
+        pet: 'Fish',
       },
     ],
     [],
@@ -158,6 +170,9 @@ const Shop = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [onSaleOnly, setOnSaleOnly] = useState(false);
+  const [selectedPetCategories, setSelectedPetCategories] = useState<string[]>(
+    [],
+  );
 
   // Filtered items based on state
   const filteredItems = useMemo(
@@ -172,16 +187,27 @@ const Shop = () => {
         const isInSelectedBrand =
           selectedBrands.length === 0 || selectedBrands.includes(item.brand);
         const isOnSale = !onSaleOnly || item.onSale;
+        const isInSelectedPetCategory =
+          selectedPetCategories.length === 0 ||
+          selectedPetCategories.includes(item.pet ?? '');
 
         return (
           isInPriceRange &&
           meetsRating &&
           isInSelectedCategory &&
           isInSelectedBrand &&
-          isOnSale
+          isOnSale &&
+          isInSelectedPetCategory
         );
       }),
-    [priceRange, minRating, selectedCategories, selectedBrands, onSaleOnly],
+    [
+      priceRange,
+      minRating,
+      selectedCategories,
+      selectedBrands,
+      onSaleOnly,
+      selectedPetCategories,
+    ],
   );
 
   const [itemsInCart, setItemsInCart] = useState<Item[]>([]);
@@ -194,6 +220,10 @@ const Shop = () => {
   const brands = useMemo(
     () => [...new Set(items.map((item) => item.brand))],
     [items],
+  );
+  const petCategories = useMemo(
+    () => [...new Set(items.map((item) => item.pet))],
+    [],
   );
 
   const [showCartPage, setShowCartPage] = useState(false);
@@ -231,6 +261,11 @@ const Shop = () => {
               setSelectedBrands={setSelectedBrands}
             />
             <RatingSelector minRating={minRating} setMinRating={setMinRating} />
+            <PetCategorySelector
+              allPetCategories={petCategories}
+              selectedPetCategories={selectedPetCategories}
+              setSelectedPetCategories={setSelectedPetCategories}
+            />
           </div>
 
           <div className={styles.itemContainer}>
@@ -275,6 +310,7 @@ const Shop = () => {
               <div className={styles.cartPageHeading}>
                 <FontAwesomeIcon
                   icon={faChevronLeft}
+                  className={styles.backButton}
                   size="2xs"
                   onClick={() => setShowCartPage(false)}
                 />
@@ -359,6 +395,7 @@ const Shop = () => {
             <>
               <div className={styles.cartPageHeading}>
                 <FontAwesomeIcon
+                  className={styles.backButton}
                   icon={faChevronLeft}
                   size="2xs"
                   onClick={() => {
