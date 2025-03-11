@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styles from '../../../pageLayouts/Shop/index.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
@@ -33,17 +33,20 @@ const BrandSelector = ({
     };
   }, []);
 
-  const handleLabelClick = () => {
+  const handleLabelClick = useCallback(() => {
     setIsDropdownOpen(!isDropdownOpen);
-  };
+  }, [isDropdownOpen]);
 
-  const handleOptionClick = (brand: string) => {
-    if (selectedBrands.includes(brand)) {
-      setSelectedBrands(selectedBrands.filter((b) => b !== brand));
-    } else {
-      setSelectedBrands([...selectedBrands, brand]);
-    }
-  };
+  const handleOptionClick = useCallback(
+    (brand: string) => {
+      if (selectedBrands.includes(brand)) {
+        setSelectedBrands(selectedBrands.filter((b) => b !== brand));
+      } else {
+        setSelectedBrands([...selectedBrands, brand]);
+      }
+    },
+    [selectedBrands, setSelectedBrands],
+  );
 
   return (
     <div className={styles.relative}>

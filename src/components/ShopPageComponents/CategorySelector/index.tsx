@@ -1,6 +1,6 @@
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styles from '../../../pageLayouts/Shop/index.module.scss';
 
 export interface CategorySelectorProps {
@@ -33,19 +33,22 @@ const CategorySelector = ({
     };
   }, []);
 
-  const handleLabelClick = () => {
+  const handleLabelClick = useCallback(() => {
     setIsDropdownOpen((prev) => !prev);
-  };
+  }, [setIsDropdownOpen]);
 
-  const handleOptionClick = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      // If already selected, remove it
-      setSelectedCategories(selectedCategories.filter((c) => c !== category));
-    } else {
-      // If not selected, add it
-      setSelectedCategories([...selectedCategories, category]);
-    }
-  };
+  const handleOptionClick = useCallback(
+    (category: string) => {
+      if (selectedCategories.includes(category)) {
+        // If already selected, remove it
+        setSelectedCategories(selectedCategories.filter((c) => c !== category));
+      } else {
+        // If not selected, add it
+        setSelectedCategories([...selectedCategories, category]);
+      }
+    },
+    [selectedCategories, setSelectedCategories],
+  );
 
   return (
     <div className={styles.relative}>

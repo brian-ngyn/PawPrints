@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styles from '../../../pageLayouts/Shop/index.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
@@ -25,14 +25,17 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const handleLabelClick = () => {
+  const handleLabelClick = useCallback(() => {
     setDropdownOpen((prev) => !prev);
-  };
+  }, [setDropdownOpen]);
 
-  const handleOptionClick = (value: number) => {
-    setMinRating(value);
-    setDropdownOpen(false);
-  };
+  const handleOptionClick = useCallback(
+    (value: number) => {
+      setMinRating(value);
+      setDropdownOpen(false);
+    },
+    [setMinRating, setDropdownOpen],
+  );
 
   return (
     <div className={styles.relative}>

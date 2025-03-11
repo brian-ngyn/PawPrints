@@ -6,8 +6,14 @@ import CategorySelector from '../../components/ShopPageComponents/CategorySelect
 import BrandSelector from '../../components/ShopPageComponents/BrandSelector';
 import OnSaleButton from '../../components/ShopPageComponents/OnSaleButton';
 import { Rating } from 'react-simple-star-rating';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCartShopping,
+  faChevronLeft,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 
-type Items = {
+type Item = {
   id: number;
   name: string;
   starRating: number;
@@ -21,12 +27,12 @@ type Items = {
 };
 
 const Shop = () => {
-  const items: Items[] = useMemo(
+  const items: Item[] = useMemo(
     () => [
       {
         id: 1,
         name: 'Premium Dog Food',
-        starRating: 4.5,
+        starRating: 2.5,
         price: 29.99,
         category: 'Food',
         onSale: true,
@@ -154,25 +160,31 @@ const Shop = () => {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
 
   // Filtered items based on state
-  const filteredItems = items.filter((item) => {
-    const isInPriceRange =
-      item.price >= priceRange[0] && item.price <= priceRange[1];
-    const meetsRating = item.starRating >= minRating;
-    const isInSelectedCategory =
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(item.category);
-    const isInSelectedBrand =
-      selectedBrands.length === 0 || selectedBrands.includes(item.brand);
-    const isOnSale = !onSaleOnly || item.onSale;
+  const filteredItems = useMemo(
+    () =>
+      items.filter((item) => {
+        const isInPriceRange =
+          item.price >= priceRange[0] && item.price <= priceRange[1];
+        const meetsRating = item.starRating >= minRating;
+        const isInSelectedCategory =
+          selectedCategories.length === 0 ||
+          selectedCategories.includes(item.category);
+        const isInSelectedBrand =
+          selectedBrands.length === 0 || selectedBrands.includes(item.brand);
+        const isOnSale = !onSaleOnly || item.onSale;
 
-    return (
-      isInPriceRange &&
-      meetsRating &&
-      isInSelectedCategory &&
-      isInSelectedBrand &&
-      isOnSale
-    );
-  });
+        return (
+          isInPriceRange &&
+          meetsRating &&
+          isInSelectedCategory &&
+          isInSelectedBrand &&
+          isOnSale
+        );
+      }),
+    [priceRange, minRating, selectedCategories, selectedBrands, onSaleOnly],
+  );
+
+  const [itemsInCart, setItemsInCart] = useState<Item[]>([]);
 
   // Unique categories and brands for multi-select options
   const categories = useMemo(
@@ -184,45 +196,186 @@ const Shop = () => {
     [items],
   );
 
+  const [showCartPage, setShowCartPage] = useState(false);
+
+  const [showCheckoutScreen, setShowCheckoutScreen] = useState(false);
+
   return (
     <div className={styles.shopPage}>
-      <div className={styles.pageHeading}>Shop</div>
-      <div className={styles.filters}>
-        <OnSaleButton onSaleOnly={onSaleOnly} setOnSaleOnly={setOnSaleOnly} />
-        <PriceRange priceRange={priceRange} setPriceRange={setPriceRange} />
-        <CategorySelector
-          allCategories={categories}
-          selectedCategories={selectedCategories}
-          setSelectedCategories={setSelectedCategories}
-        />
-        <BrandSelector
-          allBrands={brands}
-          selectedBrands={selectedBrands}
-          setSelectedBrands={setSelectedBrands}
-        />
-        <RatingSelector minRating={minRating} setMinRating={setMinRating} />
-      </div>
-
-      <div className={styles.itemContainer}>
-        {filteredItems.map((item) => (
-          <div className={styles.item} key={item.id}>
-            <img src={item.src} height={200} />
-            <div id="brand">{item.brand}</div>
-            <div id="name">{item.name}</div>
-            <Rating
-              size={25}
-              readonly
-              allowFraction
-              iconsCount={5}
-              initialValue={item.starRating}
-            />
-            <div id="price">
-              ${item.onSale ? item.salePrice : item.regularPrice}
+      {!showCartPage ? (
+        <>
+          <div className={styles.pageHeading}>
+            <div>Shop</div>
+            <div
+              className={styles.cartIcon}
+              onClick={() => setShowCartPage(true)}
+            >
+              <FontAwesomeIcon icon={faCartShopping} size="xs" />
+              <div className={styles.itemsInCart}>{itemsInCart.length}</div>
             </div>
-            <button className={styles.addToCartButton}>Add to Cart</button>
           </div>
-        ))}
-      </div>
+          <div className={styles.filters}>
+            <OnSaleButton
+              onSaleOnly={onSaleOnly}
+              setOnSaleOnly={setOnSaleOnly}
+            />
+            <PriceRange priceRange={priceRange} setPriceRange={setPriceRange} />
+            <CategorySelector
+              allCategories={categories}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+            />
+            <BrandSelector
+              allBrands={brands}
+              selectedBrands={selectedBrands}
+              setSelectedBrands={setSelectedBrands}
+            />
+            <RatingSelector minRating={minRating} setMinRating={setMinRating} />
+          </div>
+
+          <div className={styles.itemContainer}>
+            {filteredItems.map((item) => (
+              <div className={styles.item} key={item.id}>
+                <img src={item.src} height={200} />
+                <div id="brand">{item.brand}</div>
+                <div id="name">{item.name}</div>
+                <Rating
+                  size={25}
+                  readonly
+                  allowFraction
+                  iconsCount={5}
+                  initialValue={item.starRating}
+                />
+                <div id="price">
+                  {item.onSale ? (
+                    <>
+                      <div style={{ textDecoration: 'line-through' }}>
+                        ${item.regularPrice}
+                      </div>
+                      <div>${item.salePrice}</div>
+                    </>
+                  ) : (
+                    <div>${item.regularPrice}</div>
+                  )}
+                </div>
+                <button
+                  className={styles.addToCartButton}
+                  onClick={() => setItemsInCart((prev) => [...prev, item])}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          {!showCheckoutScreen ? (
+            <>
+              <div className={styles.cartPageHeading}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  size="2xs"
+                  onClick={() => setShowCartPage(false)}
+                />
+                <div>Cart</div>
+              </div>
+              <div className={styles.cartContainer}>
+                <div className={styles.quantityHeader}>
+                  Your Cart ({itemsInCart.length} items)
+                </div>
+                {[...new Set(itemsInCart)].map((item: Item) => (
+                  <div className={styles.cartItem} key={item.id}>
+                    <img src={item.src} height={200} />
+                    <div className={styles.cartItemDescription}>
+                      <div id="category">{item.category}</div>
+                      <div id="brand">{item.brand}</div>
+                      <div id="name">{item.name}</div>
+                      <div id="price">
+                        {item.onSale ? (
+                          <>
+                            <div style={{ textDecoration: 'line-through' }}>
+                              ${item.regularPrice}
+                            </div>
+                            <div>${item.salePrice}</div>
+                          </>
+                        ) : (
+                          <div>${item.regularPrice}</div>
+                        )}
+                      </div>
+                    </div>
+                    <div className={styles.quantitySelector}>
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          onClick={() =>
+                            setItemsInCart((prev) => {
+                              return prev.filter((i) => i.id !== item.id);
+                            })
+                          }
+                        />
+                        <div
+                          onClick={() =>
+                            setItemsInCart((prev) => {
+                              const newCart = [...prev];
+                              newCart.splice(newCart.indexOf(item), 1);
+                              return newCart;
+                            })
+                          }
+                        >
+                          -
+                        </div>
+                        <div>
+                          {itemsInCart.filter((i) => i.id === item.id).length}
+                        </div>
+                        <div
+                          onClick={() =>
+                            setItemsInCart((prev) => {
+                              return [...prev, item];
+                            })
+                          }
+                        >
+                          +
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div className={styles.subtotal}>
+                  Subtotal: $
+                  {itemsInCart
+                    .reduce((acc, item) => acc + item.price, 0)
+                    .toFixed(2)}
+                </div>
+                <button
+                  className={styles.checkoutButton}
+                  onClick={() => setShowCheckoutScreen(true)}
+                >
+                  Checkout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.cartPageHeading}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  size="2xs"
+                  onClick={() => {
+                    setItemsInCart([]);
+                    setShowCartPage(false);
+                    setShowCheckoutScreen(true);
+                  }}
+                />
+                <div>Cart</div>
+              </div>
+              <div className={styles.checkoutScreen}>
+                Checkout complete! Thank you for shopping with PawPrints!
+              </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };
