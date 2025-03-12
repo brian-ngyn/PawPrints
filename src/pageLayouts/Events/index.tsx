@@ -13,18 +13,26 @@ import styles from './index.module.scss';
 const Events = () => {
   const calendarEvents = [
     {
-      title: "dog walk",
-      subtitle: "walk dog",
-      start: "2025-03-08T17:00:00",
-      end: "2025-03-08T1:00:00",
-      location: "uofc",
+      title: "Pet Ownership Lecture",
+      subtitle: "Lorem ipsum",
+      start: "2025-03-08 17:00:00",
+      end: "2025-03-08 19:00:00",
+      location: "University of Calgary",
     },
     {
-      title: "feed dog",
-      subtitle: "eat",
-      start: "2025-03-10T07:00:00",
-      end: "2025-03-10T08:00:00",
-      location: "calgary",
+      title: "Dog Training Session",
+      subtitle: "Text",
+      start: "2025-03-10 07:00:00",
+      end: "2025-03-10 09:00:00",
+      location: "Green Park",
+    },
+
+    {
+      title: "Puppy Yoga",
+      subtitle: "ABC",
+      start: "2025-03-15 12:00:00",
+      end: "2025-03-15 14:00:00",
+      location: "Location",
     },
   ];
 
@@ -41,7 +49,7 @@ const Events = () => {
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin]}
             initialView="dayGridMonth" 
-            events={calendarEvents} // Pass the event data
+            events={calendarEvents} 
             headerToolbar={{
               left: "prev,next today",
               center: "title",

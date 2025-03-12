@@ -39,16 +39,16 @@
     
         :global {
           .fc-header-toolbar {
-            white-space: nowrap; // Prevent text wrapping
+            white-space: nowrap; 
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px; // Add padding if needed
+            padding: 10px; 
           }
     
           .fc-toolbar-title {
-            font-size: 1rem; // Adjust font size if needed
-            margin: 0; // Remove default margin
+            font-size: 1rem; 
+            margin: 0; 
           }
           .fc-event {
             overflow:hidden;
@@ -60,12 +60,11 @@
     
   
       .eventsListContainer {
-        height: 150px; // Fixed height for the scrollable container
-        overflow-y: auto; // Enable vertical scrolling
-        border: 1px solid #ccc; // Optional: Add a border
-        border-radius: 8px; // Optional: Add rounded corners
-        padding: 10px; // Optional: Add padding
-        margin-bottom: 20px; // Optional: Add margin
+        height: 150px; 
+        overflow-y: auto; 
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        margin-bottom: 20px; 
       }
     
       .eventsList {
