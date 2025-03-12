@@ -21,9 +21,9 @@
   justify-content: space-evenly;
   display: flexbox;
   width: 100%;
-  height: 90%;
+  height: 80%; //65 works for the really extreme case, 80% is probably the best
   background-color: var(--primary-white);
-  margin-bottom: 10%;
+  //margin-bottom: 50px;
   //margin-top: 10px;
   //box-shadow: -6px 0 var(--primary-white), 6px 0 var(--primary-white), 0 3px 2.5px 0 var(--shadow-colour);
 }
