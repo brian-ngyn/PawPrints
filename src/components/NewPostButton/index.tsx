@@ -10,7 +10,7 @@ import { memo } from 'react';
 import { useNavigate } from 'react-router';
 
 import styles from './index.module.scss';
-import PlusIcon from '../../PlusIcon';
+import PlusIcon from '../PlusIcon';
 
 //we are using primary green for this, but hardcoded right now
 //also need to implement navigation to newpost page, right now it just goes to home
@@ -19,7 +19,8 @@ const NewPostButton = () => {
 
   return (
     <div className={styles.newPostButton} onClick={() => navigate('/')}>
-      <PlusIcon width={10} height={10} colour= {"#c2d8b9"}></PlusIcon>
+      <PlusIcon width={50} height={50} colour= {"#fffcf7"}></PlusIcon>
+      <div className={styles.newPostText}>New Post</div>
     </div>
   );
 };

@@ -1,8 +1,23 @@
 .newPostButton {
-  display: flexbox;
-  //width: 95%;
-  border: 2px dashed var(--primary-blue); //primary blue
-  justify-content: space-evenly;
-  margin: 10px;
+  display: flex;
+  justify-content: left;
+  padding: 5px 5px 5px 5px;
+  width: 90%;
+  margin-left: 10px;
+  margin-bottom: 10px;
   box-shadow: 0 2px 10px 0px var(--shadow-colour);
+  align-items: center;
+  background-color: var(--primary-green);
 }
+
+.newPostText {
+  display: block;
+  font-size: 2em;
+  color: var(--primary-white);
+  font-weight: bold;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  margin-left: 10px;
+}
+
