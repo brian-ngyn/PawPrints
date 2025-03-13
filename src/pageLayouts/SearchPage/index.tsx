@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import {
-  faUser,
+  faArrowLeft,
   faShop,
   faChain,
 } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +14,7 @@ import PlusIcon from '../../components/PlusIcon';
 import CategorySelector from '../../components/CategorySelector';
 import SearchBar from '../../components/SearchBar';
 
+import { useNavigate } from 'react-router';
 
 const animalcategories = [
   "Amphibians", "Frogs and Toads", "Axolotls, Newts, Salamanders",
@@ -28,7 +29,11 @@ const animalcategories = [
 const [selectedActivityCategories, setSelectedActivityCategories] = useState<string[]>([]);*/
 
 const SearchPage = () => {
+  let navigate = useNavigate();
+  
   return <div className={styles.page}>
+    <div className={styles.backArrow} onClick={() => navigate('/')}><FontAwesomeIcon icon={faArrowLeft} size="2x" /></div>
+
     <div className={styles.searchContainer}><SearchBar/></div>
 
     <div className={styles.searchTypeContainer}>I'm looking for...

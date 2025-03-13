@@ -16,7 +16,7 @@ const SearchBar = () => {
   return (
     <div className={styles.searchbarBox} onClick={() => navigate('/search')}>
       <FontAwesomeIcon icon={faMagnifyingGlass} size="1x" />
-      <div className={styles.searchText}>Search for... cat adoption centres </div>
+      <div className={styles.searchText}>Search for... kittens </div>
     </div>
   );
 };

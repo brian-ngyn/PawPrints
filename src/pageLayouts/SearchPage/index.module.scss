@@ -9,8 +9,18 @@
   background-color: var(--primary-white);
 }
 
+.backArrow {
+  background-color: var(--primary-green);
+  border-radius: 5px;
+  width:fit-content;
+  padding:5px;
+  margin:10px;
+}
+
 .searchContainer {
   padding: 10px 10px 10px 10px;
+  //min-width: 325px;
+  width:80%;
 }
 
 .searchTypeContainer {

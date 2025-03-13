@@ -5,6 +5,7 @@ import {
   faUser,
   faShop,
   faChain,
+  faArrowLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -12,6 +13,8 @@ import styles from './index.module.scss';
 import VisibilitySelector from '../../components/VisibilitySelector';
 import PlusIcon from '../../components/PlusIcon';
 import CategorySelector from '../../components/CategorySelector';
+
+import { useNavigate } from 'react-router';
 
 type inUserProps = {
   username: string;
@@ -31,10 +34,14 @@ const animalcategories = [
 const [selectedActivityCategories, setSelectedActivityCategories] = useState<string[]>([]);*/
 
 const NewPostPage = (props: inUserProps) => {
+  let navigate = useNavigate();
+
   return <div className={styles.page}>
     <div className={styles.pageHeading}>
       Create New Post
     </div>
+
+    <div className={styles.backArrow} onClick={() => navigate('/')}><FontAwesomeIcon icon={faArrowLeft} size="2x" /></div>
 
     <div className={styles.outerBox}>
       <div className={styles.post}>
@@ -125,6 +132,8 @@ const NewPostPage = (props: inUserProps) => {
       </div>
       
     </div>
+
+    <div className={styles.bottomSpaceBox}></div>
   </div>;
 };
 
