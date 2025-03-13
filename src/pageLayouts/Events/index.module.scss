@@ -1,17 +1,44 @@
 .eventspage {
-    width: 100%;
-    max-height: calc(100vh - 200px);
-    overflow-y: scroll;
-    scrollbar-width: none;
-    padding: 20px; 
-  
-    .titleRow {
-      text-align: left; 
-      margin-bottom: 20px; 
-      h1, h2 {
-        margin: 0; 
-      }
+  width: 100%;
+  max-height: calc(100vh - 200px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding: 20px;
+
+  .headerRow {
+    display: flex; // Make it a flex container
+    align-items: center; // Vertically center the items
+    justify-content: space-between; // Space out the title and button
+    margin-bottom: -20px;
+  }
+
+  .titleRow {
+    text-align: left;
+    margin-bottom: 1px;
+    h1, h2 {
+      margin: 0;
     }
+  }
+
+  .addEventButton {
+    background-color: white; 
+    color: black; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    width: 40px; 
+    height: 40px; 
+    font-size: 1.5rem; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      background-color: #646464; 
+    }
+  }
+}
 
     .seperator {
         border: 0;
@@ -36,6 +63,7 @@
         max-width: 900px;
         margin: 0 auto;
         overflow: hidden;
+        border-radius: 8px;
     
         :global {
           .fc-header-toolbar {
@@ -44,6 +72,10 @@
             align-items: center;
             justify-content: space-between;
             padding: 10px; 
+          }
+          .fc {
+            border-radius: 8px;
+            overflow: hidden;
           }
     
           .fc-toolbar-title {
@@ -76,9 +108,9 @@
       .eventCard {
         background-color: #f9f9f9;
         border: 1px solid #ddd;
-        border-radius: 8px;
         padding: 15px;
         width: 100%;
+        border-radius: 8px;
         max-width: 400px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     
@@ -94,4 +126,4 @@
           color: #666;
         }
       }
-    }
+    
