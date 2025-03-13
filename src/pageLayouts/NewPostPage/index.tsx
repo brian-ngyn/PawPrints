@@ -27,8 +27,8 @@ const animalcategories = [
   "Reptiles", "Lizards", "Snakes", "Turtles",
 ]
 
-const [selectedAnimalCategories, setSelectedAnimalCategories] = useState<string[]>([]);
-const [selectedActivityCategories, setSelectedActivityCategories] = useState<string[]>([]);
+/*const [selectedAnimalCategories, setSelectedAnimalCategories] = useState<string[]>([]);
+const [selectedActivityCategories, setSelectedActivityCategories] = useState<string[]>([]);*/
 
 const NewPostPage = (props: inUserProps) => {
   return <div className={styles.page}>
@@ -83,13 +83,47 @@ const NewPostPage = (props: inUserProps) => {
         </label>     
         <div className={styles.optionText}>This post is sponsored</div>
       </div>
-
-      <div className={styles.test}>
-        
+      
+      <div className={styles.dropdownBox}>
+        <label>Animal Type
+          <select name="animalCategory" id="animalCategory">
+            <optgroup label="Amphibian">
+              <option value="Frogs & Toads">Frogs & Toads</option>
+              <option value="Axolotls, Newts, Salamanders">Axolotls, Newts, Salamanders</option>
+            </optgroup>
+            <optgroup label="Birds">
+              <option value="Birds of Prey">Birds of Prey</option>
+              <option value="Parrots">Parrots</option>
+              <option value="Songbirds">Songbirds</option>
+            </optgroup>
+            <optgroup label = "Fish">
+              <option value="Betta">Betta</option>
+              <option value="Chichlid">Chichlid</option>
+              <option value="Freshwater">Freshwater</option>
+              <option value="Koi & Goldfish">Koi & Goldfish</option>
+              <option value="Tropical">Tropical</option>
+            </optgroup>
+            <optgroup label="Invertibrates">
+              <option value="Crustaceans & Mollusks">Crustaceans & Mollusks</option>
+              <option value="Insects">Insects</option>
+              <option value="Spiders & Arachnids">Spiders & Arachnids</option>
+            </optgroup>
+            <optgroup label="Mammals">
+              <option value="Cats">Cats</option>
+              <option value="Dogs">Dogs</option>
+              <option value="Large Mammals">Large Mammals</option>
+              <option value="Mustelids">Mustelids</option>
+              <option value="Rodents">Rodents</option>
+            </optgroup>
+            <optgroup label='Reptiles'>
+              <option value="Lizards">Lizards</option>
+              <option value="Snakes">Snakes</option>
+              <option value="Turtles">Turtles</option>
+            </optgroup>
+          </select>
+        </label>
       </div>
       
-      
-
     </div>
   </div>;
 };

@@ -112,10 +112,6 @@ img {
   object-fit: cover;
 }
 
-.test {
-  background-color: black;
-}
-
 .rotate90 {
   rotate: 90deg;
 }
@@ -216,4 +212,17 @@ img {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.dropdownBox {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  height: fit-content;
+  padding: 20px;
+  border-radius: 25px;
+
+  margin-top:20px;
+  align-items: space-evenly;
+  background-color: var(--primary-green);
 }
