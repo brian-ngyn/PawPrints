@@ -16,7 +16,7 @@ const SearchHeader = () => {
 
   return (
     <div className={styles.header}>
-      <div className={styles.notifications} onClick={() => navigate('/events')}>
+      <div className={styles.notifications} onClick={() => navigate('/notifications')}>
         <div className={styles.alarmBell}><FontAwesomeIcon icon={faBell} size="2x" /></div>
       </div>
         <SearchBar />

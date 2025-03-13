@@ -1,0 +1,47 @@
+//import { faUser } from '@fortawesome/free-regular-svg-icons';
+import {
+  faHeart,
+  faComment,
+  faTurnDown,
+  faBookmark
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { memo } from 'react';
+
+//import { useNavigate } from 'react-router';
+
+import styles from './index.module.scss';
+
+type PostNotifProps = {
+  username: string;
+  title: string;
+  timestamp: Date;
+}
+
+const PostNotification = (props: PostNotifProps) => {
+  //let navigate = useNavigate();
+  let now = Date.now();
+  let difference = Math.ceil((now - props.timestamp.getTime())/(1000*60*60))
+  let dateUnits = " hours "
+  if (difference > 24) {
+    difference = Math.ceil(difference/24)
+    dateUnits = " days "
+  }
+
+  return (
+    <div className ={styles.outerBox}>
+      <div className={styles.post}>
+        <div className = {styles.postHeader}>
+          <div className = {styles.postUser}>{props.username}</div>
+          <div className = {styles.dateText}>{difference} {dateUnits} ago</div>
+        </div>
+
+        <div className = {styles.postContents}>
+          {props.title}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default memo(PostNotification);

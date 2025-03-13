@@ -8,6 +8,7 @@ import Groups from './pageLayouts/Groups';
 import Shop from './pageLayouts/Shop';
 import Profile from './pageLayouts/Profile';
 import NewPostPage from './pageLayouts/NewPostPage'
+import NotificationCentre from './pageLayouts/NotificationCentre';
 
 const App = () => {
   return (
@@ -16,11 +17,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new-post" element={<NewPostPage username="Olivia" userimgsrc="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png"/>} />
-          <Route path="search" element={<SearchPage/>} />
+          <Route path="/search" element={<SearchPage/>} />
+          <Route path="/notifications" element={<NotificationCentre/>} />
           <Route path="/events" element={<Events />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/profile" element={<Profile />} />
+          
 
         </Routes>
         <Footer />
