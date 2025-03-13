@@ -19,7 +19,7 @@ interface Event {
 }
 
 const getUpcomingEvents = (events: Event[]) => {
-  const today = new Date(); // Current date
+  const today = new Date(); 
   const nextWeek = new Date(today);
   nextWeek.setDate(today.getDate() + 7); 
 

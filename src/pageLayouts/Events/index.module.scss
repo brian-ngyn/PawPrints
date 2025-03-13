@@ -6,9 +6,9 @@
   padding: 20px;
 
   .headerRow {
-    display: flex; // Make it a flex container
-    align-items: center; // Vertically center the items
-    justify-content: space-between; // Space out the title and button
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
     margin-bottom: -20px;
   }
 
@@ -106,7 +106,7 @@
       }
     
       .eventCard {
-        background-color: #f9f9f9;
+        background-color: #e4e4e4;
         border: 1px solid #ddd;
         padding: 15px;
         width: 100%;
