@@ -14,18 +14,33 @@
   background-color: var(--primary-white);
 }
 
-.homeContents {
+.feed {
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
   justify-content: space-evenly;
   display: flexbox;
   width: 100%;
-  height: 80%; //65 works for the really extreme case, 80% is probably the best
-  background-color: var(--primary-white);
-  //margin-bottom: 50px;
-  //margin-top: 10px;
+  height: 87%;
+  //background-color: var(--primary-green);
+  //border-top: 1px solid var(--primary-black);
+
   //box-shadow: -6px 0 var(--primary-white), 6px 0 var(--primary-white), 0 3px 2.5px 0 var(--shadow-colour);
+}
+
+.feedSeperator {
+  height: 1px;
+  border-top: 1px solid var(--primary-black);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.feedStart {
+  height: 5px;
+}
+
+.feedEnd {
+  height: 100px;
 }
 
 .homeTitle {

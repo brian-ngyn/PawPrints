@@ -9,7 +9,7 @@
   bottom: 0;
   left: 0;
   display: flexbox;
-  width: 95%;
+  //width: 95%;
   //height: ;
   //border-top: 0.9px solid #454545;
   border-radius: 25px;
@@ -43,16 +43,7 @@
   margin: 10px;
   width: 50%;
   //border: 2px dashed #000000;
-  
-}
 
-img {
-  margin: 10px;
-  border-radius: 50%;
-}
-
-//Need to fix this at some point because it's for the whole site
-h2 {
   display: block;
   font-size: 1.25em;
   color: var(--primary-white);
@@ -61,6 +52,13 @@ h2 {
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;
+  
+}
+
+img {
+  margin: 10px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .postContents {

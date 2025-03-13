@@ -19,7 +19,7 @@ const NewPostButton = () => {
 
   return (
     <div className={styles.newPostButton} onClick={() => navigate('/')}>
-      <PlusIcon width={50} height={50} colour= {"#fffcf7"}></PlusIcon>
+      <PlusIcon width={40} height={40} colour= {"#fffcf7"}></PlusIcon>
       <div className={styles.newPostText}>New Post</div>
     </div>
   );
