@@ -1,25 +1,34 @@
-import { memo } from 'react';
-import Post from '../../components/Post';
-
+import { memo, useState } from 'react';
 
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import {
   faUser,
   faShop,
   faChain,
-  faBookmark
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './index.module.scss';
-import NewPostButton from '../../components/NewPostButton';
 import VisibilitySelector from '../../components/VisibilitySelector';
 import PlusIcon from '../../components/PlusIcon';
+import CategorySelector from '../../components/CategorySelector';
 
 type inUserProps = {
   username: string;
   userimgsrc: string;
 }
+
+const animalcategories = [
+  "Amphibians", "Frogs and Toads", "Axolotls, Newts, Salamanders",
+  "Birds", "Birds of Prey", "Parrots", "Songbirds",
+  "Fish", "Betta", "Cichlid", "Freshwater", "Koi & Goldfish", "Tropical",
+  "Invertibrates", "Crustaceans & Mollusks", "Insects", "Spiders & Arachnids",
+  "Mammals", "Cats", "Dogs", "Large Mammals", "Mustelids", "Rodents",
+  "Reptiles", "Lizards", "Snakes", "Turtles",
+]
+
+const [selectedAnimalCategories, setSelectedAnimalCategories] = useState<string[]>([]);
+const [selectedActivityCategories, setSelectedActivityCategories] = useState<string[]>([]);
 
 const NewPostPage = (props: inUserProps) => {
   return <div className={styles.page}>
@@ -74,6 +83,12 @@ const NewPostPage = (props: inUserProps) => {
         </label>     
         <div className={styles.optionText}>This post is sponsored</div>
       </div>
+
+      <div className={styles.test}>
+        
+      </div>
+      
+      
 
     </div>
   </div>;
