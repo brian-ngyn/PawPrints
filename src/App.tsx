@@ -6,6 +6,7 @@ import Events from './pageLayouts/Events';
 import Groups from './pageLayouts/Groups';
 import Shop from './pageLayouts/Shop';
 import Profile from './pageLayouts/Profile';
+import NewPostPage from './pageLayouts/New Post'
 
 const App = () => {
   return (
@@ -13,10 +14,12 @@ const App = () => {
       <div className={styles.content}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/new-post" element={<NewPostPage />} />
           <Route path="/events" element={<Events />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/profile" element={<Profile />} />
+
         </Routes>
         <Footer />
       </div>

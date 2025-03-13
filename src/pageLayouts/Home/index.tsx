@@ -3,10 +3,11 @@ import Post from '../../components/Post';
 
 import styles from './index.module.scss';
 import NewPostButton from '../../components/NewPostButton';
+import SearchHeader from '../../components/SearchHeader';
 
 const Home = () => {
   return <div className={styles.home}>
-    <NewPostButton></NewPostButton>
+    <SearchHeader />
     <div className={styles.feedSeperator}></div>
     <div className={styles.feed}>
       <div className={styles.feedStart}></div>
