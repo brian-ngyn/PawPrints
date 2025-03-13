@@ -12,11 +12,8 @@ import styles from './index.module.scss';
 import VisibilitySelector from '../../components/VisibilitySelector';
 import PlusIcon from '../../components/PlusIcon';
 import CategorySelector from '../../components/CategorySelector';
+import SearchBar from '../../components/SearchBar';
 
-type inUserProps = {
-  username: string;
-  userimgsrc: string;
-}
 
 const animalcategories = [
   "Amphibians", "Frogs and Toads", "Axolotls, Newts, Salamanders",
@@ -32,48 +29,50 @@ const [selectedActivityCategories, setSelectedActivityCategories] = useState<str
 
 const SearchPage = () => {
   return <div className={styles.page}>
-    <div className={styles.pageHeading}>
-      Create New Post
-    </div>
+    <div className={styles.searchContainer}><SearchBar/></div>
 
-    <div className={styles.outerBox}>
-      <div className={styles.post}>
-        <div className = {styles.postHeader}>
-          <img src={''} width="10%" height= "10%" alt="" border-radius="50"></img>
-          <div className = {''}>{''}</div>
-          <VisibilitySelector></VisibilitySelector>
-        </div>
+    <div className={styles.searchTypeContainer}>I'm looking for...
+      <div className={styles.searchTypeOption}>
+        <label className={styles.container}>
+          <input type="checkbox"></input>
+          <span className={styles.checkmark}></span>   
+        </label>
+        <div className={styles.optionText}>Posts</div>
+      </div>
 
-        <div className = {styles.postText}>
-          <textarea className={styles.textInput}>My pet did something amazing today...</textarea>
-        </div>
+      <div className={styles.searchTypeOption}>
+        <label className={styles.container}>
+          <input type="checkbox"></input>
+          <span className={styles.checkmark}></span>   
+        </label>     
+        <div className={styles.optionText}>Events</div>
+      </div>
+
+      <div className={styles.searchTypeOption}>
+        <label className={styles.container}>
+          <input type="checkbox"></input>
+          <span className={styles.checkmark}></span>   
+        </label>     
+        <div className={styles.optionText}>Groups</div>
+      </div>
+
+      <div className={styles.searchTypeOption}>
+        <label className={styles.container}>
+          <input type="checkbox"></input>
+          <span className={styles.checkmark}></span>   
+        </label>     
+        <div className={styles.optionText}>People</div>
       </div>
     </div>
 
     <div className={styles.postOptions}>
-      <div className={styles.option}>
-        <PlusIcon width={32} height={32} colour={"#454545"}></PlusIcon>
-        <div className={styles.optionText}>Add Image/Photo</div>
-      </div>
 
       <div className={styles.option}>
-      <FontAwesomeIcon icon={faUser} size="2x" />
-        <div className={styles.optionText}>Tag People</div>
-      </div>
-
-      <div className={styles.option}>
-      <FontAwesomeIcon icon={faCalendar} size="2x" />
-        <div className={styles.optionText}>Add Event</div>
-      </div>
-
-      <div className={styles.option}>
-        <FontAwesomeIcon icon={faChain} size="1x" />
-        <div className={styles.optionText}>Add Link</div>
-      </div>
-
-      <div className={styles.option}>
-        <FontAwesomeIcon icon={faShop} size="2x" />
-        <div className={styles.optionText}>Add Shop Link</div>
+        <label className={styles.container}>
+          <input type="checkbox"></input>
+          <span className={styles.checkmark}></span>   
+        </label>     
+        <div className={styles.optionText}>Only people I follow</div>
       </div>
 
       <div className={styles.option}>
@@ -81,7 +80,7 @@ const SearchPage = () => {
           <input type="checkbox"></input>
           <span className={styles.checkmark}></span>   
         </label>     
-        <div className={styles.optionText}>This post is sponsored</div>
+        <div className={styles.optionText}>Only groups I'm follow</div>
       </div>
       
       <div className={styles.dropdownBox}>

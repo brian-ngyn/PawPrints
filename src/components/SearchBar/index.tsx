@@ -7,7 +7,6 @@ import { memo } from 'react';
 import { useNavigate } from 'react-router';
 
 import styles from './index.module.scss';
-import PlusIcon from '../PlusIcon';
 
 //we are using primary black for this, but hardcoded right now
 //also need to implement navigation to newpost page, right now it just goes to home
@@ -15,7 +14,7 @@ const SearchBar = () => {
   let navigate = useNavigate();
 
   return (
-    <div className={styles.searchbarBox} onClick={() => navigate('/')}>
+    <div className={styles.searchbarBox} onClick={() => navigate('/search')}>
       <FontAwesomeIcon icon={faMagnifyingGlass} size="1x" />
       <div className={styles.searchText}>Search for... cat adoption centres </div>
     </div>
