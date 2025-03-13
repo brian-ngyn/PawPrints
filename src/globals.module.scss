@@ -1,14 +1,15 @@
 body {
   margin: 0;
-  color: var(--primary-white);
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 }
 
 :root {
-  --primary-white: #fffcf7 --primary-green: #c2d8b9;
-  --secondary-green: #ef40d0;
+  --primary-white: #fffcf7;
+  --primary-green: #c2d8b9;
+  --secondary-green: #e4f0d0;
   --primary-blue: #a1b5d8;
   --primary-gray: #738290;
+  --primary-red: #ff746c;
 }
 
 .container {
