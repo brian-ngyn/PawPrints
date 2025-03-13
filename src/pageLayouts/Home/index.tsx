@@ -2,10 +2,11 @@ import { memo } from 'react';
 import Post from '../../components/Post';
 
 import styles from './index.module.scss';
+import NewPostButton from '../../components/NewPostButton';
 
 const Home = () => {
   return <div className={styles.home}>
-    <div className={styles.homeTitle}><h1>Home</h1></div>
+    <NewPostButton></NewPostButton>
     <div className={styles.homeContents}>
     <Post title="My First Post" userimgsrc="https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png" username='John'/>
     <Post title="My Second Post" userimgsrc="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png" username='Olivia'/>
