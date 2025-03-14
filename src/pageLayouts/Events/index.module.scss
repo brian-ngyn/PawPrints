@@ -4,6 +4,7 @@
   overflow-y: scroll;
   scrollbar-width: none;
   padding: 20px;
+  background-color: #FFFCF7;
 
   .headerRow {
     display: flex; 
@@ -21,9 +22,9 @@
   }
 
   .addEventButton {
-    background-color: white; 
+    background-color: #C2D8B9; 
     color: black; 
-    border: 1px solid #ccc; 
+    border: 1px solid #c2d8b9; 
     border-radius: 4px; 
     width: 40px; 
     height: 40px; 
@@ -35,7 +36,7 @@
     transition: background-color 0.3s ease, border-color 0.3s ease;
 
     &:hover {
-      background-color: #646464; 
+      background-color: #84a776; 
     }
   }
 }
@@ -64,7 +65,7 @@
         margin: 0 auto;
         overflow: hidden;
         border-radius: 8px;
-    
+
         :global {
           .fc-header-toolbar {
             white-space: nowrap; 
@@ -87,6 +88,17 @@
             white-space: nowrap;
             text-overflow: ellipses;
           }
+          .fc-button-primary {
+            color:#1b1b1b;
+            background-color: #C2D8B9;
+            &:hover{
+              background-color: #84a776;
+            }
+          }
+          .fc-button-active {
+            background-color: #84a776;
+            color:white;
+          }
         }
       }
     
@@ -97,6 +109,7 @@
         border: 1px solid #ccc; 
         padding: 10px; 
         margin-bottom: 20px; 
+        border-radius: 8px;
       }
     
       .eventsList {
@@ -106,7 +119,7 @@
       }
     
       .eventCard {
-        background-color: #e4e4e4;
+        background-color: #A1B5D8;
         border: 1px solid #ddd;
         padding: 15px;
         width: 100%;
@@ -117,13 +130,13 @@
         h3 {
           margin: 0;
           font-size: 1.2rem;
-          color: #333;
+          color: #1b1b1b;
         }
     
         p {
           margin: 5px 0;
           font-size: 0.9rem;
-          color: #666;
+          color: #3b3b3b;
         }
       }
     
