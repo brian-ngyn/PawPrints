@@ -128,6 +128,8 @@ const SearchPage = () => {
         </label>
       </div>
       
+      <div className = {styles.optionExtraSpace} />
+
     </div>
   </div>;
 };
