@@ -16,7 +16,7 @@ import SearchBar from '../../components/SearchBar';
 
 import { useNavigate } from 'react-router';
 
-const animalcategories = [
+const categories = [
   "Amphibians", "Frogs and Toads", "Axolotls, Newts, Salamanders",
   "Birds", "Birds of Prey", "Parrots", "Songbirds",
   "Fish", "Betta", "Cichlid", "Freshwater", "Koi & Goldfish", "Tropical",
@@ -24,6 +24,8 @@ const animalcategories = [
   "Mammals", "Cats", "Dogs", "Large Mammals", "Mustelids", "Rodents",
   "Reptiles", "Lizards", "Snakes", "Turtles",
 ]
+
+const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
 /*const [selectedAnimalCategories, setSelectedAnimalCategories] = useState<string[]>([]);
 const [selectedActivityCategories, setSelectedActivityCategories] = useState<string[]>([]);*/
@@ -88,6 +90,12 @@ const SearchPage = () => {
         <div className={styles.optionText}>Only groups I'm follow</div>
       </div>
       
+      <CategorySelector
+              allCategories={categories}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+       />
+
       <div className={styles.dropdownBox}>
         <label>Animal Type
           <select name="animalCategory" id="animalCategory">
