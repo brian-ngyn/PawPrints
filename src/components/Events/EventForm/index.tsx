@@ -1,11 +1,13 @@
 import { useState } from "react";
-import styles from './index.module.scss'; 
+import styles from './index.module.scss';
 
 interface Event {
   title: string;
   subtitle: string;
   start: string;
   location: string;
+  isRecurring?: boolean;
+  recurrencePattern?: 'weekly' | 'biweekly' | 'monthly';
 }
 
 interface EventFormProps {
@@ -18,6 +20,8 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
   const [subtitle, setSubtitle] = useState("");
   const [start, setStart] = useState("");
   const [location, setLocation] = useState("");
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [recurrencePattern, setRecurrencePattern] = useState<Event['recurrencePattern']>('weekly');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +30,13 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
       subtitle,
       start,
       location,
+      ...(isRecurring && { 
+        isRecurring: true,
+        recurrencePattern 
+      })
     };
-    onSubmit(newEvent); 
-    onClose(); 
+    onSubmit(newEvent);
+    onClose();
   };
 
   return (
@@ -36,6 +44,7 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
       <div className={styles.eventForm}>
         <h2>Create Event</h2>
         <form onSubmit={handleSubmit}>
+          {/* Existing form fields */}
           <div className={styles.formGroup}>
             <label>Title</label>
             <input
@@ -72,6 +81,33 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
               required
             />
           </div>
+
+          {/* New Recurring Event Section */}
+          <div className={styles.recurrenceGroup}>
+            <label className={styles.recurrenceToggle}>
+              <input
+                type="checkbox"
+                checked={isRecurring}
+                onChange={(e) => setIsRecurring(e.target.checked)}
+              />
+              <span>Recurring Event</span>
+            </label>
+
+            {isRecurring && (
+              <div className={styles.recurrenceOptions}>
+                <label>Repeat every:</label>
+                <select
+                  value={recurrencePattern}
+                  onChange={(e) => setRecurrencePattern(e.target.value as Event['recurrencePattern'])}
+                >
+                  <option value="weekly">Week</option>
+                  <option value="biweekly">2 Weeks</option>
+                  <option value="monthly">Month</option>
+                </select>
+              </div>
+            )}
+          </div>
+
           <div className={styles.formActions}>
             <button type="button" onClick={onClose}>
               Cancel
@@ -84,4 +120,4 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
   );
 };
 
-export default EventForm
+export default EventForm;

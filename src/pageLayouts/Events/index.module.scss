@@ -24,16 +24,15 @@
   .addEventButton {
     background-color: #C2D8B9; 
     color: black; 
-    border: 1px solid #c2d8b9; 
+    border: 1px solid #000000; 
     border-radius: 4px; 
-    width: 40px; 
-    height: 40px; 
     font-size: 1.5rem; 
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    padding: 4px 12px;
 
     &:hover {
       background-color: #84a776; 
@@ -41,102 +40,185 @@
   }
 }
 
-    .seperator {
-        border: 0;
-        height: 1px; 
-        background-color: #6d6d6d; 
-        margin: 20px auto; 
-        width: 80%; 
-      }
-  
-    .row {
-      flex: 1;
+.separator {
+  border: 0;
+  height: 1px; 
+  background-color: #6d6d6d; 
+  margin: 20px auto; 
+  width: 80%; 
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.calendarContainer {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+
+  :global {
+    .fc-header-toolbar {
+      white-space: nowrap; 
       display: flex;
       align-items: center;
-      justify-content: center;
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      padding: 10px; 
     }
-  
-    .calendarContainer {
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto;
-        overflow: hidden;
-        border-radius: 8px;
+    .fc {
+      border-radius: 8px;
+      overflow: hidden;
+    }
 
-        :global {
-          .fc-header-toolbar {
-            white-space: nowrap; 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px; 
-          }
-          .fc {
-            border-radius: 8px;
-            overflow: hidden;
-          }
+    .fc-toolbar-title {
+      font-size: 1rem; 
+      margin: 0; 
+    }
     
-          .fc-toolbar-title {
-            font-size: 1rem; 
-            margin: 0; 
-          }
-          .fc-event {
-            overflow:hidden;
-            white-space: nowrap;
-            text-overflow: ellipses;
-          }
-          .fc-button-primary {
-            color:#1b1b1b;
-            background-color: #C2D8B9;
-            &:hover{
-              background-color: #84a776;
-            }
-          }
-          .fc-button-active {
-            background-color: #84a776;
-            color:white;
+    .fc-event {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      
+      &.recurring-event {
+        background-color: #e8f4e3;
+        border-color: #84a776;
+        
+        .fc-event-main {
+          display: flex;
+          align-items: center;
+          
+          &::before {
+            content: '↻';
+            margin-right: 4px;
+            font-size: 0.9em;
           }
         }
       }
+    }
     
+    .fc-button-primary {
+      color: #1b1b1b;
+      background-color: #C2D8B9;
+      &:hover {
+        background-color: #84a776;
+      }
+    }
+    
+    .fc-button-active {
+      background-color: #84a776;
+      color: white;
+    }
+  }
+}
+
+.eventsListContainer {
+  height: auto; 
+  min-height: 100px; 
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 15px 10px; 
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #A1B5D8 transparent;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
   
-      .eventsListContainer {
-        height: 150px; 
-        overflow-y: auto; 
-        border: 1px solid #ccc; 
-        padding: 10px; 
-        margin-bottom: 20px; 
-        border-radius: 8px;
-      }
+  &::-webkit-scrollbar-thumb {
+    background: #A1B5D8;
+    border-radius: 4px;
+  }
+}
+
+.eventsList {
+  display: inline-flex;
+  gap: 15px;
+  align-items: flex-start; 
+  padding-top: 5px; 
+}
+
+.eventCard {
+  position: relative;
+  background-color: #A1B5D8;
+  border: 1px solid #ddd;
+  padding: 15px;
+  width: 250px;
+  min-width: 250px;
+  height: auto; 
+  max-height: 160px; 
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+
+  &[data-recurring="true"] {
+    border-left: 4px solid #84a776;
+  }
+
+  h3 {
+    margin: 0 0 8px 0; 
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 25px;
+  }
+  
+  p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.recurringBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #914600;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &::before {
+    content: '↻';
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .eventCard {
+    width: 200px;
+    min-width: 200px;
     
-      .eventsList {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-    
-      .eventCard {
-        background-color: #A1B5D8;
-        border: 1px solid #ddd;
-        padding: 15px;
-        width: 100%;
-        border-radius: 8px;
-        max-width: 400px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
-        h3 {
-          margin: 0;
-          font-size: 1.2rem;
-          color: #1b1b1b;
-        }
-    
-        p {
-          margin: 5px 0;
-          font-size: 0.9rem;
-          color: #3b3b3b;
-        }
-      }
-    
+    .recurringBadge {
+      top: 6px;
+      right: 6px;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+    }
+  }
+  
+  .eventsListContainer {
+    padding: 10px 8px;
+  }
+}
