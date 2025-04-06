@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useState, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -24,7 +24,7 @@ const generateRecurringEvents = (baseEvent: Event): Event[] => {
   const events: Event[] = [];
   const startDate = new Date(baseEvent.start);
   const endDate = baseEvent.recurrenceEnd ? new Date(baseEvent.recurrenceEnd) : null;
-  const maxOccurrences = 52; // Safety limit
+  const maxOccurrences = 52; 
 
   for (let i = 0; i < maxOccurrences; i++) {
     const eventDate = new Date(startDate);
@@ -66,6 +66,7 @@ const getUpcomingEvents = (events: Event[]) => {
 
 const Events = () => {
   const [showForm, setShowForm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [calendarEvents, setCalendarEvents] = useState<Event[]>([
     {
       title: "Pet Ownership Lecture",
@@ -90,21 +91,53 @@ const Events = () => {
     },
   ]);
 
-  const joinedEvents: Event[] = [{
+  const [joinedEvents, setJoinedEvents] = useState<Event[]>([{
     title: "Cat Adoption Event",
     subtitle: "Adopt a cat",
     start: "2025-04-06T14:00:00",
     location: "Animal Shelter",
     id: "Cat Adoption Event-0"
-  }];
+  }]);
 
-  const allEvents = [
+  const allEvents = useMemo(() => [
     ...calendarEvents.flatMap(event => generateRecurringEvents(event)),
     ...joinedEvents.flatMap(event => generateRecurringEvents(event))
-  ];
+  ], [calendarEvents, joinedEvents]);
 
   const upcomingEvents = getUpcomingEvents(allEvents);
   const hostedEvents = calendarEvents.filter(event => !event.isRecurring);
+
+  const searchableEvents: Event[] = [
+    {
+      title: "Bird Watching",
+      subtitle: "Watch birds in their natural habitat",
+      start: "2025-04-10T08:00:00",
+      location: "Nature Reserve",
+      id: "Bird Watching-0"
+    },
+    {
+      title: "Pet Grooming Workshop",
+      subtitle: "Learn how to groom your pet",
+      start: "2025-04-12T10:00:00",
+      location: "Community Center",
+      id: "Pet Grooming Workshop-0"
+    },
+    {
+      title: "Animal Shelter Volunteer Day",
+      subtitle: "Help out at the local shelter",
+      start: "2025-04-15T09:00:00",
+      location: "City Animal Shelter",
+      id: "Animal Shelter Volunteer Day-0"
+    }
+  ];
+
+  const filteredEvents = searchQuery 
+  ? searchableEvents.filter(event => 
+      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.location.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : [];
 
   const handleOpenForm = () => {
     setShowForm(true);
@@ -120,7 +153,15 @@ const Events = () => {
     setShowForm(false);
   };
 
+  const handleJoinEvent = (eventToJoin: Event) => {
+    if (!joinedEvents.some(e => e.id === eventToJoin.id)) {
+      setJoinedEvents([...joinedEvents, eventToJoin]);
+    }
+    setSearchQuery('');
+  };
+
   return (
+    
     <div className={styles.eventspage}>
       <div className={styles.headerRow}>
         <h1>My Events</h1>
@@ -128,6 +169,49 @@ const Events = () => {
           New Event
         </button>
       </div>
+
+      <div className={styles.searchBarContainer}>
+        <input
+          type="text"
+          className={styles.searchBar}
+          placeholder="Search events..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      {searchQuery && (
+        <>
+          <div className={styles.titleRow}>
+            <h2>Search Results</h2>
+          </div>
+          <hr className={styles.separator} />
+          <div className={styles.searchResults}>
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event, index) => (
+                <div key={event.id || index} className={styles.searchResultCard}>
+                  <div>
+                    <h3>{event.title}</h3>
+                    <p>{event.subtitle}</p>
+                    <p>{new Date(event.start).toLocaleString()} @ {event.location}</p>
+                  </div>
+                  <button 
+                    className={styles.joinButton}
+                    onClick={() => handleJoinEvent(event)}
+                  >
+                    Join
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className={styles.noResults}>
+                No events found matching "{searchQuery}"
+              </div>
+            )}
+          </div>
+          <hr className={styles.separator} />
+        </>
+      )}
 
       <hr className={styles.separator} />
 

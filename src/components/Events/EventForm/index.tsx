@@ -44,7 +44,6 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
       <div className={styles.eventForm}>
         <h2>Create Event</h2>
         <form onSubmit={handleSubmit}>
-          {/* Existing form fields */}
           <div className={styles.formGroup}>
             <label>Title</label>
             <input
@@ -82,7 +81,6 @@ const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
             />
           </div>
 
-          {/* New Recurring Event Section */}
           <div className={styles.recurrenceGroup}>
             <label className={styles.recurrenceToggle}>
               <input
