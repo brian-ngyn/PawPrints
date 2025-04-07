@@ -8,20 +8,24 @@ interface Event {
   location: string;
   isRecurring?: boolean;
   recurrencePattern?: 'weekly' | 'biweekly' | 'monthly';
+  id?: string;
 }
 
 interface EventFormProps {
   onClose: () => void;
   onSubmit: (event: Event) => void;
+  eventToEdit?: Event | null;
 }
 
-const EventForm = ({ onClose, onSubmit }: EventFormProps) => {
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [start, setStart] = useState("");
-  const [location, setLocation] = useState("");
-  const [isRecurring, setIsRecurring] = useState(false);
-  const [recurrencePattern, setRecurrencePattern] = useState<Event['recurrencePattern']>('weekly');
+const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
+  const [title, setTitle] = useState(eventToEdit?.title || "");
+  const [subtitle, setSubtitle] = useState(eventToEdit?.subtitle || "");
+  const [start, setStart] = useState(eventToEdit?.start || "");
+  const [location, setLocation] = useState(eventToEdit?.location || "");
+  const [isRecurring, setIsRecurring] = useState(eventToEdit?.isRecurring || false);
+  const [recurrencePattern, setRecurrencePattern] = useState<Event['recurrencePattern']>(
+    eventToEdit?.recurrencePattern || 'weekly'
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -143,12 +143,12 @@ const Events = () => {
     setShowForm(true);
   };
 
-  const handleCloseForm = () => {
-    setShowForm(false);
-  };
-
   const handleCreateEvent = (newEvent: Event) => {
-    const generatedEvents = generateRecurringEvents(newEvent);
+    const eventWithId = {
+      ...newEvent,
+      id: `${newEvent.title}-${Date.now()}`, 
+    };
+    const generatedEvents = generateRecurringEvents(eventWithId);
     setCalendarEvents([...calendarEvents, ...generatedEvents.filter(e => e.id?.endsWith("-0"))]);
     setShowForm(false);
   };
@@ -158,6 +158,35 @@ const Events = () => {
       setJoinedEvents([...joinedEvents, eventToJoin]);
     }
     setSearchQuery('');
+  };
+
+  const [eventToEdit, setEventToEdit] = useState<Event | null>(null);
+
+  const handleEditEvent = (event: Event) => {
+    setEventToEdit(event);
+    setShowForm(true);
+  };
+
+  const handleUpdateEvent = (updatedEvent: Event) => {
+    if (!eventToEdit) return;
+    
+    setCalendarEvents(calendarEvents.map(event => 
+      event.id === eventToEdit.id ? { ...updatedEvent, id: eventToEdit.id } : event
+    ));
+    
+    setJoinedEvents(joinedEvents.map(event => 
+      event.id === eventToEdit.id ? { ...updatedEvent, id: eventToEdit.id } : event
+    ));
+    
+    setShowForm(false);
+    setEventToEdit(null);
+  };
+
+  const handleDeleteEvent = (eventId: string) => {
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      setCalendarEvents(calendarEvents.filter(event => event.id !== eventId));
+      setJoinedEvents(joinedEvents.filter(event => event.id !== eventId));
+    }
   };
 
   return (
@@ -259,26 +288,47 @@ const Events = () => {
       </div>
 
       <div className={styles.titleRow}>
-        <h2>Events I'm Hosting</h2>
-      </div>
+  <h2>Events I'm Hosting</h2>
+</div>
 
-      <hr className={styles.separator} />
+<hr className={styles.separator} />
 
-      <div className={styles.eventsListContainer}>
-        <div className={styles.eventsList}>
-          {hostedEvents.map((event, index) => (
-            <div key={event.id || index} className={styles.eventCard}>
-              <h3>{event.title}</h3>
-              <p>{event.subtitle}</p>
-              <p>{new Date(event.start).toLocaleString()} @ {event.location}</p>
-            </div>
-          ))}
+<div className={styles.eventsListContainer}>
+  <div className={styles.eventsList}>
+    {hostedEvents.map((event, index) => (
+      <div key={event.id || index} className={styles.eventCard}>
+        <h3>{event.title}</h3>
+        <p>{event.subtitle}</p>
+        <p>{new Date(event.start).toLocaleString()} @ {event.location}</p>
+        <div className={styles.eventActions}>
+          <button 
+            className={styles.editButton}
+            onClick={() => handleEditEvent(event)}
+          >
+            Edit
+          </button>
+          <button 
+            className={styles.deleteButton}
+            onClick={() => event.id && handleDeleteEvent(event.id)}
+          >
+            Delete
+          </button>
         </div>
       </div>
+    ))}
+  </div>
+</div>
 
       {showForm && (
-        <EventForm onClose={handleCloseForm} onSubmit={handleCreateEvent} />
-      )}
+  <EventForm 
+    onClose={() => {
+      setShowForm(false);
+      setEventToEdit(null);
+    }} 
+    onSubmit={eventToEdit ? handleUpdateEvent : handleCreateEvent}
+    eventToEdit={eventToEdit}
+  />
+)}
     </div>
   );
 };
