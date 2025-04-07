@@ -15,12 +15,17 @@
 .item {
   display: flex;
   flex-direction: column;
-  background-color: var(--primary-blue);
+  background-color: var(--primary-gray);
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
   padding: 12px;
   border-radius: 12px;
+
+  img {
+    object-fit: cover;
+    border-radius: 0;
+  }
 
   [id='brand'] {
     font-size: 1.2rem;
@@ -43,8 +48,8 @@
 .addToCartButton {
   border: none;
   border-radius: 4px;
-  background-color: var(--primary-green);
-  color: black;
+  background-color: var(--primary-black);
+  color: white;
   padding: 8px;
   cursor: pointer;
   margin-top: 8px;
@@ -207,8 +212,8 @@
   font-size: 1.5rem;
   border: none;
   border-radius: 4px;
-  background-color: var(--primary-green);
-  color: black;
+  background-color: var(--primary-black);
+  color: white;
   padding: 8px;
   cursor: pointer;
   margin-top: 8px;
@@ -234,7 +239,26 @@
 }
 
 .backButton {
-  background-color: var(--primary-green);
-  padding: .5rem;
+  background-color: var(--primary-black);
+  padding: 0.5rem;
   border-radius: 8px;
+}
+
+.searchBar {
+  display: flex;
+
+  input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d4d6db;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    line-height: 20px;
+    height: 40%;
+  }
+
+  @media (max-width: 640px) {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 }

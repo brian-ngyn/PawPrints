@@ -57,11 +57,11 @@ const BrandSelector = ({
           backgroundColor:
             selectedBrands.length <= 0
               ? 'var(--primary-white)'
-              : 'var(--primary-blue)',
+              : 'var(--primary-gray)',
           border:
             selectedBrands.length <= 0
               ? '1px solid black'
-              : '1px solid var(--primary-blue)',
+              : '1px solid var(--primary-gray)',
         }}
       >
         Brands <FontAwesomeIcon icon={faAngleDown} size="xs" />
@@ -75,9 +75,10 @@ const BrandSelector = ({
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',
+                color: 'black',
                 backgroundColor: selectedBrands.includes(brand)
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                  ? 'var(--primary-gray)'
+                  : 'white',
               }}
               onClick={() => handleOptionClick(brand)}
             >

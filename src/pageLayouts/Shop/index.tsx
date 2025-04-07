@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import styles from './index.module.scss';
 import PriceRange from '../../components/ShopPageComponents/PriceRange';
 import RatingSelector from '../../components/ShopPageComponents/RatingSelector';
@@ -10,9 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCartShopping,
   faChevronLeft,
+  faCircleXmark,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import PetCategorySelector from '../../components/ShopPageComponents/PetCategorySelector';
+import SearchBar from '../../components/ShopPageComponents/SearchBar';
 
 type Item = {
   id: number;
@@ -173,6 +175,18 @@ const Shop = () => {
   const [selectedPetCategories, setSelectedPetCategories] = useState<string[]>(
     [],
   );
+  const [searchValue, setSearchValue] = useState('');
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+
+  const resetAllFilters = useCallback(() => {
+    setPriceRange([0, 100]);
+    setMinRating(0);
+    setSelectedCategories([]);
+    setSelectedBrands([]);
+    setOnSaleOnly(false);
+    setSelectedPetCategories([]);
+    setSearchValue('');
+  }, []);
 
   // Filtered items based on state
   const filteredItems = useMemo(
@@ -190,15 +204,23 @@ const Shop = () => {
         const isInSelectedPetCategory =
           selectedPetCategories.length === 0 ||
           selectedPetCategories.includes(item.pet ?? '');
+        const isInSearchValue =
+          item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+          item.brand.toLowerCase().includes(searchValue.toLowerCase()) ||
+          item.category.toLowerCase().includes(searchValue.toLowerCase()) ||
+          item.pet.toLowerCase().includes(searchValue.toLowerCase());
 
-        return (
+        const isFilterApplied =
           isInPriceRange &&
           meetsRating &&
           isInSelectedCategory &&
           isInSelectedBrand &&
           isOnSale &&
-          isInSelectedPetCategory
-        );
+          isInSearchValue &&
+          isInSelectedPetCategory;
+
+        setIsFilterApplied(isFilterApplied);
+        return isFilterApplied;
       }),
     [
       priceRange,
@@ -207,6 +229,7 @@ const Shop = () => {
       selectedBrands,
       onSaleOnly,
       selectedPetCategories,
+      searchValue,
     ],
   );
 
@@ -237,14 +260,40 @@ const Shop = () => {
           <div className={styles.pageHeading}>
             <div>Shop</div>
             <div
-              className={styles.cartIcon}
-              onClick={() => setShowCartPage(true)}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '1rem',
+                alignItems: 'center',
+              }}
             >
-              <FontAwesomeIcon icon={faCartShopping} size="xs" />
-              <div className={styles.itemsInCart}>{itemsInCart.length}</div>
+              <SearchBar setSearchValue={setSearchValue} value={searchValue} />
+              <div
+                className={styles.cartIcon}
+                onClick={() => setShowCartPage(true)}
+              >
+                <FontAwesomeIcon icon={faCartShopping} size="xs" />
+                <div className={styles.itemsInCart}>{itemsInCart.length}</div>
+              </div>
             </div>
           </div>
           <div className={styles.filters}>
+            <div className={styles.onSale}>
+              <label
+                className={styles.filterLabel}
+                onClick={resetAllFilters}
+                style={{
+                  backgroundColor: !isFilterApplied
+                    ? 'var(--primary-gray)'
+                    : 'var(--primary-white)',
+                  border: onSaleOnly
+                    ? '1px solid var(--primary-gray)'
+                    : '1px solid black',
+                }}
+              >
+                Filters <FontAwesomeIcon icon={faCircleXmark} />
+              </label>
+            </div>
             <OnSaleButton
               onSaleOnly={onSaleOnly}
               setOnSaleOnly={setOnSaleOnly}
@@ -271,7 +320,7 @@ const Shop = () => {
           <div className={styles.itemContainer}>
             {filteredItems.map((item) => (
               <div className={styles.item} key={item.id}>
-                <img src={item.src} height={200} />
+                <img src={item.src} height={200}  />
                 <div id="brand">{item.brand}</div>
                 <div id="name">{item.name}</div>
                 <Rating
@@ -297,7 +346,10 @@ const Shop = () => {
                   className={styles.addToCartButton}
                   onClick={() => setItemsInCart((prev) => [...prev, item])}
                 >
-                  Add to Cart
+                  Add to Cart{' '}
+                  {itemsInCart.includes(item)
+                    ? `✓ (${itemsInCart.filter((item2) => item.id === item2.id).length})`
+                    : ''}
                 </button>
               </div>
             ))}
@@ -312,6 +364,7 @@ const Shop = () => {
                   icon={faChevronLeft}
                   className={styles.backButton}
                   size="2xs"
+                  color="white"
                   onClick={() => setShowCartPage(false)}
                 />
                 <div>Cart</div>
@@ -343,6 +396,7 @@ const Shop = () => {
                     <div className={styles.quantitySelector}>
                       <div>
                         <FontAwesomeIcon
+                          style={{ marginRight: '16px' }}
                           icon={faTrash}
                           onClick={() =>
                             setItemsInCart((prev) => {
@@ -351,6 +405,7 @@ const Shop = () => {
                           }
                         />
                         <div
+                          style={{ fontSize: '2rem' }}
                           onClick={() =>
                             setItemsInCart((prev) => {
                               const newCart = [...prev];
@@ -361,10 +416,11 @@ const Shop = () => {
                         >
                           -
                         </div>
-                        <div>
+                        <div style={{ fontSize: '1.5rem' }}>
                           {itemsInCart.filter((i) => i.id === item.id).length}
                         </div>
                         <div
+                          style={{ fontSize: '2rem' }}
                           onClick={() =>
                             setItemsInCart((prev) => {
                               return [...prev, item];

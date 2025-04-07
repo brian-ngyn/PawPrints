@@ -14,10 +14,10 @@ const OnSaleButton = ({ onSaleOnly, setOnSaleOnly }: OnSaleButtonProps) => {
         onClick={() => setOnSaleOnly((prev) => !prev)}
         style={{
           backgroundColor: onSaleOnly
-            ? 'var(--primary-blue)'
+            ? 'var(--primary-gray)'
             : 'var(--primary-white)',
           border: onSaleOnly
-            ? '1px solid var(--primary-blue)'
+            ? '1px solid var(--primary-gray)'
             : '1px solid black',
         }}
       >

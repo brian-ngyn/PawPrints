@@ -388,7 +388,7 @@ const Profile = () => {
           )}
 
           <button className={styles.saveChangesButton} onClick={handleSaveButtonClick}>Save Changes</button>
-          <button className={styles.saveChangesButton} onClick={handleReturnToProfileClick}>Return to Profile</button>
+          <button className={styles.returnToProfileButton} onClick={handleReturnToProfileClick}>Return to Profile</button>
 
 
 

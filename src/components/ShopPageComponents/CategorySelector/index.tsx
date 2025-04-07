@@ -59,11 +59,11 @@ const CategorySelector = ({
           backgroundColor:
             selectedCategories.length <= 0
               ? 'var(--primary-white)'
-              : 'var(--primary-blue)',
+              : 'var(--primary-gray)',
           border:
             selectedCategories.length <= 0
               ? '1px solid black'
-              : '1px solid var(--primary-blue)',
+              : '1px solid var(--primary-gray)',
         }}
       >
         Categories <FontAwesomeIcon icon={faAngleDown} size="xs" />
@@ -78,9 +78,10 @@ const CategorySelector = ({
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',
+                color: 'black',
                 backgroundColor: selectedCategories.includes(category)
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                  ? 'var(--primary-gray)'
+                  : 'white',
               }}
               onClick={() => handleOptionClick(category)}
             >

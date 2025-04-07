@@ -61,11 +61,11 @@ const PetCategorySelector = ({
           backgroundColor:
             selectedPetCategories.length <= 0
               ? 'var(--primary-white)'
-              : 'var(--primary-blue)',
+              : 'var(--primary-gray)',
           border:
             selectedPetCategories.length <= 0
               ? '1px solid black'
-              : '1px solid var(--primary-blue)',
+              : '1px solid var(--primary-gray)',
         }}
       >
         Pet <FontAwesomeIcon icon={faAngleDown} size="xs" />
@@ -73,16 +73,21 @@ const PetCategorySelector = ({
 
       {/* Dropdown Menu */}
       {isDropdownOpen && (
-        <div ref={dropdownRef} className={styles.dropdown}>
+        <div
+          ref={dropdownRef}
+          className={styles.dropdown}
+          style={{ left: '-75px' }}
+        >
           {allPetCategories.map((category) => (
             <div
               key={category}
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',
+                color: 'black',
                 backgroundColor: selectedPetCategories.includes(category)
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                  ? 'var(--primary-gray)'
+                  : 'white',
               }}
               onClick={() => handleOptionClick(category)}
             >

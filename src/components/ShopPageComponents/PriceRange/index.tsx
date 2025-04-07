@@ -34,11 +34,11 @@ const PriceRange = ({ priceRange, setPriceRange }: PriceRangeProps) => {
           backgroundColor:
             priceRange[0] === 0 && priceRange[1] === 100
               ? 'var(--primary-white)'
-              : 'var(--primary-blue)',
+              : 'var(--primary-gray)',
           border:
             priceRange[0] === 0 && priceRange[1] === 100
               ? '1px solid black'
-              : '1px solid var(--primary-blue)',
+              : '1px solid var(--primary-gray)',
         }}
       >
         Price <FontAwesomeIcon icon={faAngleDown} size="xs" />
