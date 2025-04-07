@@ -1,0 +1,281 @@
+
+.profileContainer {
+    display: flex;
+    //flex-direction: column;
+    //align-items: center;
+    
+    padding: 20px;
+    background-color: var(--primary-white);
+  }
+  
+  .profileHeader {
+    display: flex;
+    //flex-direction: column;
+    width: 100%;
+
+    margin-top: 30px;
+  }
+  
+  .profilePicWrapper {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+
+    width: 200px;
+
+    margin-bottom: 20px;
+
+    margin-right: 15px;
+    margin-left:5px;
+  }
+  
+  .profilePic {
+    width: 120px;
+    height: 120px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 5px solid var(--primary-green);
+  }
+  
+  .profilePic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profileEnter {
+    //border-radius: 50%;
+    border: 3px solid var(--primary-green);
+  }
+  
+  .cameraIcon {
+    font-size: 50px;
+    color: white;
+  }
+
+  .icon{
+    font-size: 24px;
+    margin-right: 5px;
+    color: #c2d8b9;
+  }
+
+  .icon1{
+    font-size: 24px;
+    margin-right: 5px;
+    color: var(--primary-gray);
+  }
+  
+  .menuButtons {
+    //margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+  }
+  
+  .menuButtons button {
+    padding: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: var(--secondary-green);
+    font-size: 16px;
+    border-radius: 5px;
+    
+    width: 100%;
+  }
+  
+  .menuButtons button.activeTab {
+    background-color: var(--primary-green);
+    color: black;
+    border: 2px solid black;
+  }
+  
+  .profileContent {
+    flex-grow: 1;
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-start;
+    
+
+    align-items: center;
+  }
+  
+  .profileContent label {
+    font-size: 14px;
+  }
+
+
+
+  .profileContent .notifyOption {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+
+
+    justify-content: space-between;
+  }
+
+
+  .profileContent .notifyOption label{
+    font-size: 14px;
+    margin-right: 30px;
+
+
+    flex-grow: 1;
+  }
+
+  /*
+  .profileContent input, .profileContent select {
+    padding: 15px;
+    margin-top: 5px;
+    
+    margin-bottom: 20px;
+
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+  }
+  */
+
+  .profileContent input,
+  .profileContent select,
+  .profileContent textarea {
+    padding: 12px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;  
+  }
+  
+  .profileContent input[type="date"] {
+    padding: 12px;  
+  }
+  
+  .profileContent textarea {
+    padding: 12px;  
+    resize: none;
+    width: 100%;  
+  }
+  
+  .profileContent label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block; 
+  }
+  
+  .profileContent div {
+    margin-bottom: 20px;  
+  }
+
+  .profileContent input[type="date"] {
+    padding: 10px;
+    //width: 200px;
+  }
+
+  .profileContent input[type="checkbox"] {
+    display: inline-block;
+    width: 25%;
+    margin-left: 10px;
+    width: 21px;
+    height: 21px;
+
+    flex-shrink: 0;
+  }
+
+  .profileContent div {
+    margin-bottom: 10px;
+  }
+
+  .saveChangesButton {
+    //position: relative;
+    //bottom: 30px;
+    //right: 30px;
+    padding: 12px 20px;
+    background-color: #e4f0d0;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+
+  .saveChangesButton:hover {
+    background-color:#c2d8b9; 
+  }
+
+  textarea{
+    resize: none;
+    //margin-right: 10px;
+  }
+
+  // popup stuff
+  .popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+  }
+  
+  .popup {
+    background-color: var(--primary-white);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .popupButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .confirmButton,
+  .cancelButton {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .confirmButton {
+    background-color: var(--secondary-green); 
+    color: black;
+  }
+  
+  .cancelButton {
+    background-color: var(--secondary-green); 
+    // color: red;
+    color: black;
+  }
+  
+  .confirmButton:hover,
+  .cancelButton:hover {
+    opacity: 0.8;
+    background-color: var(--primary-green);
+  }

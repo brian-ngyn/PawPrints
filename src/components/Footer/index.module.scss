@@ -9,7 +9,7 @@
   justify-content: space-evenly;
   padding: 10px 0 0 0;
   z-index: 100;
-  background-color: white;
+  background-color: var(--primary-white);
 }
 
 .footerItem {
@@ -17,4 +17,58 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+}
+
+// popup stuff for profile edit leave
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.popup {
+  background-color: var(--primary-white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.popupButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.confirmButton,
+.cancelButton {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.confirmButton {
+  background-color: var(--secondary-green); 
+  color: black;
+}
+
+.cancelButton {
+  background-color: var(--secondary-green); 
+  // color: red;
+  color: black;
+}
+
+.confirmButton:hover,
+.cancelButton:hover {
+  opacity: 0.8;
+  background-color: var(--primary-green);
 }
