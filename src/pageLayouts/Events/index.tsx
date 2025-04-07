@@ -1,7 +1,7 @@
-import { memo, useState, useMemo } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
+import { memo, useState, useMemo } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import styles from './index.module.scss';
 import EventForm from '../../components/Events/EventForm';
 
@@ -10,6 +10,16 @@ interface Event {
   subtitle: string;
   start: string;
   location: string;
+  type:
+    | 'educational'
+    | 'community'
+    | 'expo'
+    | 'social'
+    | 'training'
+    | 'fundraiser'
+    | 'volunteer'
+    | 'adoption'
+    | 'wildlife';
   isRecurring?: boolean;
   recurrencePattern?: 'weekly' | 'biweekly' | 'monthly';
   recurrenceEnd?: string;
@@ -18,23 +28,25 @@ interface Event {
 
 const generateRecurringEvents = (baseEvent: Event): Event[] => {
   if (!baseEvent.isRecurring || !baseEvent.recurrencePattern) {
-    return [{ ...baseEvent, id: baseEvent.title + "-0" }];
+    return [{ ...baseEvent, id: `${baseEvent.title}-0` }];
   }
 
   const events: Event[] = [];
   const startDate = new Date(baseEvent.start);
-  const endDate = baseEvent.recurrenceEnd ? new Date(baseEvent.recurrenceEnd) : null;
-  const maxOccurrences = 52; 
+  const endDate = baseEvent.recurrenceEnd
+    ? new Date(baseEvent.recurrenceEnd)
+    : null;
+  const maxOccurrences = 52;
 
   for (let i = 0; i < maxOccurrences; i++) {
     const eventDate = new Date(startDate);
-    
+
     switch (baseEvent.recurrencePattern) {
       case 'weekly':
-        eventDate.setDate(eventDate.getDate() + (i * 7));
+        eventDate.setDate(eventDate.getDate() + i * 7);
         break;
       case 'biweekly':
-        eventDate.setDate(eventDate.getDate() + (i * 14));
+        eventDate.setDate(eventDate.getDate() + i * 14);
         break;
       case 'monthly':
         eventDate.setMonth(eventDate.getMonth() + i);
@@ -46,7 +58,7 @@ const generateRecurringEvents = (baseEvent: Event): Event[] => {
     events.push({
       ...baseEvent,
       start: eventDate.toISOString(),
-      id: `${baseEvent.title}-${i}`
+      id: `${baseEvent.title}-${i}`,
     });
   }
 
@@ -69,75 +81,115 @@ const Events = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [calendarEvents, setCalendarEvents] = useState<Event[]>([
     {
-      title: "Pet Ownership Lecture",
-      subtitle: "Lorem ipsum",
-      start: "2025-03-08T17:00:00",
-      location: "University of Calgary",
-      id: "Pet Ownership Lecture-0"
-    },
-    {
-      title: "Dog Training Session",
-      subtitle: "Text",
-      start: "2025-03-10T07:00:00",
-      location: "Green Park",
-      id: "Dog Training Session-0"
-    },
-    {
-      title: "Puppy Yoga",
-      subtitle: "ABC",
-      start: "2025-03-15T12:00:00",
-      location: "Location",
-      id: "Puppy Yoga-0"
+      title: 'Pet Ownership Lecture',
+      subtitle: 'Come and learn about certain aspects on pet ownership',
+      start: '2025-04-23T17:00:00',
+      location: 'University',
+      type: 'educational',
+      id: 'Pet Ownership Lecture-0',
     },
   ]);
 
-  const [joinedEvents, setJoinedEvents] = useState<Event[]>([{
-    title: "Cat Adoption Event",
-    subtitle: "Adopt a cat",
-    start: "2025-04-06T14:00:00",
-    location: "Animal Shelter",
-    id: "Cat Adoption Event-0"
-  }]);
+  const [joinedEvents, setJoinedEvents] = useState<Event[]>([
+    {
+      title: 'Cat Adoption Event',
+      subtitle: 'Find your new furry best friend',
+      start: '2025-04-14T14:00:00',
+      location: 'Animal Shelter',
+      type: 'social',
+      id: 'Cat Adoption Event-0',
+    },
+  ]);
 
-  const allEvents = useMemo(() => [
-    ...calendarEvents.flatMap(event => generateRecurringEvents(event)),
-    ...joinedEvents.flatMap(event => generateRecurringEvents(event))
-  ], [calendarEvents, joinedEvents]);
+  const allEvents = useMemo(
+    () => [
+      ...calendarEvents.flatMap((event) => generateRecurringEvents(event)),
+      ...joinedEvents.flatMap((event) => generateRecurringEvents(event)),
+    ],
+    [calendarEvents, joinedEvents],
+  );
 
   const upcomingEvents = getUpcomingEvents(allEvents);
-  const hostedEvents = calendarEvents.filter(event => !event.isRecurring);
+
+  const normalizeEventId = (event: Event): string => {
+    if (event.isRecurring) {
+      return event.id?.endsWith('-0') ? event.id : `${event.title}-0`;
+    }
+    return event.id || `${event.title}-${Date.now()}`;
+  };
+
+  const hostedEvents = calendarEvents.filter(
+    (event) => !event.isRecurring || event.id?.endsWith('-0'),
+  );
 
   const searchableEvents: Event[] = [
     {
-      title: "Bird Watching",
-      subtitle: "Watch birds in their natural habitat",
-      start: "2025-04-10T08:00:00",
-      location: "Nature Reserve",
-      id: "Bird Watching-0"
+      title: 'Bird Watching',
+      subtitle: 'Watch birds in their natural habitat',
+      start: '2025-04-10T08:00:00',
+      location: 'Nature Reserve',
+      type: 'wildlife',
+      id: 'Bird Watching-0',
     },
     {
-      title: "Pet Grooming Workshop",
-      subtitle: "Learn how to groom your pet",
-      start: "2025-04-12T10:00:00",
-      location: "Community Center",
-      id: "Pet Grooming Workshop-0"
+      title: 'Pet Grooming Workshop',
+      subtitle: 'Learn how to groom your pet',
+      start: '2025-04-12T10:00:00',
+      location: 'Community Center',
+      type: 'training',
+      id: 'Pet Grooming Workshop-0',
     },
     {
-      title: "Animal Shelter Volunteer Day",
-      subtitle: "Help out at the local shelter",
-      start: "2025-04-15T09:00:00",
-      location: "City Animal Shelter",
-      id: "Animal Shelter Volunteer Day-0"
-    }
+      title: 'Animal Shelter Volunteer Day',
+      subtitle: 'Help out at the local shelter',
+      start: '2025-04-15T09:00:00',
+      location: 'City Animal Shelter',
+      type: 'volunteer',
+      id: 'Animal Shelter Volunteer Day-0',
+    },
+    {
+      title: 'Pet First Aid Workshop',
+      subtitle: 'Learn how to care for your pet in emergencies',
+      start: '2025-04-20T14:00:00',
+      location: 'Community Vet Center',
+      type: 'educational',
+      id: 'Pet First Aid-Workshop-0',
+    },
+    {
+      title: 'Dog Training Basics',
+      subtitle: 'Learn dog training basics, obedience training session',
+      start: '2025-04-18T16:00:00',
+      location: 'East Downtown Dog Park',
+      type: 'training',
+      id: 'Dog Training Basics-0',
+    },
+    {
+      title: 'Paws & Claws Charity Gala',
+      subtitle: 'Support local animal rescues',
+      start: '2025-04-17T18:30:00',
+      location: 'Downtown Event Hall',
+      type: 'fundraiser',
+      id: 'Paws & Claws Charity Gala-0',
+    },
   ];
 
-  const filteredEvents = searchQuery 
-  ? searchableEvents.filter(event => 
-      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.location.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  : [];
+  const [typeFilter, setTypeFilter] = useState<string>('all');
+
+  const filteredEvents =
+    searchQuery || typeFilter !== 'all'
+      ? searchableEvents.filter(
+          (event) =>
+            (searchQuery === '' ||
+              event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              event.subtitle
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+              event.location
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())) &&
+            (typeFilter === 'all' || event.type === typeFilter),
+        )
+      : [];
 
   const handleOpenForm = () => {
     setShowForm(true);
@@ -146,15 +198,18 @@ const Events = () => {
   const handleCreateEvent = (newEvent: Event) => {
     const eventWithId = {
       ...newEvent,
-      id: `${newEvent.title}-${Date.now()}`, 
+      id: normalizeEventId(newEvent),
     };
     const generatedEvents = generateRecurringEvents(eventWithId);
-    setCalendarEvents([...calendarEvents, ...generatedEvents.filter(e => e.id?.endsWith("-0"))]);
+    setCalendarEvents([
+      ...calendarEvents,
+      ...generatedEvents.filter((e) => e.id?.endsWith('-0')),
+    ]);
     setShowForm(false);
   };
 
   const handleJoinEvent = (eventToJoin: Event) => {
-    if (!joinedEvents.some(e => e.id === eventToJoin.id)) {
+    if (!joinedEvents.some((e) => e.id === eventToJoin.id)) {
       setJoinedEvents([...joinedEvents, eventToJoin]);
     }
     setSearchQuery('');
@@ -169,28 +224,53 @@ const Events = () => {
 
   const handleUpdateEvent = (updatedEvent: Event) => {
     if (!eventToEdit) return;
-    
-    setCalendarEvents(calendarEvents.map(event => 
-      event.id === eventToEdit.id ? { ...updatedEvent, id: eventToEdit.id } : event
-    ));
-    
-    setJoinedEvents(joinedEvents.map(event => 
-      event.id === eventToEdit.id ? { ...updatedEvent, id: eventToEdit.id } : event
-    ));
-    
+
+    const finalEvent = {
+      ...updatedEvent,
+      id: normalizeEventId(updatedEvent),
+    };
+
+    setCalendarEvents(
+      calendarEvents.map((event) =>
+        event.id === eventToEdit.id ? finalEvent : event,
+      ),
+    );
     setShowForm(false);
     setEventToEdit(null);
   };
 
-  const handleDeleteEvent = (eventId: string) => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
-      setCalendarEvents(calendarEvents.filter(event => event.id !== eventId));
-      setJoinedEvents(joinedEvents.filter(event => event.id !== eventId));
+  const handleDeleteEvent = (eventId: string, isRecurring?: boolean) => {
+    if (isRecurring) {
+      const confirmed = window.confirm(
+        'This is a recurring event. This will delete all occurrences!',
+      );
+
+      if (confirmed) {
+        const baseId = eventId.split('-')[0];
+        setCalendarEvents(
+          calendarEvents.filter((event) => !event.id?.startsWith(baseId)),
+        );
+        setJoinedEvents(
+          joinedEvents.filter((event) => !event.id?.startsWith(baseId)),
+        );
+      }
+    } else {
+      if (window.confirm('Are you sure you want to delete this event?')) {
+        setCalendarEvents(
+          calendarEvents.filter((event) => event.id !== eventId),
+        );
+        setJoinedEvents(joinedEvents.filter((event) => event.id !== eventId));
+      }
+    }
+  };
+
+  const handleLeaveEvent = (eventId: string) => {
+    if (window.confirm('Are you sure you want to leave this event?')) {
+      setJoinedEvents(joinedEvents.filter((event) => event.id !== eventId));
     }
   };
 
   return (
-    
     <div className={styles.eventspage}>
       <div className={styles.headerRow}>
         <h1>My Events</h1>
@@ -199,7 +279,7 @@ const Events = () => {
         </button>
       </div>
 
-      <div className={styles.searchBarContainer}>
+      <div className={styles.filterControls}>
         <input
           type="text"
           className={styles.searchBar}
@@ -207,6 +287,22 @@ const Events = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+
+        <select
+          className={styles.typeFilter}
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value)}
+        >
+          <option value="all">All Event Types</option>
+          <option value="educational">Educational</option>
+          <option value="community">Community</option>
+          <option value="expo">Expo</option>
+          <option value="training">Social</option>
+          <option value="fundraiser">Fundraiser</option>
+          <option value="volunteer">Volunteer</option>
+          <option value="adoption">Adoption</option>
+          <option value="wildlife">Wildlife</option>
+        </select>
       </div>
 
       {searchQuery && (
@@ -218,13 +314,19 @@ const Events = () => {
           <div className={styles.searchResults}>
             {filteredEvents.length > 0 ? (
               filteredEvents.map((event, index) => (
-                <div key={event.id || index} className={styles.searchResultCard}>
+                <div
+                  key={event.id || index}
+                  className={styles.searchResultCard}
+                >
                   <div>
                     <h3>{event.title}</h3>
                     <p>{event.subtitle}</p>
-                    <p>{new Date(event.start).toLocaleString()} @ {event.location}</p>
+                    <p>
+                      {new Date(event.start).toLocaleString()} @{' '}
+                      {event.location}
+                    </p>
                   </div>
-                  <button 
+                  <button
                     className={styles.joinButton}
                     onClick={() => handleJoinEvent(event)}
                   >
@@ -251,17 +353,20 @@ const Events = () => {
             initialView="dayGridMonth"
             events={allEvents}
             headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay',
             }}
             eventContent={(eventInfo) => (
-              <div className={eventInfo.event.extendedProps.isRecurring ? styles.recurringEvent : ''}>
+              <div
+                className={
+                  eventInfo.event.extendedProps.isRecurring
+                    ? styles.recurringEvent
+                    : ''
+                }
+              >
                 <b>{eventInfo.event.title}</b>
                 <p>{eventInfo.event.extendedProps.location}</p>
-                {eventInfo.event.extendedProps.isRecurring && (
-                  <span className={styles.recurringBadge}></span>
-                )}
               </div>
             )}
           />
@@ -278,57 +383,121 @@ const Events = () => {
         <div className={styles.eventsList}>
           {upcomingEvents.map((event, index) => (
             <div key={event.id || index} className={styles.eventCard}>
-              <h3>{event.title}</h3>
-              <p>{event.subtitle}</p>
-              <p>{new Date(event.start).toLocaleString()} @ {event.location}</p>
-              {event.isRecurring && <span className={styles.recurringBadge}>Recurring</span>}
+              <div className={styles.eventHeader}>
+                <h3>{event.title}</h3>
+                <span className={styles.eventTypeBadge}>{event.type}</span>
+              </div>
+              <p className={styles.eventSubtitle}>{event.subtitle}</p>
+              <p className={styles.eventDate}>
+                {new Date(event.start).toLocaleString()}
+              </p>
+              <p className={styles.eventLocation}>@ {event.location}</p>
+              {event.isRecurring && (
+                <div className={styles.recurrenceInfo}>
+                  <span className={styles.recurringBadge}>
+                    ↻ Repeats {event.recurrencePattern}
+                  </span>
+                  {event.recurrenceEnd && (
+                    <span className={styles.recurrenceEnd}>
+                      until {new Date(event.recurrenceEnd).toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
+              )}
+              <div className={styles.eventActions}>
+                {calendarEvents.some((e) => e.id === event.id) && (
+                  <>
+                    <button
+                      className={styles.editButton}
+                      onClick={() => handleEditEvent(event)}
+                    >
+                      Edit
+                    </button>
+                  </>
+                )}
+                {!calendarEvents.some((e) => e.id === event.id) &&
+                  joinedEvents.some((e) => e.id === event.id) && (
+                    <button
+                      className={styles.leaveButton}
+                      onClick={() => event.id && handleLeaveEvent(event.id)}
+                    >
+                      Leave
+                    </button>
+                  )}
+              </div>
             </div>
           ))}
         </div>
       </div>
 
       <div className={styles.titleRow}>
-  <h2>Events I'm Hosting</h2>
-</div>
+        <h2>Events I'm Hosting</h2>
+      </div>
 
-<hr className={styles.separator} />
+      <hr className={styles.separator} />
 
-<div className={styles.eventsListContainer}>
-  <div className={styles.eventsList}>
-    {hostedEvents.map((event, index) => (
-      <div key={event.id || index} className={styles.eventCard}>
-        <h3>{event.title}</h3>
-        <p>{event.subtitle}</p>
-        <p>{new Date(event.start).toLocaleString()} @ {event.location}</p>
-        <div className={styles.eventActions}>
-          <button 
-            className={styles.editButton}
-            onClick={() => handleEditEvent(event)}
-          >
-            Edit
-          </button>
-          <button 
-            className={styles.deleteButton}
-            onClick={() => event.id && handleDeleteEvent(event.id)}
-          >
-            Delete
-          </button>
+      <div className={styles.eventsListContainer}>
+        <div className={styles.eventsList}>
+          {hostedEvents.map((event, index) => (
+            <div
+              key={event.id || index}
+              className={styles.eventCard}
+              data-recurring={event.isRecurring ? 'true' : 'false'}
+            >
+              <div className={styles.eventHeader}>
+                <h3>{event.title}</h3>
+                <span className={styles.eventTypeBadge}>{event.type}</span>
+              </div>
+              <p className={styles.eventSubtitle}>{event.subtitle}</p>
+              <p className={styles.eventDate}>
+                {new Date(event.start).toLocaleString()}
+              </p>
+              <p className={styles.eventLocation}>{event.location}</p>
+
+              {event.isRecurring && (
+                <div className={styles.recurrenceInfo}>
+                  <span className={styles.recurringBadge}>
+                    ↻ Repeats {event.recurrencePattern}
+                  </span>
+                  {event.recurrenceEnd && (
+                    <span className={styles.recurrenceEnd}>
+                      until {new Date(event.recurrenceEnd).toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              <div className={styles.eventActions}>
+                <button
+                  className={styles.editButton}
+                  onClick={() => handleEditEvent(event)}
+                >
+                  Edit
+                </button>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() =>
+                    event.id && handleDeleteEvent(event.id, event.isRecurring)
+                  }
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
-  </div>
-</div>
 
       {showForm && (
-  <EventForm 
-    onClose={() => {
-      setShowForm(false);
-      setEventToEdit(null);
-    }} 
-    onSubmit={eventToEdit ? handleUpdateEvent : handleCreateEvent}
-    eventToEdit={eventToEdit}
-  />
-)}
+        <EventForm
+          onClose={() => {
+            setShowForm(false);
+            setEventToEdit(null);
+          }}
+          onSubmit={eventToEdit ? handleUpdateEvent : handleCreateEvent}
+          eventToEdit={eventToEdit}
+        />
+      )}
     </div>
   );
 };

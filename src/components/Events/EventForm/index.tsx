@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import styles from './index.module.scss';
 
 interface Event {
@@ -6,8 +6,19 @@ interface Event {
   subtitle: string;
   start: string;
   location: string;
+  type:
+    | 'educational'
+    | 'community'
+    | 'expo'
+    | 'social'
+    | 'training'
+    | 'fundraiser'
+    | 'volunteer'
+    | 'adoption'
+    | 'wildlife';
   isRecurring?: boolean;
   recurrencePattern?: 'weekly' | 'biweekly' | 'monthly';
+  recurrenceEnd?: string;
   id?: string;
 }
 
@@ -18,14 +29,16 @@ interface EventFormProps {
 }
 
 const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
-  const [title, setTitle] = useState(eventToEdit?.title || "");
-  const [subtitle, setSubtitle] = useState(eventToEdit?.subtitle || "");
-  const [start, setStart] = useState(eventToEdit?.start || "");
-  const [location, setLocation] = useState(eventToEdit?.location || "");
-  const [isRecurring, setIsRecurring] = useState(eventToEdit?.isRecurring || false);
-  const [recurrencePattern, setRecurrencePattern] = useState<Event['recurrencePattern']>(
-    eventToEdit?.recurrencePattern || 'weekly'
+  const [title, setTitle] = useState(eventToEdit?.title || '');
+  const [subtitle, setSubtitle] = useState(eventToEdit?.subtitle || '');
+  const [start, setStart] = useState(eventToEdit?.start || '');
+  const [location, setLocation] = useState(eventToEdit?.location || '');
+  const [isRecurring, setIsRecurring] = useState(
+    eventToEdit?.isRecurring || false,
   );
+  const [recurrencePattern, setRecurrencePattern] = useState<
+    Event['recurrencePattern']
+  >(eventToEdit?.recurrencePattern || 'weekly');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,14 +47,19 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
       subtitle,
       start,
       location,
-      ...(isRecurring && { 
+      type,
+      ...(isRecurring && {
         isRecurring: true,
-        recurrencePattern 
-      })
+        recurrencePattern,
+      }),
     };
     onSubmit(newEvent);
     onClose();
   };
+
+  const [type, setType] = useState<Event['type']>(
+    eventToEdit?.type || 'educational',
+  );
 
   return (
     <div className={styles.eventFormOverlay}>
@@ -84,6 +102,23 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
               required
             />
           </div>
+          <div className={styles.formGroup}>
+            <label>Event Type</label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value as Event['type'])}
+              required
+            >
+              <option value="educational">Educational</option>
+              <option value="community">Community</option>
+              <option value="expo">Expo</option>
+              <option value="training">Social</option>
+              <option value="fundraiser">Fundraiser</option>
+              <option value="volunteer">Volunteer</option>
+              <option value="adoption">Adoption</option>
+              <option value="wildlife">Wildlife</option>
+            </select>
+          </div>
 
           <div className={styles.recurrenceGroup}>
             <label className={styles.recurrenceToggle}>
@@ -100,7 +135,11 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
                 <label>Repeat every:</label>
                 <select
                   value={recurrencePattern}
-                  onChange={(e) => setRecurrencePattern(e.target.value as Event['recurrencePattern'])}
+                  onChange={(e) =>
+                    setRecurrencePattern(
+                      e.target.value as Event['recurrencePattern'],
+                    )
+                  }
                 >
                   <option value="weekly">Week</option>
                   <option value="biweekly">2 Weeks</option>
