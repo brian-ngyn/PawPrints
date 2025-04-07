@@ -39,18 +39,16 @@ const BobSelector5 = ({
 
   const handleOptionClick = useCallback(
     (brand: string) => {
-
       if (selectedBrands[0] === brand) {
         setSelectedBrands([]);
       } else {
-      // Set the selected brand and close the dropdown
-      setSelectedBrands([brand]);
+        // Set the selected brand and close the dropdown
+        setSelectedBrands([brand]);
       }
       setIsDropdownOpen(false); // Close the dropdown after selection
     },
-    [selectedBrands, setSelectedBrands]
+    [selectedBrands, setSelectedBrands],
   );
-
 
   return (
     <div className={styles.relative}>
@@ -58,14 +56,9 @@ const BobSelector5 = ({
         className={styles.filterLabel}
         onClick={handleLabelClick}
         style={{
-          backgroundColor:
-            selectedBrands.length <= 0
-            ? 'white'
-            : 'white',
-        border:
-          selectedBrands.length <= 0
-            ? '1px solid black'
-            : '1px solid black',
+          backgroundColor: selectedBrands.length <= 0 ? 'white' : 'white',
+          border:
+            selectedBrands.length <= 0 ? '1px solid black' : '1px solid black',
         }}
       >
         {selectedBrands.length > 0 ? selectedBrands[0] : 'Public'}
@@ -73,7 +66,11 @@ const BobSelector5 = ({
       </div>
 
       {isDropdownOpen && (
-        <div ref={dropdownRef} className={styles.dropdown}>
+        <div
+          ref={dropdownRef}
+          className={styles.dropdown}
+          style={{ marginBottom: '0px' }}
+        >
           {allBrands.map((brand) => (
             <div
               key={brand}
@@ -81,8 +78,9 @@ const BobSelector5 = ({
                 padding: '8px 16px',
                 cursor: 'pointer',
                 backgroundColor: selectedBrands.includes(brand)
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                  ? 'var(--primary-gray)'
+                  : 'white',
+                marginBottom: '0px',
               }}
               onClick={() => handleOptionClick(brand)}
             >

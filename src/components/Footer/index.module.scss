@@ -26,11 +26,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .popup {
@@ -54,21 +54,42 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
+  border-radius: 5px;
 }
 
 .confirmButton {
-  background-color: var(--secondary-green); 
-  color: black;
+  background-color: var(--primary-black);
+  color: white;
+
+  &:hover {
+    background-color: #3c3c3c;
+  }
 }
 
 .cancelButton {
-  background-color: var(--secondary-green); 
+  background-color: var(--secondary-white);
   // color: red;
+  border: 1px solid black;
   color: black;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
 }
 
-.confirmButton:hover,
-.cancelButton:hover {
-  opacity: 0.8;
-  background-color: var(--primary-green);
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.activeIcon {
+  background-color: #ccc; // Light gray
+  transform: scale(1.05); // subtle pop effect
 }

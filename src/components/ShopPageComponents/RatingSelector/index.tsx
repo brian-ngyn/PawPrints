@@ -44,11 +44,11 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
         className={styles.filterLabel}
         style={{
           backgroundColor:
-            minRating === 0 ? 'var(--primary-white)' : 'var(--primary-blue)',
+            minRating === 0 ? 'var(--primary-white)' : 'var(--primary-gray)',
           border:
             minRating === 0
               ? '1px solid black'
-              : '1px solid var(--primary-blue)',
+              : '1px solid var(--primary-gray)',
         }}
       >
         {minRating === 0
@@ -64,9 +64,7 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
               padding: '8px 16px',
               cursor: 'pointer',
               backgroundColor:
-                minRating === 0
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                minRating === 0 ? 'var(--primary-gray)' : 'white',
             }}
             onClick={() => handleOptionClick(0)}
           >
@@ -77,9 +75,7 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
               padding: '8px 16px',
               cursor: 'pointer',
               backgroundColor:
-                minRating === 1
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                minRating === 1 ? 'var(--primary-gray)' : 'white',
             }}
             onClick={() => handleOptionClick(1)}
           >
@@ -90,9 +86,7 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
               padding: '8px 16px',
               cursor: 'pointer',
               backgroundColor:
-                minRating === 2
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                minRating === 2 ? 'var(--primary-gray)' : 'white',
             }}
             onClick={() => handleOptionClick(2)}
           >
@@ -103,9 +97,7 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
               padding: '8px 16px',
               cursor: 'pointer',
               backgroundColor:
-                minRating === 3
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                minRating === 3 ? 'var(--primary-gray)' : 'white',
             }}
             onClick={() => handleOptionClick(3)}
           >
@@ -116,9 +108,7 @@ const RatingSelector = ({ minRating, setMinRating }: RatingSelectorProps) => {
               padding: '8px 16px',
               cursor: 'pointer',
               backgroundColor:
-                minRating === 4
-                  ? 'var(--primary-green)'
-                  : 'var(--secondary-green)',
+                minRating === 4 ? 'var(--primary-gray)' : 'white',
             }}
             onClick={() => handleOptionClick(4)}
           >

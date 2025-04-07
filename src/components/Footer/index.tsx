@@ -26,7 +26,7 @@ const Footer = () => {
     } else {
       navigate(target);
     }
-  }
+  };
 
   const handleConfirmLeave = () => {
     if (targetPage) {
@@ -39,41 +39,87 @@ const Footer = () => {
     setIsProfilePopupVisible(false);
   };
 
+  const getIsActive = (path: string) => location.pathname === path;
+
   return (
-  <div>
-    <div className={styles.footer}>
-      <div className={styles.footerItem} onClick={() => handleFooterItemClick('/')}>
-        <FontAwesomeIcon icon={faHouse} size="3x" />
-        Home
+    <div>
+      <div className={styles.footer}>
+        <div
+          className={styles.footerItem}
+          onClick={() => handleFooterItemClick('/')}
+        >
+          <div
+            className={`${styles.iconWrapper} ${getIsActive('/') ? styles.activeIcon : ''}`}
+          >
+            <FontAwesomeIcon icon={faHouse} size="3x" />
+          </div>
+          Home
+        </div>
+        <div
+          className={styles.footerItem}
+          onClick={() => handleFooterItemClick('/events')}
+        >
+          <div
+            className={`${styles.iconWrapper} ${getIsActive('/events') ? styles.activeIcon : ''}`}
+          >
+            <FontAwesomeIcon icon={faCalendar} size="3x" />
+          </div>
+          Events
+        </div>
+        <div
+          className={styles.footerItem}
+          onClick={() => handleFooterItemClick('/groups')}
+        >
+          <div
+            className={`${styles.iconWrapper} ${getIsActive('/groups') ? styles.activeIcon : ''}`}
+          >
+            <FontAwesomeIcon icon={faPeopleGroup} size="3x" />
+          </div>
+          Groups
+        </div>
+        <div
+          className={styles.footerItem}
+          onClick={() => handleFooterItemClick('/shop')}
+        >
+          <div
+            className={`${styles.iconWrapper} ${getIsActive('/shop') ? styles.activeIcon : ''}`}
+          >
+            <FontAwesomeIcon icon={faShop} size="3x" />
+          </div>
+          Shop
+        </div>
+        <div
+          className={styles.footerItem}
+          onClick={() => handleFooterItemClick('/profileView')}
+        >
+          <div
+            className={`${styles.iconWrapper} ${getIsActive('/profileView') ? styles.activeIcon : ''}`}
+          >
+            <FontAwesomeIcon icon={faUser} size="3x" />
+          </div>
+          Profile
+        </div>
       </div>
-      <div className={styles.footerItem} onClick={() => handleFooterItemClick('/events')}>
-        <FontAwesomeIcon icon={faCalendar} size="3x" />
-        Events
-      </div>
-      <div className={styles.footerItem} onClick={() => handleFooterItemClick('/groups')}>
-        <FontAwesomeIcon icon={faPeopleGroup} size="3x" />
-        Groups
-      </div>
-      <div className={styles.footerItem} onClick={() => handleFooterItemClick('/shop')}>
-        <FontAwesomeIcon icon={faShop} size="3x" />
-        Shop
-      </div>
-      <div className={styles.footerItem} onClick={() => handleFooterItemClick('/profileView')}>
-        <FontAwesomeIcon icon={faUser} size="3x" />
-        Profile
-      </div>
-    </div>
 
       {/* Custom Confirmation Popup */}
       {isProfilePopupVisible && (
         <div className={styles.popupOverlay}>
           <div className={styles.popup}>
-            <h3>Are you sure you want to leave this page? Any unsaved changes will be lost!</h3>
+            <h3>
+              Are you sure you want to leave this page? Any unsaved changes will
+              be lost!
+            </h3>
             <div className={styles.popupButtons}>
-              <button className={styles.confirmButton} onClick={handleConfirmLeave}>
+              <button
+                className={styles.confirmButton}
+                onClick={handleConfirmLeave}
+              >
                 Yes, leave
               </button>
-              <button className={styles.cancelButton} onClick={handleCancelLeave}>
+              <button
+                className={styles.cancelButton}
+                onClick={handleCancelLeave}
+              >
                 Cancel
               </button>
             </div>

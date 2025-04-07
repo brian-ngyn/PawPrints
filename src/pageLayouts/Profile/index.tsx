@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import styles from './index.module.scss';
-import { FaCamera, FaEnvelope, FaBell} from 'react-icons/fa';
+import { FaCamera, FaEnvelope, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 
 import LocationSelector from '../../components/ProfileComponents/LocationSelector';
@@ -16,15 +16,16 @@ import { usePetProfilePic } from '../../contexts/PetProfilePicContext';
 import { useUserProfile } from '../../contexts/UserProfileContext';
 import { usePetProfile } from '../../contexts/PetProfileContext';
 
-
 const Profile = () => {
   let navigate = useNavigate();
-  const { username, description, setUsername, setDescription } = useUserProfile();
-  const { petUsername, petDescription, setPetUsername, setPetDescription } = usePetProfile();
+  const { username, description, setUsername, setDescription } =
+    useUserProfile();
+  const { petUsername, petDescription, setPetUsername, setPetDescription } =
+    usePetProfile();
   const { location, setLocation } = useLocation();
 
   const [activeTab, setActiveTab] = useState('General');
-  const [profilePic, setLocalProfilePic] = useState<string | null>(null); 
+  const [profilePic, setLocalProfilePic] = useState<string | null>(null);
   const [petProfilePic, setLocalPetProfilePic] = useState<string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string[]>([]);
   const [selectedNonsense1, setSelectedNonsense1] = useState<string[]>([]);
@@ -33,9 +34,15 @@ const Profile = () => {
   const [selectedNonsense4, setSelectedNonsense4] = useState<string[]>([]);
   const [selectedNonsense5, setSelectedNonsense5] = useState<string[]>([]);
   const [localUsername, setLocalUsername] = useState<string | null>(username);
-  const [localDescription, setLocalDescription] = useState<string | null>(description);
-  const [localPetUsername, setLocalPetUsername] = useState<string | null>(petUsername);
-  const [localPetDescription, setLocalPetDescription] = useState<string | null>(petDescription);
+  const [localDescription, setLocalDescription] = useState<string | null>(
+    description,
+  );
+  const [localPetUsername, setLocalPetUsername] = useState<string | null>(
+    petUsername,
+  );
+  const [localPetDescription, setLocalPetDescription] = useState<string | null>(
+    petDescription,
+  );
 
   // confirm saved changes
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -45,13 +52,25 @@ const Profile = () => {
   const { setProfilePic } = useProfilePic();
   const { setPetProfilePic } = usePetProfilePic();
 
+  const locations = [
+    'No Location Set',
+    'Alberta',
+    'British Columbia',
+    'Manitoba',
+    'New Brunswick',
+    'Newfoundland & Labrador',
+    'Nova Scotia',
+    'Northwest Territories',
+    'Nunavut',
+    'Ontario',
+    'Prince Edward Island',
+    'Quebec',
+    'Saskatchewan',
+    'Yukon',
+  ];
 
+  const privacyChoices = ['Public', 'Friends Only', 'Only You'];
 
-
-  const locations = ["No Location Set", "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland & Labrador", "Nova Scotia", "Northwest Territories", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"];
-
-  const privacyChoices = ["Public", "Friends Only", "Only You"];
-  
   // location consistent with what is already selected
   useEffect(() => {
     if (location) {
@@ -97,9 +116,9 @@ const Profile = () => {
     setIsPopupVisible1(false);
   };
 
-
-  const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
+  const handleProfilePicChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -107,9 +126,9 @@ const Profile = () => {
     }
   };
 
-
-  const handlePetProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
+  const handlePetProfilePicChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -131,24 +150,23 @@ const Profile = () => {
       setPetProfilePic(petProfilePic);
     }
     // user username
-    if (localUsername){
+    if (localUsername) {
       setUsername(localUsername);
     }
     // user description
-    if (localDescription){
+    if (localDescription) {
       setDescription(localDescription);
     }
     // pet username
-    if (localPetUsername){
+    if (localPetUsername) {
       setPetUsername(localPetUsername);
     }
     // pet description
-    if (localPetDescription){
+    if (localPetDescription) {
       setPetDescription(localPetDescription);
     }
 
-
-    // privacy 
+    // privacy
     if (selectedNonsense1.length > 0) {
       sessionStorage.setItem('selectedNonsense1', selectedNonsense1[0]);
     }
@@ -177,7 +195,10 @@ const Profile = () => {
       <div className={styles.profileHeader}>
         {/* Profile Picture Section */}
         <div className={styles.profilePicWrapper}>
-          <div className={styles.profilePic} onClick={() => document.getElementById('fileInput')?.click()}>
+          <div
+            className={styles.profilePic}
+            onClick={() => document.getElementById('fileInput')?.click()}
+          >
             {/*<img src='/JohnProfilePicture.png'/>*/}
             {profilePic ? (
               <img src={profilePic} alt="Profile Picture" />
@@ -226,13 +247,13 @@ const Profile = () => {
         <div className={styles.profileContent}>
           {activeTab === 'General' && (
             <div>
-                <label>Change your Username:</label>
-                <input 
-                  type="text" 
-                  value = {localUsername || ''}
-                  onChange={(e) => setLocalUsername(e.target.value)}
-                  placeholder="Enter New Username" 
-                />
+              <label>Change your Username:</label>
+              <input
+                type="text"
+                value={localUsername || ''}
+                onChange={(e) => setLocalUsername(e.target.value)}
+                placeholder="Enter New Username"
+              />
 
               <label>Location (Optional):</label>
               <LocationSelector
@@ -245,17 +266,17 @@ const Profile = () => {
               <input type="date" />
 
               <label>About Me:</label>
-              <textarea 
-                id="aboutMe" 
-                name="aboutMe" 
+              <textarea
+                id="aboutMe"
+                name="aboutMe"
                 value={localDescription || ''}
                 onChange={(e) => setLocalDescription(e.target.value)}
-                rows={4} 
-                cols={28}>
-              </textarea>
+                rows={4}
+                cols={28}
+              ></textarea>
 
-              <br></br><br></br>
-
+              <br></br>
+              <br></br>
             </div>
           )}
 
@@ -299,57 +320,62 @@ const Profile = () => {
           {activeTab === 'Notifications' && (
             <div>
               <label>Notification Preferences:</label>
-                <div className={styles.notifyOption}>
-                  <br></br>
-                  <label>
-                    <FaEnvelope className={styles.icon1} />
-                  </label>
-                  <input type="checkbox"/>
-                </div>
-                <div className={styles.notifyOption}>
-                  <br></br>
-                  {/* do not remove that space */}
-                  <label> <FaBell className={styles.icon1} /></label>
-                  <input type="checkbox"/>
-                </div>
+              <div className={styles.notifyOption}>
+                <br></br>
+                <label>
+                  <FaEnvelope className={styles.icon1} />
+                </label>
+                <input type="checkbox" />
+              </div>
+              <div className={styles.notifyOption}>
+                <br></br>
+                {/* do not remove that space */}
+                <label>
+                  {' '}
+                  <FaBell className={styles.icon1} />
+                </label>
+                <input type="checkbox" />
+              </div>
 
               <label>Notify Me About:</label>
-                <div className={styles.notifyOption}>
-                  <label id="sales-label">Sales</label>
-                  <input type="checkbox" id="test122"/>
-                </div>
-                <div className={styles.notifyOption}>
-                  <label id="events-label">Events</label>
-                  <input type="checkbox"/>
-                </div>
-                <div className={styles.notifyOption}>
-                  <label id="likes-label">Likes</label>
-                  <input type="checkbox"/>
-                </div>
-                <div className={styles.notifyOption}>
-                  <label id="comments-label">Comments</label>
-                  <input type="checkbox"/>
-                </div>
+              <div className={styles.notifyOption}>
+                <label id="sales-label">Sales</label>
+                <input type="checkbox" id="test122" />
+              </div>
+              <div className={styles.notifyOption}>
+                <label id="events-label">Events</label>
+                <input type="checkbox" />
+              </div>
+              <div className={styles.notifyOption}>
+                <label id="likes-label">Likes</label>
+                <input type="checkbox" />
+              </div>
+              <div className={styles.notifyOption}>
+                <label id="comments-label">Comments</label>
+                <input type="checkbox" />
+              </div>
             </div>
           )}
 
           {activeTab === 'Pet Info' && (
             <div>
-
               <label>Change Pet Name:</label>
-              <input 
-                  type="text" 
-                  value = {localPetUsername || ''}
-                  onChange={(e) => setLocalPetUsername(e.target.value)}
-                  placeholder="Enter the name of your pet" 
+              <input
+                type="text"
+                value={localPetUsername || ''}
+                onChange={(e) => setLocalPetUsername(e.target.value)}
+                placeholder="Enter the name of your pet"
               />
-
-              
 
               <label>Pet's Extra Treat Day: (Optional)</label>
               <input type="date" />
 
-              <div className={styles.profilePic} onClick={() => document.getElementById('fileInputPetPfp')?.click()}>
+              <div
+                className={styles.profilePic}
+                onClick={() =>
+                  document.getElementById('fileInputPetPfp')?.click()
+                }
+              >
                 {/*<img src='/Scratch.avif' /> */}
                 {petProfilePic ? (
                   <img src={petProfilePic} alt="Profile Picture" />
@@ -366,42 +392,63 @@ const Profile = () => {
                 onChange={handlePetProfilePicChange}
               />
 
-              
               <br></br>
               <label>About My Pet:</label>
-              <textarea 
-                id="aboutMe" 
-                name="aboutMe" 
+              <textarea
+                id="aboutMe"
+                name="aboutMe"
                 value={localPetDescription || ''}
                 onChange={(e) => setLocalPetDescription(e.target.value)}
-                rows={4} 
-                cols={28}>
-              </textarea>
-
-
+                rows={4}
+                cols={28}
+              ></textarea>
             </div>
           )}
           {isPopupVisible && (
-            <div className="popupALT">
-              Profile Changes Saved Successfully!
-            </div>
+            <div className="popupALT">Profile Changes Saved Successfully!</div>
           )}
 
-          <button className={styles.saveChangesButton} onClick={handleSaveButtonClick}>Save Changes</button>
-          <button className={styles.saveChangesButton} onClick={handleReturnToProfileClick}>Return to Profile</button>
-
-
+          <div
+            style={{
+              display: 'flex',
+              marginTop: 'auto',
+              marginBottom: '75px',
+              gap: '16px',
+            }}
+          >
+            <button
+              className={styles.saveChangesButton}
+              onClick={handleSaveButtonClick}
+            >
+              Save Changes
+            </button>
+            <button
+              className={styles.returnToProfileButton}
+              onClick={handleReturnToProfileClick}
+            >
+              Return to Profile
+            </button>
+          </div>
 
           {/* Confirmation of Leaving Page Popup*/}
           {isPopupVisible1 && (
             <div className={styles.popupOverlay}>
               <div className={styles.popup}>
-                <h3>Are you sure you want to leave this page? Any unsaved changes will be lost!</h3>
+                <h3>
+                  Are you sure you want to leave this page? Any unsaved changes
+                  will be lost!
+                </h3>
                 <div className={styles.popupButtons}>
-                  <button className={styles.confirmButton} onClick={handleConfirmLeave}>
+                  <button
+                    className={styles.confirmButton}
+                    onClick={handleConfirmLeave}
+                  >
                     Yes, leave
                   </button>
-                  <button className={styles.cancelButton} onClick={handleCancelLeave}>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={handleCancelLeave}
+                  >
                     Cancel
                   </button>
                 </div>
