@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import PetCategorySelector from '../../components/ShopPageComponents/PetCategorySelector';
 import SearchBar from '../../components/ShopPageComponents/SearchBar';
+import Modal from '../../components/ShopPageComponents/Modal';
 
 type Item = {
   id: number;
@@ -167,6 +168,7 @@ const Shop = () => {
     [],
   );
 
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [minRating, setMinRating] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -320,7 +322,7 @@ const Shop = () => {
           <div className={styles.itemContainer}>
             {filteredItems.map((item) => (
               <div className={styles.item} key={item.id}>
-                <img src={item.src} height={200}  />
+                <img src={item.src} height={200} />
                 <div id="brand">{item.brand}</div>
                 <div id="name">{item.name}</div>
                 <Rating
@@ -441,11 +443,22 @@ const Shop = () => {
                 </div>
                 <button
                   className={styles.checkoutButton}
-                  onClick={() => setShowCheckoutScreen(true)}
+                  onClick={() => {
+                    if (itemsInCart.length <= 0) {
+                      setErrorModalOpen(true);
+                      return;
+                    }
+                    setShowCheckoutScreen(true);
+                  }}
                 >
                   Checkout
                 </button>
               </div>
+              <Modal
+                visible={errorModalOpen}
+                message={'You have no items in your cart!'}
+                onConfirm={() => setErrorModalOpen(false)}
+              />
             </>
           ) : (
             <>
@@ -454,10 +467,11 @@ const Shop = () => {
                   className={styles.backButton}
                   icon={faChevronLeft}
                   size="2xs"
+                  color="white"
                   onClick={() => {
                     setItemsInCart([]);
                     setShowCartPage(false);
-                    setShowCheckoutScreen(true);
+                    setShowCheckoutScreen(false);
                   }}
                 />
                 <div>Cart</div>
