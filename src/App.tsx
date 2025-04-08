@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router';
 import Footer from './components/Footer';
 import styles from './globals.module.scss';
 import Home from './pageLayouts/Home';
+import SearchPage from './pageLayouts/SearchPage';
 import Events from './pageLayouts/Events';
 import Groups from './pageLayouts/Groups';
 import Shop from './pageLayouts/Shop';
@@ -13,30 +14,50 @@ import { ProfilePicProvider } from './contexts/ProfilePicContext';
 import { PetProfilePicProvider } from './contexts/PetProfilePicContext';
 import { UserProfileProvider } from './contexts/UserProfileContext';
 import { PetProfileProvider } from './contexts/PetProfileContext';
+import NewPostPage from './pageLayouts/NewPostPage';
+import NotificationCentre from './pageLayouts/NotificationCentre';
+import { PostsProvider } from './contexts/PostsContext';
 
 const App = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-      <LocationProvider>
-      <ProfilePicProvider>
-      <PetProfilePicProvider>
-      <PetProfileProvider>
-      <UserProfileProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/groups" element={<Groups />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profileView" element={<ProfileView />} />
-          <Route path="/dummyProfile" element={<DummyProfile />} />
-        </Routes>
-      </UserProfileProvider>
-      </PetProfileProvider>
-      </PetProfilePicProvider>
-      </ProfilePicProvider>
-      </LocationProvider>
+        <PostsProvider>
+          <LocationProvider>
+            <ProfilePicProvider>
+              <PetProfilePicProvider>
+                <PetProfileProvider>
+                  <UserProfileProvider>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route
+                        path="/new-post"
+                        element={
+                          <NewPostPage
+                            username="Olivia"
+                            userimgsrc="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png"
+                          />
+                        }
+                      />
+                      <Route path="/search" element={<SearchPage />} />
+                      <Route
+                        path="/notifications"
+                        element={<NotificationCentre />}
+                      />
+                      <Route path="/events" element={<Events />} />
+                      <Route path="/groups" element={<Groups />} />
+                      <Route path="/shop" element={<Shop />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/profileView" element={<ProfileView />} />
+                      <Route path="/dummyProfile" element={<DummyProfile />} />
+                    </Routes>
+                  </UserProfileProvider>
+                </PetProfileProvider>
+              </PetProfilePicProvider>
+            </ProfilePicProvider>
+          </LocationProvider>
+        </PostsProvider>
+
         <Footer />
       </div>
     </div>

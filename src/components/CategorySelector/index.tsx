@@ -1,23 +1,19 @@
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import styles from '../../../pageLayouts/Shop/index.module.scss';
+import styles from './index.module.scss';
 
-export interface GroupPageDropdownProps {
-  label: string;
-  allDropdownOptions: string[];
-  selectedDropdownOption: string;
-  setSelectedDropdownOption: React.Dispatch<React.SetStateAction<string>>;
-  inline?: boolean;
+export interface CategorySelectorProps {
+  allCategories: string[];
+  selectedCategories: string[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const GroupPageDropdown = ({
-  allDropdownOptions,
-  label,
-  selectedDropdownOption,
-  setSelectedDropdownOption,
-  inline = false,
-}: GroupPageDropdownProps) => {
+const CategorySelector = ({
+  allCategories,
+  selectedCategories,
+  setSelectedCategories,
+}: CategorySelectorProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -43,15 +39,15 @@ const GroupPageDropdown = ({
 
   const handleOptionClick = useCallback(
     (category: string) => {
-      if (selectedDropdownOption === category) {
+      if (selectedCategories.includes(category)) {
         // If already selected, remove it
-        setSelectedDropdownOption('');
+        setSelectedCategories(selectedCategories.filter((c) => c !== category));
       } else {
         // If not selected, add it
-        setSelectedDropdownOption(category);
+        setSelectedCategories([...selectedCategories, category]);
       }
     },
-    [allDropdownOptions, selectedDropdownOption, setSelectedDropdownOption],
+    [selectedCategories, setSelectedCategories],
   );
 
   return (
@@ -60,38 +56,31 @@ const GroupPageDropdown = ({
         className={styles.filterLabel}
         onClick={handleLabelClick}
         style={{
-          backgroundColor: inline
-            ? 'var(--primary-white)'
-            : selectedDropdownOption === ''
+          backgroundColor:
+            selectedCategories.length <= 0
               ? 'var(--primary-white)'
-              : 'var(--primary-gray)',
+              : 'var(--primary-blue)',
           border:
-            selectedDropdownOption === ''
+            selectedCategories.length <= 0
               ? '1px solid black'
-              : '1px solid var(--primary-gray)',
+              : '1px solid var(--primary-blue)',
         }}
       >
-        {inline ? selectedDropdownOption : label}{' '}
-        <FontAwesomeIcon icon={faAngleDown} size="xs" />
+        Categories <FontAwesomeIcon icon={faAngleDown} size="xs" />
       </div>
 
       {/* Dropdown Menu */}
       {isDropdownOpen && (
         <div ref={dropdownRef} className={styles.dropdown}>
-          {allDropdownOptions.map((category) => (
+          {allCategories.map((category) => (
             <div
               key={category}
-              className={
-                selectedDropdownOption === category ? styles.selected : ''
-              }
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',
-                color: 'black',
-                backgroundColor:
-                  selectedDropdownOption === category
-                    ? 'var(--primary-gray)'
-                    : 'white',
+                backgroundColor: selectedCategories.includes(category)
+                  ? 'var(--primary-green)'
+                  : 'var(--secondary-green)',
               }}
               onClick={() => handleOptionClick(category)}
             >
@@ -104,4 +93,4 @@ const GroupPageDropdown = ({
   );
 };
 
-export default memo(GroupPageDropdown);
+export default memo(CategorySelector);

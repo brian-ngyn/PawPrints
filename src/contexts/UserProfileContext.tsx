@@ -22,7 +22,7 @@ export const useUserProfile = () => {
 };
 
 export const UserProfileProvider: React.FC<UserProfileProviderProps> = ({ children }) => {
-  const [username, setUsername] = useState<string>('NewUser12345');
+  const [username, setUsername] = useState<string>('Olivia');
   const [description, setDescription] = useState<string>('I am a new user! I will probably write my About Me soon!');
 
   return (

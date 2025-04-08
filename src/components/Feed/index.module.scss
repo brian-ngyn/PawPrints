@@ -13,7 +13,7 @@
   //height: ;
   //border-top: 0.9px solid #454545;
   border-radius: 25px;
-  border: 2px solid var(--primary-black); //primary blue
+  border: 2px solid var(--primary-blue); //primary blue
   justify-content: space-evenly;
   padding: -1px -1px -1px -1px;
   box-shadow: 0 2px 10px 0px var(--shadow-colour);
@@ -34,15 +34,14 @@
   border-top-left-radius: 21px;
   border-top-right-radius: 21px;
   //border-color: 2px solid var(--primary-blue);
-  background-color: var(--primary-black);
+  background-color: var(--primary-blue);
   align-items: center;
-  justify-content: left;
 }
 
 .postUser {
   height: 100%;
   margin: 10px;
-  width: 40%;
+  width: 50%;
   //border: 2px dashed #000000;
 
   display: block;
@@ -54,22 +53,6 @@
   margin-right: 0;
   font-weight: bold;
   
-}
-.dateText {
-  display: block;
-  //margin-left: 15px;
-  font-weight: italic;
-  font-size: 0.75em;
-  text-align: center;
-  margin: 0 10px 0 auto;
-  color: var(--primary-white);
-}
-
-.profileImage {
-  margin: 10px;
-  border-radius: 50%;
-  object-fit: cover;
-  //clip-path: circle(50%);
 }
 
 .postContents {
