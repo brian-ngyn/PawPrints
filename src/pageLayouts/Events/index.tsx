@@ -82,11 +82,19 @@ const Events = () => {
   const [calendarEvents, setCalendarEvents] = useState<Event[]>([
     {
       title: 'Pet Ownership Lecture',
-      subtitle: 'Come and learn about certain aspects on pet ownership',
+      subtitle: 'Come and learn about certain aspects of pet ownership',
       start: '2025-04-23T17:00:00',
       location: 'University',
       type: 'educational',
       id: 'Pet Ownership Lecture-0',
+    },
+    {
+      title: 'Low-Cost Pet Vaccination Day',
+      subtitle: 'Protect your pet with affordable shots',
+      start: '2025-04-29T12:00:00',
+      location: 'City Animal Shelter',
+      type: 'community',
+      id: 'Pet Vaccination Day-0',
     },
   ]);
 
@@ -452,7 +460,7 @@ const Events = () => {
               <p className={styles.eventDate}>
                 {new Date(event.start).toLocaleString()}
               </p>
-              <p className={styles.eventLocation}>{event.location}</p>
+              <p className={styles.eventLocation}>@ {event.location}</p>
 
               {event.isRecurring && (
                 <div className={styles.recurrenceInfo}>
