@@ -5,6 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import styles from './index.module.scss';
 import EventForm from '../../components/Events/EventForm';
 import EventPopup from '../../components/Events/EventPopup';
+import PlusIcon from '../../components/PlusIcon';
 
 interface Event {
   title: string;
@@ -191,21 +192,21 @@ const Events = () => {
 
   const [typeFilter, setTypeFilter] = useState<string>('all');
 
-  const filteredEvents =
-    searchQuery || typeFilter !== 'all'
-      ? searchableEvents.filter(
-          (event) =>
-            (searchQuery === '' ||
-              event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              event.subtitle
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-              event.location
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase())) &&
-            (typeFilter === 'all' || event.type === typeFilter),
-        )
-      : [];
+  const filteredEvents = useMemo(() => {
+    if (!searchQuery && typeFilter === 'all') {
+      return allEvents;
+    } else {
+      return allEvents.filter((event) => {
+        const isInTitle =
+          event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          event.location.toLowerCase().includes(searchQuery.toLowerCase());
+        const isInType = typeFilter === 'all' || event.type === typeFilter;
+
+        return isInTitle && isInType;
+      });
+    }
+  }, [searchQuery, typeFilter, allEvents]);
 
   const handleOpenForm = () => {
     setShowForm(true);
@@ -313,9 +314,13 @@ const Events = () => {
     <div className={styles.eventspage}>
       <div className={styles.headerRow}>
         <h1>My Events</h1>
-        <button className={styles.addEventButton} onClick={handleOpenForm}>
+        <div className={styles.newEventButton} onClick={handleOpenForm}>
+          <PlusIcon width={25} height={25} colour={'#454545'} />
+          <div className={styles.newEventText}>New Event</div>
+        </div>
+        {/* <button className={styles.addEventButton} onClick={handleOpenForm}>
           New Event
-        </button>
+        </button> */}
       </div>
 
       <div className={styles.filterControls}>
@@ -390,7 +395,7 @@ const Events = () => {
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin]}
             initialView="dayGridMonth"
-            events={allEvents}
+            events={filteredEvents}
             headerToolbar={{
               left: 'prev,next today',
               center: 'title',

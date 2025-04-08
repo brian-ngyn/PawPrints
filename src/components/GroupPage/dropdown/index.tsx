@@ -8,7 +8,7 @@ export interface GroupPageDropdownProps {
   allDropdownOptions: string[];
   selectedDropdownOption: string;
   setSelectedDropdownOption: React.Dispatch<React.SetStateAction<string>>;
-  inline: boolean;
+  inline?: boolean;
 }
 
 const GroupPageDropdown = ({
@@ -16,7 +16,7 @@ const GroupPageDropdown = ({
   label,
   selectedDropdownOption,
   setSelectedDropdownOption,
-  inline,
+  inline = false,
 }: GroupPageDropdownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

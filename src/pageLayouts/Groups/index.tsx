@@ -6,6 +6,7 @@ import GroupPageDropdown from '../../components/GroupPage/dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import InfoModal from '../../components/GroupPage/infoModal';
+import PlusIcon from '../../components/PlusIcon';
 
 // TYPES & INTERFACES
 export type MembershipStatus = 'none' | 'requested' | 'joined';
@@ -97,7 +98,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
-  const [category, setCategory] = useState("Please Select...");
+  const [category, setCategory] = useState('Please Select...');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -484,9 +485,17 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
           postsState.map((p) => (
             <div key={p.id} className={styles.postWrapper}>
               <Post
-                username="John"
+                user="John The Vet"
+                title=""
+                text={p.content}
+                isSponsored={false}
+                isSaved={false}
+                eventLink=""
+                shopLink=""
+                media=""
+                link=""
                 userimgsrc="/images/JohnProfilePicture.png"
-                title={p.content}
+                timestamp={new Date('2025-03-25T12:00:00Z')}
               />
             </div>
           ))
@@ -746,13 +755,13 @@ const GroupsPage: React.FC = () => {
         <>
           <div className={styles.pageHeading}>
             <div>Browse Groups</div>
-            <button
-              className={`${styles.button} ${styles.buttonSecondary}`}
-              style={{ fontSize: '20px' }}
+            <div
+              className={styles.newGroupButton}
               onClick={() => setShowCreateForm(true)}
             >
-              Create Group
-            </button>
+              <PlusIcon width={25} height={25} colour={'#454545'} />
+              <div className={styles.newGroupText}>New Event</div>
+            </div>
           </div>
           <div className={styles.searchBarContainer}>
             <input

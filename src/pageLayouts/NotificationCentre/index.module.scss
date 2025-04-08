@@ -12,24 +12,22 @@
   background-color: var(--primary-white);
 }
 
-.backArrow {
-  background-color: var(--primary-green);
-  border-radius: 5px;
-  width:fit-content;
-  padding:5px;
-  margin:10px;
+.backButton {
+  background-color: var(--primary-black);
+  padding: 0.5rem;
+  border-radius: 8px;
 }
 
 .pageHeading {
-  margin-left:10px;
   display: flex;
-  //flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   font-size: 3rem;
   font-weight: 550;
-  //background-color: var(--primary-green);
-  //border: 1px dashed var(--primary-black);
+  gap: 12px;
+  align-items: center;
+
+  svg {
+    cursor: pointer;
+  }
 }
 
 .feed {
