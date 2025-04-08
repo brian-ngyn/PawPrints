@@ -72,6 +72,9 @@ const BrandSelector = ({
           {allBrands.map((brand) => (
             <div
               key={brand}
+              className={
+                selectedBrands.includes(brand)? styles.selected : ''
+              }
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',

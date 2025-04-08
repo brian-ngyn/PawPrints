@@ -3,17 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styles from '../../../pageLayouts/Shop/index.module.scss';
 
-export interface PetCategorySelectorProps {
-  allPetCategories: string[];
-  selectedPetCategories: string[];
-  setSelectedPetCategories: React.Dispatch<React.SetStateAction<string[]>>;
+export interface GroupPageDropdownProps {
+  label: string;
+  allDropdownOptions: string[];
+  selectedDropdownOption: string;
+  setSelectedDropdownOption: React.Dispatch<React.SetStateAction<string>>;
+  inline: boolean;
 }
 
-const PetCategorySelector = ({
-  allPetCategories,
-  selectedPetCategories,
-  setSelectedPetCategories,
-}: PetCategorySelectorProps) => {
+const GroupPageDropdown = ({
+  allDropdownOptions,
+  label,
+  selectedDropdownOption,
+  setSelectedDropdownOption,
+  inline,
+}: GroupPageDropdownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -39,17 +43,15 @@ const PetCategorySelector = ({
 
   const handleOptionClick = useCallback(
     (category: string) => {
-      if (selectedPetCategories.includes(category)) {
+      if (selectedDropdownOption === category) {
         // If already selected, remove it
-        setSelectedPetCategories(
-          selectedPetCategories.filter((c) => c !== category),
-        );
+        setSelectedDropdownOption('');
       } else {
         // If not selected, add it
-        setSelectedPetCategories([...selectedPetCategories, category]);
+        setSelectedDropdownOption(category);
       }
     },
-    [selectedPetCategories, setSelectedPetCategories],
+    [allDropdownOptions, selectedDropdownOption, setSelectedDropdownOption],
   );
 
   return (
@@ -58,37 +60,38 @@ const PetCategorySelector = ({
         className={styles.filterLabel}
         onClick={handleLabelClick}
         style={{
-          backgroundColor:
-            selectedPetCategories.length <= 0
+          backgroundColor: inline
+            ? 'var(--primary-white)'
+            : selectedDropdownOption === ''
               ? 'var(--primary-white)'
               : 'var(--primary-gray)',
           border:
-            selectedPetCategories.length <= 0
+            selectedDropdownOption === ''
               ? '1px solid black'
               : '1px solid var(--primary-gray)',
         }}
       >
-        Pet <FontAwesomeIcon icon={faAngleDown} size="xs" />
+        {inline ? selectedDropdownOption : label}{' '}
+        <FontAwesomeIcon icon={faAngleDown} size="xs" />
       </div>
 
       {/* Dropdown Menu */}
       {isDropdownOpen && (
-        <div
-          ref={dropdownRef}
-          className={styles.dropdown}
-          style={{ left: '-75px' }}
-        >
-          {allPetCategories.map((category) => (
+        <div ref={dropdownRef} className={styles.dropdown}>
+          {allDropdownOptions.map((category) => (
             <div
               key={category}
-              className={selectedPetCategories.includes(category) ? styles.selected : ''}
+              className={
+                selectedDropdownOption === category ? styles.selected : ''
+              }
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',
                 color: 'black',
-                backgroundColor: selectedPetCategories.includes(category)
-                  ? 'var(--primary-gray)'
-                  : 'white',
+                backgroundColor:
+                  selectedDropdownOption === category
+                    ? 'var(--primary-gray)'
+                    : 'white',
               }}
               onClick={() => handleOptionClick(category)}
             >
@@ -101,4 +104,4 @@ const PetCategorySelector = ({
   );
 };
 
-export default memo(PetCategorySelector);
+export default memo(GroupPageDropdown);
