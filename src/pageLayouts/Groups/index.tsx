@@ -2,6 +2,10 @@ import React, { useState, FormEvent, ChangeEvent } from 'react';
 import styles from './index.module.scss';
 import ConfirmModal from '../../components/ConfirmModal';
 import Post from '../../components/Post';
+import GroupPageDropdown from '../../components/GroupPage/dropdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import InfoModal from '../../components/GroupPage/infoModal';
 
 // TYPES & INTERFACES
 export type MembershipStatus = 'none' | 'requested' | 'joined';
@@ -73,7 +77,11 @@ const animalTypes: string[] = [
   'Exotic Animals',
 ];
 
-const mainUser: Member = { id: 1, name: 'John', userimgsrc: '/images/JohnProfilePicture.png' };
+const mainUser: Member = {
+  id: 1,
+  name: 'John',
+  userimgsrc: '/images/JohnProfilePicture.png',
+};
 
 // COMPONENTS
 
@@ -83,10 +91,13 @@ interface CreateGroupFormProps {
   onCancel: () => void;
 }
 
-const CreateGroupForm: React.FC<CreateGroupFormProps> = ({ onCreateGroup, onCancel }) => {
+const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
+  onCreateGroup,
+  onCancel,
+}) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState("Please Select...");
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -128,23 +139,65 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({ onCreateGroup, onCanc
     <form onSubmit={handleSubmit} className={styles.createGroupForm}>
       {formError && <div className={styles.notification}>{formError}</div>}
       <h2>Create a Group</h2>
-      <label>Title</label>
-      <input type="text" className={styles.formInput} value={name} onChange={e => setName(e.target.value)} required />
-      <label>Description</label>
-      <textarea className={styles.formTextarea} value={description} onChange={e => setDescription(e.target.value)} required />
+      <label>
+        Title <span className={styles.required}>*</span>
+      </label>
+      <input
+        type="text"
+        className={styles.formInput}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Group Name"
+        required
+      />
+      <label>
+        Description <span className={styles.required}>*</span>
+      </label>
+      <textarea
+        className={styles.formTextarea}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Group Description"
+        required
+      />
       <label>Location</label>
-      <input type="text" className={styles.formInput} value={location} onChange={e => setLocation(e.target.value)} />
-      <label>Animal Type</label>
-      <select className={styles.formSelect} value={category} onChange={e => setCategory(e.target.value)} required>
+      <input
+        type="text"
+        className={styles.formInput}
+        value={location}
+        placeholder="Location"
+        onChange={(e) => setLocation(e.target.value)}
+      />
+      <label>
+        Animal Type <span className={styles.required}>*</span>
+      </label>
+      <GroupPageDropdown
+        label="Please select..."
+        allDropdownOptions={['Please select...', ...animalTypes]}
+        selectedDropdownOption={category}
+        setSelectedDropdownOption={setCategory}
+        inline
+      />
+      {/* <select
+        className={styles.formSelect}
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        required
+      >
         <option value="">Select an Animal Type</option>
-        {animalTypes.map(type => (
+        {animalTypes.map((type) => (
           <option key={type} value={type}>
             {type}
           </option>
         ))}
-      </select>
+      </select> */}
       <label>Group Image</label>
-      <input type="file" accept="image/*" className={styles.formInput} onChange={handleFileChange} />
+      <input
+        type="file"
+        accept="image/*"
+        className={styles.formInput}
+        onChange={handleFileChange}
+      />
       {previewImage && (
         <img
           src={previewImage}
@@ -154,26 +207,41 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({ onCreateGroup, onCanc
             maxHeight: '200px',
             objectFit: 'cover',
             marginTop: '10px',
-            borderRadius: '6px'
+            borderRadius: '6px',
           }}
         />
       )}
       <label>Joining Policy</label>
       <div className={styles.radioGroup}>
         <label>
-          <input type="radio" checked={isPublic} onChange={() => setIsPublic(true)} />
+          <input
+            type="radio"
+            checked={isPublic}
+            onChange={() => setIsPublic(true)}
+          />
           Public
         </label>
         <label>
-          <input type="radio" checked={!isPublic} onChange={() => setIsPublic(false)} />
+          <input
+            type="radio"
+            checked={!isPublic}
+            onChange={() => setIsPublic(false)}
+          />
           Invite Only
         </label>
       </div>
       <div className={styles.buttonRow}>
-        <button type="submit" className={`${styles.button} ${styles.buttonPrimary}`}>
+        <button
+          type="submit"
+          className={`${styles.button} ${styles.buttonPrimary}`}
+        >
           Save
         </button>
-        <button type="button" className={`${styles.button} ${styles.buttonSecondary}`} onClick={onCancel}>
+        <button
+          type="button"
+          className={`${styles.button} ${styles.buttonSecondary}`}
+          onClick={onCancel}
+        >
           Cancel
         </button>
       </div>
@@ -187,7 +255,10 @@ interface CreatePostFormProps {
   onCancel: () => void;
 }
 
-const CreatePostForm: React.FC<CreatePostFormProps> = ({ onCreatePost, onCancel }) => {
+const CreatePostForm: React.FC<CreatePostFormProps> = ({
+  onCreatePost,
+  onCancel,
+}) => {
   const [content, setContent] = useState('');
 
   const handleSubmit = (e: FormEvent) => {
@@ -202,16 +273,31 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ onCreatePost, onCancel 
     <form onSubmit={handleSubmit} className={styles.createPostForm}>
       <textarea
         value={content}
-        onChange={e => setContent(e.target.value)}
+        onChange={(e) => setContent(e.target.value)}
         placeholder="Write your post here..."
-        style={{ fontSize: '16px', width: '100%', minHeight: '100px', padding: '10px' }}
+        style={{
+          fontSize: '16px',
+          minHeight: '100px',
+          padding: '10px',
+          width: '-moz-available; -webkit-fill-available;',
+        }}
         required
       />
-      <div className={styles.buttonRow}>
-        <button type="submit" className={`${styles.button} ${styles.buttonPrimary}`}>
+      <div
+        className={styles.buttonRow}
+        style={{ justifyContent: 'end', flexDirection: 'row-reverse' }}
+      >
+        <button
+          type="submit"
+          className={`${styles.button} ${styles.buttonPrimary}`}
+        >
           Post
         </button>
-        <button type="button" onClick={onCancel} className={`${styles.button} ${styles.buttonSecondary}`}>
+        <button
+          type="button"
+          onClick={onCancel}
+          className={`${styles.button} ${styles.buttonSecondary}`}
+        >
           Cancel
         </button>
       </div>
@@ -222,7 +308,10 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ onCreatePost, onCancel 
 // CreatePostModal
 interface CreatePostModalProps extends CreatePostFormProps {}
 
-const CreatePostModal: React.FC<CreatePostModalProps> = ({ onCreatePost, onCancel }) => (
+const CreatePostModal: React.FC<CreatePostModalProps> = ({
+  onCreatePost,
+  onCancel,
+}) => (
   <div className={styles.popupOverlay}>
     <div className={styles.popup}>
       <CreatePostForm onCreatePost={onCreatePost} onCancel={onCancel} />
@@ -237,7 +326,11 @@ interface MembersModalProps {
   onClose: () => void;
 }
 
-const MembersModal: React.FC<MembersModalProps> = ({ visible, members, onClose }) => {
+const MembersModal: React.FC<MembersModalProps> = ({
+  visible,
+  members,
+  onClose,
+}) => {
   if (!visible) return null;
   return (
     <div className={styles.popupOverlay}>
@@ -245,15 +338,22 @@ const MembersModal: React.FC<MembersModalProps> = ({ visible, members, onClose }
         <h2>Group Members</h2>
         <div className={styles.membersListContainer}>
           <ul className={styles.membersList}>
-            {members.map(member => (
+            {members.map((member) => (
               <li key={member.id} className={styles.memberItem}>
-                <img src={member.userimgsrc} alt={member.name} className={styles.memberAvatar} />
+                <img
+                  src={member.userimgsrc}
+                  alt={member.name}
+                  className={styles.memberAvatar}
+                />
                 <span>{member.name}</span>
               </li>
             ))}
           </ul>
         </div>
-        <button onClick={onClose} className={`${styles.button} ${styles.buttonPrimary}`}>
+        <button
+          onClick={onClose}
+          className={`${styles.button} ${styles.buttonPrimary}`}
+        >
           Close
         </button>
       </div>
@@ -271,12 +371,21 @@ export interface GroupDetailsProps {
   notify: (message: string) => void;
 }
 
-const GroupDetails: React.FC<GroupDetailsProps> = ({ group, membersList, onLeaveGroup, onDeleteGroup, onClose, notify }) => {
+const GroupDetails: React.FC<GroupDetailsProps> = ({
+  group,
+  membersList,
+  onLeaveGroup,
+  onDeleteGroup,
+  onClose,
+  notify,
+}) => {
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
-  const [postsState, setPostsState] = useState<{ id: number; content: string }[]>(groupPosts[group.id] || []);
+  const [postsState, setPostsState] = useState<
+    { id: number; content: string }[]
+  >(groupPosts[group.id] || []);
 
   const handleLeaveClick = () => setShowLeaveConfirm(true);
   const handleDeleteClick = () => setShowDeleteConfirm(true);
@@ -295,13 +404,15 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({ group, membersList, onLeave
 
   const handleCreatePost = (content: string) => {
     const newPost = { id: Date.now(), content };
-    setPostsState(prev => [newPost, ...prev]);
+    setPostsState((prev) => [newPost, ...prev]);
     setShowCreatePostModal(false);
   };
 
   return (
     <div className={styles.groupDetailsContainer}>
-      <button onClick={onClose} className={styles.backButton}>&larr; Back</button>
+      <button onClick={onClose} className={styles.backButton}>
+        &larr; Back
+      </button>
       <ConfirmModal
         visible={showLeaveConfirm}
         title="Leave Group"
@@ -320,27 +431,47 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({ group, membersList, onLeave
         onConfirm={handleConfirmDelete}
         onCancel={() => setShowDeleteConfirm(false)}
       />
-      <MembersModal visible={showMembersModal} members={membersList} onClose={() => setShowMembersModal(false)} />
-      <img src={group.imageUrl} alt={group.name} className={styles.groupProfileImage} />
+      <MembersModal
+        visible={showMembersModal}
+        members={membersList}
+        onClose={() => setShowMembersModal(false)}
+      />
+      <img
+        src={group.imageUrl}
+        alt={group.name}
+        className={styles.groupProfileImage}
+      />
       <div className={styles.groupDetailsHeader}>
         <h2 className={styles.groupName}>{group.name}</h2>
         <div className={styles.groupDetailsLocation}>
           {group.location} |{' '}
-          <button className={styles.membersButtonDetails} onClick={() => setShowMembersModal(true)}>
+          <button
+            className={styles.membersButtonDetails}
+            onClick={() => setShowMembersModal(true)}
+          >
             {group.members} members
           </button>
         </div>
       </div>
       <div className={styles.groupActions}>
-        <button className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => setShowCreatePostModal(true)}>
+        <button
+          className={`${styles.button} ${styles.buttonPrimary}`}
+          onClick={() => setShowCreatePostModal(true)}
+        >
           Create Post
         </button>
         {group.isCreator ? (
-          <button className={`${styles.button} ${styles.buttonSecondary}`} onClick={handleDeleteClick}>
+          <button
+            className={`${styles.button} ${styles.buttonSecondary}`}
+            onClick={handleDeleteClick}
+          >
             Delete Group
           </button>
         ) : (
-          <button className={`${styles.button} ${styles.buttonSecondary}`} onClick={handleLeaveClick}>
+          <button
+            className={`${styles.button} ${styles.buttonSecondary}`}
+            onClick={handleLeaveClick}
+          >
             Leave Group
           </button>
         )}
@@ -350,9 +481,13 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({ group, membersList, onLeave
         {postsState.length === 0 ? (
           <p className={styles.noPosts}>No posts yet.</p>
         ) : (
-          postsState.map(p => (
+          postsState.map((p) => (
             <div key={p.id} className={styles.postWrapper}>
-              <Post username="John" userimgsrc="/images/JohnProfilePicture.png" title={p.content} />
+              <Post
+                username="John"
+                userimgsrc="/images/JohnProfilePicture.png"
+                title={p.content}
+              />
             </div>
           ))
         )}
@@ -377,18 +512,31 @@ const GroupsPage: React.FC = () => {
   const [groupTypeFilter, setGroupTypeFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
+  const [infoModalContent, setInfoModalContent] = useState({
+    title: '',
+    message: '',
+  });
+
+  const isFilterApplied =
+    animalTypeFilter || groupTypeFilter || locationFilter || searchText !== '';
 
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [currentMembers, setCurrentMembers] = useState<Member[]>([]);
 
   // For group 1, start with John plus 44 dummy members.
-  const [groupMembers, setGroupMembers] = useState<{ [key: number]: Member[] }>({
-    1: [mainUser, ...Array.from({ length: 44 }, (_, i) => ({
-      id: i + 2,
-      name: `Member ${i + 2}`,
-      userimgsrc: '/images/default-avatar.png'
-    }))]
-  });
+  const [groupMembers, setGroupMembers] = useState<{ [key: number]: Member[] }>(
+    {
+      1: [
+        mainUser,
+        ...Array.from({ length: 44 }, (_, i) => ({
+          id: i + 2,
+          name: `Member ${i + 2}`,
+          userimgsrc: '/images/default-avatar.png',
+        })),
+      ],
+    },
+  );
 
   const notify = (message: string) => {
     setNotification(message);
@@ -396,12 +544,16 @@ const GroupsPage: React.FC = () => {
   };
 
   const handleJoinGroup = (groupId: number) => {
-    setGroups(prev =>
-      prev.map(g => g.id === groupId ? { ...g, membershipStatus: 'joined' } : g)
+    setGroups((prev) =>
+      prev.map((g) =>
+        g.id === groupId
+          ? { ...g, membershipStatus: 'joined', members: g.members + 1 }
+          : g,
+      ),
     );
-    setGroupMembers(prev => {
+    setGroupMembers((prev) => {
       const current = prev[groupId] || [];
-      if (!current.some(member => member.id === mainUser.id)) {
+      if (!current.some((member) => member.id === mainUser.id)) {
         return { ...prev, [groupId]: [mainUser, ...current] };
       }
       return prev;
@@ -410,24 +562,32 @@ const GroupsPage: React.FC = () => {
   };
 
   const handleCancelRequest = (groupId: number) => {
-    setGroups(prev =>
-      prev.map(g => g.id === groupId ? { ...g, membershipStatus: 'none' } : g)
+    setGroups((prev) =>
+      prev.map((g) =>
+        g.id === groupId ? { ...g, membershipStatus: 'none' } : g,
+      ),
     );
     notify('Your request has been canceled successfully!');
   };
 
   const handleRequestInvite = (groupId: number) => {
-    setGroups(prev =>
-      prev.map(g => g.id === groupId ? { ...g, membershipStatus: 'requested' } : g)
+    setGroups((prev) =>
+      prev.map((g) =>
+        g.id === groupId ? { ...g, membershipStatus: 'requested' } : g,
+      ),
     );
     notify('Your request has been sent successfully!');
   };
 
   const handleLeaveGroup = (groupId: number) => {
-    setGroups(prev =>
-      prev.map(g => g.id === groupId ? { ...g, membershipStatus: 'none', members: 0 } : g)
+    setGroups((prev) =>
+      prev.map((g) =>
+        g.id === groupId
+          ? { ...g, membershipStatus: 'none', members: g.members - 1 }
+          : g,
+      ),
     );
-    setGroupMembers(prev => {
+    setGroupMembers((prev) => {
       const newMembers = { ...prev };
       delete newMembers[groupId];
       return newMembers;
@@ -439,8 +599,8 @@ const GroupsPage: React.FC = () => {
   };
 
   const handleDeleteGroup = (groupId: number) => {
-    setGroups(prev => prev.filter(g => g.id !== groupId));
-    setGroupMembers(prev => {
+    setGroups((prev) => prev.filter((g) => g.id !== groupId));
+    setGroupMembers((prev) => {
       const newMembers = { ...prev };
       delete newMembers[groupId];
       return newMembers;
@@ -453,59 +613,104 @@ const GroupsPage: React.FC = () => {
 
   const handleCreateGroup = (newGroup: Group) => {
     setGroups([...groups, newGroup]);
-    setGroupMembers(prev => ({ ...prev, [newGroup.id]: [mainUser] }));
+    setGroupMembers((prev) => ({ ...prev, [newGroup.id]: [mainUser] }));
     setShowCreateForm(false);
     notify('Group created successfully!');
   };
 
-  const filteredGroups = groups.filter(group => {
+  const resetAllFilters = () => {
+    setAnimalTypeFilter('');
+    setGroupTypeFilter('');
+    setLocationFilter('');
+    setSearchText('');
+  };
+
+  const filteredGroups = groups.filter((group) => {
     const matchesSearch =
       group.name.toLowerCase().includes(searchText.toLowerCase()) ||
       group.description.toLowerCase().includes(searchText.toLowerCase());
-    const matchesAnimalType = animalTypeFilter ? group.category.toLowerCase() === animalTypeFilter.toLowerCase() : true;
-    const matchesGroupType = groupTypeFilter ? (groupTypeFilter === 'public' ? group.isPublic : !group.isPublic) : true;
-    const matchesLocation = locationFilter ? group.location.toLowerCase().includes(locationFilter.toLowerCase()) : true;
-    return matchesSearch && matchesAnimalType && matchesGroupType && matchesLocation;
+    const matchesAnimalType = animalTypeFilter
+      ? group.category.toLowerCase() === animalTypeFilter.toLowerCase()
+      : true;
+    const matchesGroupType = groupTypeFilter
+      ? groupTypeFilter === 'Public'
+        ? group.isPublic
+        : !group.isPublic
+      : true;
+    const matchesLocation = locationFilter
+      ? group.location.toLowerCase().includes(locationFilter.toLowerCase())
+      : true;
+    return (
+      matchesSearch && matchesAnimalType && matchesGroupType && matchesLocation
+    );
   });
 
   const handleOpenGroup = (group: Group) => {
     if (group.membershipStatus === 'joined') {
       setSelectedGroup(group);
     } else {
-      alert('You must join this group to view its posts.');
+      setInfoModalContent({
+        title: 'Access Restricted',
+        message: 'You must join this group to view its posts.',
+      });
+      setInfoModalVisible(true);
     }
   };
 
   const handleViewMembers = (groupId: number) => {
     const members = groupMembers[groupId];
-    if (members && members.length > 0) {
+    if (
+      members &&
+      members.length > 0 &&
+      groups.find((g) => g.id === groupId)?.membershipStatus === 'joined'
+    ) {
       setCurrentMembers(members);
       setShowMembersModal(true);
     } else {
-      alert('Join this group to view its members.');
+      setInfoModalContent({
+        title: 'Members Unavailable',
+        message: 'Join this group to view its members.',
+      });
+      setInfoModalVisible(true);
     }
   };
 
   const renderMembershipButton = (group: Group) => {
     if (group.membershipStatus === 'joined') {
-      return <button className={`${styles.button} ${styles.buttonSecondary}`} disabled>Joined</button>;
+      return (
+        <button
+          className={`${styles.button} ${styles.buttonSecondary}`}
+          disabled
+        >
+          Joined
+        </button>
+      );
     }
     if (group.membershipStatus === 'requested') {
       return (
-        <button className={`${styles.button} ${styles.buttonSecondary}`} onClick={() => handleCancelRequest(group.id)}>
+        <button
+          className={`${styles.button} ${styles.buttonSecondary}`}
+          onClick={() => handleCancelRequest(group.id)}
+        >
           Cancel Request
         </button>
       );
     }
     if (group.isPublic) {
       return (
-        <button className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => handleJoinGroup(group.id)}>
+        <button
+          className={`${styles.button} ${styles.buttonPrimary}`}
+          onClick={() => handleJoinGroup(group.id)}
+        >
           Join
         </button>
       );
     } else {
       return (
-        <button className={`${styles.button} ${styles.buttonSecondary}`} onClick={() => handleRequestInvite(group.id)}>
+        <button
+          className={`${styles.button} ${styles.buttonSecondary}`}
+          onClick={() => handleRequestInvite(group.id)}
+        >
           Request Invite
         </button>
       );
@@ -527,14 +732,25 @@ const GroupsPage: React.FC = () => {
 
   return (
     <div className={styles.groupsPage}>
-      {notification && <div className={styles.notification}>{notification}</div>}
+      {notification && (
+        <div className={styles.notification}>
+          <div>{notification}</div>
+        </div>
+      )}
       {showCreateForm ? (
-        <CreateGroupForm onCreateGroup={handleCreateGroup} onCancel={() => setShowCreateForm(false)} />
+        <CreateGroupForm
+          onCreateGroup={handleCreateGroup}
+          onCancel={() => setShowCreateForm(false)}
+        />
       ) : (
         <>
           <div className={styles.pageHeading}>
             <div>Browse Groups</div>
-            <button className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => setShowCreateForm(true)}>
+            <button
+              className={`${styles.button} ${styles.buttonSecondary}`}
+              style={{ fontSize: '20px' }}
+              onClick={() => setShowCreateForm(true)}
+            >
               Create Group
             </button>
           </div>
@@ -543,33 +759,46 @@ const GroupsPage: React.FC = () => {
               type="text"
               placeholder="Search groups..."
               value={searchText}
-              onChange={e => setSearchText(e.target.value)}
+              onChange={(e) => setSearchText(e.target.value)}
               className={styles.searchInput}
             />
           </div>
           <div className={styles.filters}>
-            <select className={styles.filterSelect} value={animalTypeFilter} onChange={e => setAnimalTypeFilter(e.target.value)}>
-              <option value="">Animal Type</option>
-              {animalTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-            <select className={styles.filterSelect} value={groupTypeFilter} onChange={e => setGroupTypeFilter(e.target.value)}>
-              <option value="">Group Type</option>
-              <option value="public">Public</option>
-              <option value="invite">Invite Only</option>
-            </select>
-            <input
-              type="text"
-              placeholder="Location..."
-              value={locationFilter}
-              onChange={e => setLocationFilter(e.target.value)}
-              className={styles.filterSelect}
-              style={{ width: '100px' }}
+            <label
+              className={styles.filterLabel}
+              onClick={resetAllFilters}
+              style={{
+                backgroundColor: isFilterApplied
+                  ? 'var(--primary-gray)'
+                  : 'var(--primary-white)',
+                border: isFilterApplied
+                  ? '1px solid var(--primary-gray)'
+                  : '1px solid black',
+              }}
+            >
+              Filters <FontAwesomeIcon icon={faCircleXmark} />
+            </label>
+            <GroupPageDropdown
+              label="Animal Type"
+              allDropdownOptions={animalTypes}
+              setSelectedDropdownOption={setAnimalTypeFilter}
+              selectedDropdownOption={animalTypeFilter}
+            />
+            <GroupPageDropdown
+              label="Group Type"
+              allDropdownOptions={['Public', 'Invite Only']}
+              setSelectedDropdownOption={setGroupTypeFilter}
+              selectedDropdownOption={groupTypeFilter}
+            />
+            <GroupPageDropdown
+              label="Location"
+              allDropdownOptions={['Calgary, AB', 'Banff, AB']}
+              setSelectedDropdownOption={setLocationFilter}
+              selectedDropdownOption={locationFilter}
             />
           </div>
           <div className={styles.groupsList}>
-            {filteredGroups.map(group => (
+            {filteredGroups.map((group) => (
               <div key={group.id} className={styles.groupCard}>
                 <img
                   src={group.imageUrl}
@@ -578,12 +807,18 @@ const GroupsPage: React.FC = () => {
                   onClick={() => handleOpenGroup(group)}
                 />
                 <div className={styles.groupCardContent}>
-                  <div className={styles.groupCardTitle} onClick={() => handleOpenGroup(group)}>
+                  <div
+                    className={styles.groupCardTitle}
+                    onClick={() => handleOpenGroup(group)}
+                  >
                     {group.name}
                   </div>
                   <div className={styles.groupCardLocation}>
                     {group.location} |{' '}
-                    <button className={styles.membersButton} onClick={() => handleViewMembers(group.id)}>
+                    <button
+                      className={styles.membersButton}
+                      onClick={() => handleViewMembers(group.id)}
+                    >
                       {group.members} members
                     </button>
                   </div>
@@ -595,9 +830,19 @@ const GroupsPage: React.FC = () => {
               </div>
             ))}
           </div>
-          <MembersModal visible={showMembersModal} members={currentMembers} onClose={() => setShowMembersModal(false)} />
+          <MembersModal
+            visible={showMembersModal}
+            members={currentMembers}
+            onClose={() => setShowMembersModal(false)}
+          />
         </>
       )}
+      <InfoModal
+        visible={infoModalVisible}
+        title={infoModalContent.title}
+        message={infoModalContent.message}
+        onClose={() => setInfoModalVisible(false)}
+      />
     </div>
   );
 };

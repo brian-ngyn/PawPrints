@@ -75,6 +75,7 @@ const CategorySelector = ({
           {allCategories.map((category) => (
             <div
               key={category}
+              className={selectedCategories.includes(category) ? styles.selected : ''}
               style={{
                 padding: '8px 16px',
                 cursor: 'pointer',
