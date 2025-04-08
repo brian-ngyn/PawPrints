@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import styles from './index.module.scss';
 import EventForm from '../../components/Events/EventForm';
+import EventPopup from '../../components/Events/EventPopup';
 
 interface Event {
   title: string;
@@ -78,6 +79,12 @@ const getUpcomingEvents = (events: Event[]) => {
 
 const Events = () => {
   const [showForm, setShowForm] = useState(false);
+  const [popup, setPopup] = useState<{
+    message: string;
+    onConfirm: () => void;
+    onCancel: () => void;
+  } | null>(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [calendarEvents, setCalendarEvents] = useState<Event[]>([
     {
@@ -108,27 +115,6 @@ const Events = () => {
       id: 'Cat Adoption Event-0',
     },
   ]);
-
-  const allEvents = useMemo(
-    () => [
-      ...calendarEvents.flatMap((event) => generateRecurringEvents(event)),
-      ...joinedEvents.flatMap((event) => generateRecurringEvents(event)),
-    ],
-    [calendarEvents, joinedEvents],
-  );
-
-  const upcomingEvents = getUpcomingEvents(allEvents);
-
-  const normalizeEventId = (event: Event): string => {
-    if (event.isRecurring) {
-      return event.id?.endsWith('-0') ? event.id : `${event.title}-0`;
-    }
-    return event.id || `${event.title}-${Date.now()}`;
-  };
-
-  const hostedEvents = calendarEvents.filter(
-    (event) => !event.isRecurring || event.id?.endsWith('-0'),
-  );
 
   const searchableEvents: Event[] = [
     {
@@ -181,6 +167,28 @@ const Events = () => {
     },
   ];
 
+  const allEvents = useMemo(
+    () => [
+      ...calendarEvents.flatMap((event) => generateRecurringEvents(event)),
+      ...joinedEvents.flatMap((event) => generateRecurringEvents(event)),
+      ...searchableEvents.flatMap((event) => generateRecurringEvents(event)),
+    ],
+    [calendarEvents, joinedEvents],
+  );
+
+  const myUpcomingEvents = joinedEvents;
+
+  const normalizeEventId = (event: Event): string => {
+    if (event.isRecurring) {
+      return event.id?.endsWith('-0') ? event.id : `${event.title}-0`;
+    }
+    return event.id || `${event.title}-${Date.now()}`;
+  };
+
+  const hostedEvents = calendarEvents.filter(
+    (event) => !event.isRecurring || event.id?.endsWith('-0'),
+  );
+
   const [typeFilter, setTypeFilter] = useState<string>('all');
 
   const filteredEvents =
@@ -216,11 +224,18 @@ const Events = () => {
     setShowForm(false);
   };
 
-  const handleJoinEvent = (eventToJoin: Event) => {
-    if (!joinedEvents.some((e) => e.id === eventToJoin.id)) {
-      setJoinedEvents([...joinedEvents, eventToJoin]);
+  const handleJoinEvent = async (eventToJoin: Event | undefined) => {
+    if (eventToJoin) {
+      const confirmed = await confirmWithPopup(
+        `Would you like to join "${eventToJoin.title}"?`,
+      );
+
+      if (confirmed && !joinedEvents.some((e) => e.id === eventToJoin.id)) {
+        setJoinedEvents([...joinedEvents, eventToJoin]);
+      }
+
+      setSearchQuery('');
     }
-    setSearchQuery('');
   };
 
   const [eventToEdit, setEventToEdit] = useState<Event | null>(null);
@@ -247,35 +262,51 @@ const Events = () => {
     setEventToEdit(null);
   };
 
-  const handleDeleteEvent = (eventId: string, isRecurring?: boolean) => {
-    if (isRecurring) {
-      const confirmed = window.confirm(
-        'This is a recurring event. This will delete all occurrences!',
-      );
+  const handleDeleteEvent = async (eventId: string, isRecurring?: boolean) => {
+    const message = isRecurring
+      ? 'This is a recurring event. This will delete all occurrences!'
+      : 'Are you sure you want to delete this event?';
 
-      if (confirmed) {
-        const baseId = eventId.split('-')[0];
-        setCalendarEvents(
-          calendarEvents.filter((event) => !event.id?.startsWith(baseId)),
-        );
-        setJoinedEvents(
-          joinedEvents.filter((event) => !event.id?.startsWith(baseId)),
-        );
-      }
+    const confirmed = await confirmWithPopup(message);
+    if (!confirmed) return;
+
+    if (isRecurring) {
+      const baseId = eventId.split('-')[0];
+      setCalendarEvents(
+        calendarEvents.filter((event) => !event.id?.startsWith(baseId)),
+      );
+      setJoinedEvents(
+        joinedEvents.filter((event) => !event.id?.startsWith(baseId)),
+      );
     } else {
-      if (window.confirm('Are you sure you want to delete this event?')) {
-        setCalendarEvents(
-          calendarEvents.filter((event) => event.id !== eventId),
-        );
-        setJoinedEvents(joinedEvents.filter((event) => event.id !== eventId));
-      }
+      setCalendarEvents(calendarEvents.filter((event) => event.id !== eventId));
+      setJoinedEvents(joinedEvents.filter((event) => event.id !== eventId));
     }
   };
 
-  const handleLeaveEvent = (eventId: string) => {
-    if (window.confirm('Are you sure you want to leave this event?')) {
-      setJoinedEvents(joinedEvents.filter((event) => event.id !== eventId));
-    }
+  const handleLeaveEvent = async (eventId: string) => {
+    const confirmed = await confirmWithPopup(
+      'Are you sure you want to leave this event?',
+    );
+    if (!confirmed) return;
+
+    setJoinedEvents(joinedEvents.filter((event) => event.id !== eventId));
+  };
+
+  const confirmWithPopup = (message: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      setPopup({
+        message,
+        onConfirm: () => {
+          setPopup(null);
+          resolve(true);
+        },
+        onCancel: () => {
+          setPopup(null);
+          resolve(false);
+        },
+      });
+    });
   };
 
   return (
@@ -372,6 +403,12 @@ const Events = () => {
                     ? styles.recurringEvent
                     : ''
                 }
+                style={{ color: 'black', cursor: 'pointer' }}
+                onClick={() =>
+                  handleJoinEvent(
+                    allEvents.find((e) => e.id === eventInfo.event.id),
+                  )
+                }
               >
                 <b>{eventInfo.event.title}</b>
                 <p>{eventInfo.event.extendedProps.location}</p>
@@ -382,14 +419,14 @@ const Events = () => {
       </div>
 
       <div className={styles.titleRow}>
-        <h2>Upcoming Events</h2>
+        <h2>My Upcoming Events</h2>
       </div>
 
       <hr className={styles.separator} />
 
       <div className={styles.eventsListContainer}>
         <div className={styles.eventsList}>
-          {upcomingEvents.map((event, index) => (
+          {myUpcomingEvents.map((event, index) => (
             <div key={event.id || index} className={styles.eventCard}>
               <div className={styles.eventHeader}>
                 <h3>{event.title}</h3>
@@ -417,9 +454,9 @@ const Events = () => {
                   <>
                     <button
                       className={styles.editButton}
-                      onClick={() => handleEditEvent(event)}
+                      onClick={() => handleLeaveEvent(event.id)}
                     >
-                      Edit
+                      Leave
                     </button>
                   </>
                 )}
@@ -504,6 +541,14 @@ const Events = () => {
           }}
           onSubmit={eventToEdit ? handleUpdateEvent : handleCreateEvent}
           eventToEdit={eventToEdit}
+        />
+      )}
+
+      {popup && (
+        <EventPopup
+          content={popup.message}
+          onConfirm={popup.onConfirm}
+          onCancel={popup.onCancel}
         />
       )}
     </div>
