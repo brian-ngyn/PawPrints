@@ -30,6 +30,13 @@ const [selectedActivityCategories, setSelectedActivityCategories] = useState<str
 
 const SearchPage = () => {
   let navigate = useNavigate();
+
+  const [searchSaved, setSaved] = useState(false);
+  const [searchFollowed, setFollowed] = useState(false);
+
+  function search() {
+
+  }
   
   return<div className={styles.page}>
     <div className={styles.pageHeading}>
@@ -47,8 +54,8 @@ const SearchPage = () => {
 
     <div className={styles.postOptions}>
       <div className={styles.searchTypeContainer}>
-        <button className={styles.searchTypeOption}>Search for Events</button>
-        <button className={styles.searchTypeOption}>Search for Groups</button>
+        <button className={styles.searchTypeOption} onClick={() => navigate("/events")}>Search for Events</button>
+        <button className={styles.searchTypeOption} onClick={() => navigate("/groups")}>Search for Groups</button>
       </div>
 
       <div className={styles.dropdownBox}>
@@ -104,7 +111,8 @@ const SearchPage = () => {
         >
           <input
             type="checkbox"
-            
+            checked={searchFollowed}
+            onChange={(e) => setFollowed(e.target.checked)}
           ></input>
           <span className={styles.checkmark}></span>
         </label>
@@ -118,11 +126,12 @@ const SearchPage = () => {
         >
           <input
             type="checkbox"
-            
+            checked={searchSaved}
+            onChange={(e) => setSaved(e.target.checked)}
           ></input>
           <span className={styles.checkmark}></span>
         </label>
-        <div className={styles.optionText}>Only people I follow</div>
+        <div className={styles.optionText}>Only posts I've saved</div>
       </button>
     </div>
       
