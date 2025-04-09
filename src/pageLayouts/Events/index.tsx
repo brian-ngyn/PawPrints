@@ -177,7 +177,10 @@ const Events = () => {
     [calendarEvents, joinedEvents],
   );
 
-  const myUpcomingEvents = joinedEvents;
+  const myUpcomingEvents = useMemo(() => {
+    const allMyEvents = [...joinedEvents, ...calendarEvents];
+    return getUpcomingEvents(allMyEvents);
+  }, [joinedEvents, calendarEvents]);
 
   const normalizeEventId = (event: Event): string => {
     if (event.isRecurring) {
@@ -194,19 +197,25 @@ const Events = () => {
 
   const filteredEvents = useMemo(() => {
     if (!searchQuery && typeFilter === 'all') {
-      return allEvents;
-    } else {
-      return allEvents.filter((event) => {
-        const isInTitle =
-          event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          event.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          event.location.toLowerCase().includes(searchQuery.toLowerCase());
-        const isInType = typeFilter === 'all' || event.type === typeFilter;
-
-        return isInTitle && isInType;
-      });
+      return [];
     }
-  }, [searchQuery, typeFilter, allEvents]);
+
+    return searchableEvents.filter((event) => {
+      // filter out events that are already hosted or joined
+      const isHosted = calendarEvents.some((e) => e.id === event.id);
+      const isJoined = joinedEvents.some((e) => e.id === event.id);
+      if (isHosted || isJoined) return false;
+
+      const matchesSearch =
+        event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesType = typeFilter === 'all' || event.type === typeFilter;
+
+      return matchesSearch && matchesType;
+    });
+  }, [searchQuery, typeFilter, searchableEvents, calendarEvents, joinedEvents]);
 
   const handleOpenForm = () => {
     setShowForm(true);
@@ -395,30 +404,52 @@ const Events = () => {
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin]}
             initialView="dayGridMonth"
-            events={filteredEvents}
+            events={searchQuery ? filteredEvents : allEvents}
             headerToolbar={{
               left: 'prev,next today',
               center: 'title',
               right: 'dayGridMonth,timeGridWeek,timeGridDay',
             }}
-            eventContent={(eventInfo) => (
-              <div
-                className={
-                  eventInfo.event.extendedProps.isRecurring
-                    ? styles.recurringEvent
-                    : ''
-                }
-                style={{ color: 'black', cursor: 'pointer' }}
-                onClick={() =>
-                  handleJoinEvent(
-                    allEvents.find((e) => e.id === eventInfo.event.id),
-                  )
-                }
-              >
-                <b>{eventInfo.event.title}</b>
-                <p>{eventInfo.event.extendedProps.location}</p>
-              </div>
-            )}
+            eventContent={(eventInfo) => {
+              const isHosted = calendarEvents.some((e) =>
+                eventInfo.event.id?.startsWith(e.id?.split('-')[0] || ''),
+              );
+              const isJoined = joinedEvents.some((e) =>
+                eventInfo.event.id?.startsWith(e.id?.split('-')[0] || ''),
+              );
+              const isClickable = !isHosted && !isJoined;
+
+              return (
+                <div
+                  className={
+                    eventInfo.event.extendedProps.isRecurring
+                      ? styles.recurringEvent
+                      : ''
+                  }
+                  style={{
+                    color: 'black',
+                    cursor: isClickable ? 'pointer' : 'default',
+                    opacity: isClickable ? 1 : 0.7,
+                  }}
+                  onClick={() => {
+                    if (isClickable) {
+                      const event = allEvents.find(
+                        (e) => e.id === eventInfo.event.id,
+                      );
+                      handleJoinEvent(event);
+                    }
+                  }}
+                >
+                  <b>{eventInfo.event.title}</b>
+                  <p>{eventInfo.event.extendedProps.location}</p>
+                  {(isHosted || isJoined) && (
+                    <div style={{ fontSize: '0.8em', fontStyle: 'italic' }}>
+                      {isHosted ? 'Your event' : 'Already joined'}
+                    </div>
+                  )}
+                </div>
+              );
+            }}
           />
         </div>
       </div>
@@ -455,16 +486,6 @@ const Events = () => {
                 </div>
               )}
               <div className={styles.eventActions}>
-                {calendarEvents.some((e) => e.id === event.id) && (
-                  <>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => handleLeaveEvent(event.id)}
-                    >
-                      Leave
-                    </button>
-                  </>
-                )}
                 {!calendarEvents.some((e) => e.id === event.id) &&
                   joinedEvents.some((e) => e.id === event.id) && (
                     <button
