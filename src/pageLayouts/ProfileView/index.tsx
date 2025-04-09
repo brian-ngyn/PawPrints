@@ -100,8 +100,9 @@ const ProfileView = () => {
         <h3>Recent Posts</h3>
           <div className={styles.newPosts}>
             {filteredPosts.length > 0 ? (
-              filteredPosts.map((post) => (
+              filteredPosts.map((post, index) => (
                 <Post
+                  key = {index}
                   user = {post.user}
                   userimgsrc = {post.userimgsrc}
                   title = {post.title}

@@ -411,7 +411,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
   };
 
   const handleCreatePost = (content: string) => {
-    const newPost = { user: username, userimgsrc: (profilePic ? profilePic : 'https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png'), id: Date.now(), content };
+    const newPost = { user: username, userimgsrc: (profilePic ? profilePic : 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png'), id: Date.now(), content };
     setPostsState((prev) => [newPost, ...prev]);
     setShowCreatePostModal(false);
   };
@@ -484,8 +484,8 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
           </button>
         )}
       </div>
-      <div className={styles.postsContainer}>
         <h3>Posts</h3>
+      <div className={styles.postsContainer}>
         {postsState.length === 0 ? (
           <p className={styles.noPosts}>No posts yet.</p>
         ) : (

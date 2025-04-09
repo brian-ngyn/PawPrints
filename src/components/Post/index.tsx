@@ -4,6 +4,7 @@ import { memo } from 'react';
 
 import styles from './index.module.scss';
 import { type Post as PostType } from '../../contexts/PostsContext';
+import { useNavigate } from 'react-router';
 
 const NoContent = <div></div>;
 const LineBreak = <br></br>;
@@ -35,7 +36,7 @@ const Post = ({
     }
   }
 
-  //let navigate = useNavigate();
+  let navigate = useNavigate();
 
   let preText = LineBreak;
   let imagediv = NoContent;
@@ -83,6 +84,16 @@ const Post = ({
     preSponsor = NoContent;
   }
 
+  
+  const handleUsernameClick = (username: string) => {
+    if(username === 'JohnTheVet'){
+      navigate('/dummyProfile');
+    }
+    else{
+      navigate('/profileView');
+    }
+  }
+
   return (
     <div className={styles.outerBox}>
       <div className={styles.post}>
@@ -95,7 +106,7 @@ const Post = ({
             alt=""
             border-radius="50%"
           ></img>
-          <div className={styles.postUser}>{user}</div>
+          <div onClick={() => handleUsernameClick(user)} style={{ cursor: 'pointer' }} className={styles.postUser}>{user}</div>
           <div className={styles.dateText}>
             {difference} {dateUnits} ago
           </div>

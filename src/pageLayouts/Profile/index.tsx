@@ -158,9 +158,9 @@ const Profile = () => {
       setDescription(localDescription);
     }
     // pet username
-    if (localPetUsername) {
-      setPetUsername(localPetUsername);
-    }
+    //if (localPetUsername) {
+    setPetUsername(localPetUsername);
+    //}
     // pet description
     if (localPetDescription) {
       setPetDescription(localPetDescription);

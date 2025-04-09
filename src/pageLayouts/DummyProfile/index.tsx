@@ -1,11 +1,33 @@
 import { FaEnvelope, FaUserPlus, FaCog, FaMapMarkerAlt } from 'react-icons/fa';
 import Post from '../../components/Post';
 import styles from './index.module.scss';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 //import { useNavigate } from 'react-router';
+import { usePosts } from '../../contexts/PostsContext';
 
 const DummyProfileView = () => {
   //let navigate = useNavigate();
+  const { getPosts } = usePosts();
+  const [isPopupVisible1, setIsPopupVisible1] = useState(false);
+  const [isPopupVisible2, setIsPopupVisible2] = useState(false);
+
+  
+
+  const posts = getPosts();
+  const filteredPosts = posts.filter((post) => post.user === 'JohnTheVet');
+
+  const handlePopup1Enable = () => {
+    setIsPopupVisible1(true);
+  };
+
+  const handlePopup2Enable = () => {
+    setIsPopupVisible2(true);
+  }
+
+  const handleCancelLeave = () => {
+    setIsPopupVisible1(false);
+    setIsPopupVisible2(false);
+  };
 
   return (
     <div className={styles.profileViewContainer}>
@@ -19,7 +41,7 @@ const DummyProfileView = () => {
           />
         </div>
         <div className={styles.profileInfo}>
-          <h2 className={styles.username}>{'John The Vet'}</h2>
+          <h2 className={styles.username}>{'JohnTheVet'}</h2>
           <p className={styles.description}>
             {
               'I am a Vet, hoping to give easy to digest and understand health tips for pets!'
@@ -44,10 +66,10 @@ const DummyProfileView = () => {
         {/* Revealing this cause you are looking at someone elses profile */}
 
         <div className={styles.profileActions}>
-          <button className={styles.messageButton}>
+          <button onClick={handlePopup1Enable} className={styles.messageButton}>
             <FaEnvelope className={styles.icon1} />
           </button>
-          <button className={styles.followButton}>
+          <button onClick={handlePopup2Enable} className={styles.followButton}>
             <FaUserPlus className={styles.icon1} />
           </button>
         </div>
@@ -69,22 +91,67 @@ const DummyProfileView = () => {
 
       {/* Recent Posts Section ... 7 breaks */}
       <div className={styles.recentPosts}>
-        <h3>Recent Posts</h3>
-        <Post
-          user="John The Vet"
-          title="I love really cool animals!"
-          text=""
-          isSponsored={false}
-          isSaved={false}
-          eventLink=""
-          shopLink=""
-          media=""
-          link=""
-          userimgsrc={'/JohnProfilePicture.png'}
-          timestamp={new Date('2025-04-02T12:00:00Z')}
-        />
+      <h3>Recent Posts</h3>
+          <div className={styles.newPosts}>
+            {filteredPosts.length > 0 ? (
+              filteredPosts.map((post, index) => (
+                <Post
+                  key = {index}
+                  user = 'JohnTheVet'
+                  userimgsrc = '/JohnProfilePicture.png'
+                  title = {post.title}
+                  text = {post.text}
+                  isSaved = {post.isSaved}
+                  isSponsored = {post.isSponsored}
+                  eventLink = {post.eventLink}
+                  shopLink = {post.shopLink}
+                  media = {post.media}
+                  link = {post.link}
+                  id = {post.id}
+                  timestamp = {post.timestamp}
+                />
+              ))
+            ) : (
+              <p> No posts available.</p>
+            )}
+          </div>
 
-        {/* Could possibly add more posts here if necessary */}
+          {isPopupVisible1 && (
+            <div className={styles.popupOverlay}>
+              <div className={styles.popup}>
+                <h3>
+                  This user is only accepting messages from friends. 
+                  Try adding them as a friend if you wish to message them. 
+                </h3>
+                <div className={styles.popupButtons}>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={handleCancelLeave}
+                  >
+                    Ok
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {isPopupVisible2 && (
+            <div className={styles.popupOverlay}>
+              <div className={styles.popup}>
+                <h3>
+                  Your friend request was sent successfully! 
+                  (Feature is still in development) 
+                </h3>
+                <div className={styles.popupButtons}>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={handleCancelLeave}
+                  >
+                    Ok
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
       </div>
     </div>
   );

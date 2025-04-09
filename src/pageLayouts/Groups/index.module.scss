@@ -318,7 +318,8 @@
 }
 
 .postsContainer {
-  max-height: 700px;
+  //max-height: 700px;
+  max-height: 350px;
   overflow-y: scroll;
   padding: 1rem;
   scrollbar-width: none;

@@ -124,7 +124,6 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
     },
   ]);
 
-  // 
   useEffect(() => {
     setPosts((prevPosts) =>
       prevPosts.map((post) => ({

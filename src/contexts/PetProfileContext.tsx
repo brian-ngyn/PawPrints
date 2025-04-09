@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 interface PetProfileContextType {
-  petUsername: string;
-  setPetUsername: (petUsername: string) => void;
+  petUsername: string | null;
+  setPetUsername: (petUsername: string | null) => void;
   petDescription: string;
   setPetDescription: (petDescription: string) => void;
 }
@@ -22,7 +22,7 @@ export const usePetProfile = () => {
 };
 
 export const PetProfileProvider: React.FC<PetProfileProviderProps> = ({ children }) => {
-  const [petUsername, setPetUsername] = useState<string>('');
+  const [petUsername, setPetUsername] = useState<string | null>('');
   const [petDescription, setPetDescription] = useState<string>('I am a new pet! I will probably get an About Me soon!');
 
   return (
