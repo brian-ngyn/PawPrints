@@ -1,21 +1,77 @@
 import { memo } from 'react';
 
 import styles from './index.module.scss';
+import {
+  faShop,
+  faChain,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SearchHeader from '../../components/SearchHeader';
 import Feed from '../../components/Feed';
+import { useNavigate } from 'react-router';
+import Post from '../../components/Post';
+import { usePosts } from '../../contexts/PostsContext';
+import {followedOnly, getCategories,getFollowed,getQuery,getSaved} from '../SearchPage/data'
 
-const Home = () => {
+const SearchResults = () => {
+  let navigate = useNavigate();
+
+  const { getPosts } = usePosts();
+  const query = getQuery();
+  let filteredPosts = getPosts();
+  if (getSaved()) {
+    filteredPosts = filteredPosts.filter((post) => post.isSaved)
+  }
+  if (getFollowed()) {
+    //following isn't a feature we have yet
+  }
+  filteredPosts = filteredPosts.filter((post) => post.text.includes(getQuery()));
+  
+  let resultName = "Result: ".concat(query);
+  if (query == "") {
+    resultName = "Search Results"
+  }
+
   return (
-    <div className={styles.home}>
-      <SearchHeader />
+    <div className={styles.page}>
+      <div className={styles.pageHeading}>
+      <FontAwesomeIcon
+        className={styles.backButton}
+        icon={faChevronLeft}
+        color="white"
+        size="2xs"
+        onClick={() => navigate('/search')}
+      />
+      <div>{resultName}</div>
+    </div>
       <div className={styles.feedSeperator}></div>
       <div className={styles.feed}>
         <div className={styles.feedStart}></div>
-        <Feed></Feed>
+        <ul style={{ padding: 'unset' }}>
+              {filteredPosts.map((post) => (
+                <Post
+                  key={post.id}
+                  user={post.user}
+                  userimgsrc={post.userimgsrc}
+                  title={post.title}
+                  text={post.text}
+                  isSaved={post.isSaved}
+                  isSponsored={post.isSponsored}
+                  eventLink={post.eventLink}
+                  shopLink={post.shopLink}
+                  media={post.media}
+                  link={post.link}
+                  id={post.id}
+                  categories={['']}
+                  timestamp={post.timestamp}
+                ></Post>
+              ))}
+            </ul>
         <div className={styles.feedEnd}></div>
       </div>
     </div>
   );
 };
 
-export default memo(Home);
+export default memo(SearchResults);

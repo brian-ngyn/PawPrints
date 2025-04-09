@@ -33,8 +33,8 @@ const [selectedActivityCategories, setSelectedActivityCategories] = useState<str
 const SearchPage = () => {
   let navigate = useNavigate();
 
-  const [searchSaved, setSaved] = useState(getSaved());
-  const [searchFollowed, setFollowed] = useState(getFollowed());
+  const [searchSaved, setSearchSaved] = useState(getSaved());
+  const [searchFollowed, setSearchFollowed] = useState(getFollowed());
   const [searchQuery, setSearchQuery] = useState(getQuery());
 
   function search() {
@@ -132,7 +132,7 @@ const SearchPage = () => {
           <input
             type="checkbox"
             checked={searchFollowed}
-            onChange={(e) => setFollowed(e.target.checked)}
+            onChange={(e) => setSearchFollowed(e.target.checked)}
           ></input>
           <span className={styles.checkmark}></span>
         </label>
@@ -147,7 +147,7 @@ const SearchPage = () => {
           <input
             type="checkbox"
             checked={searchSaved}
-            onChange={(e) => setSaved(e.target.checked)}
+            onChange={(e) => setSearchSaved(e.target.checked)}
           ></input>
           <span className={styles.checkmark}></span>
         </label>
