@@ -23,6 +23,15 @@ const Profile = () => {
   const { petUsername, petDescription, setPetUsername, setPetDescription } =
     usePetProfile();
   const { location, setLocation } = useLocation();
+  const [checkboxes, setCheckboxes] = useState({
+    sales: false,
+    events: false,
+    likes: false,
+    comments: false,
+    posts: true,
+    bell: true,
+    email: false,
+  });
 
   const [activeTab, setActiveTab] = useState('General');
   const [profilePic, setLocalProfilePic] = useState<string | null>(null);
@@ -78,6 +87,14 @@ const Profile = () => {
     }
   }, [location]);
 
+
+  useEffect(() => {
+    const savedState = sessionStorage.getItem('checkboxesState');
+    if (savedState) {
+      setCheckboxes(JSON.parse(savedState));
+    }
+  }, []);
+
   // keeping privacy consistent for video
   useEffect(() => {
     const storedSelectedNonsense1 = sessionStorage.getItem('selectedNonsense1');
@@ -102,6 +119,14 @@ const Profile = () => {
       setSelectedNonsense5([storedSelectedNonsense5]);
     }
   }, []);
+
+  const handleCheckboxChange = (event: { target: { id: any; checked: any; }; }) => {
+    const { id, checked } = event.target;
+    setCheckboxes((prevState) => ({
+      ...prevState,
+      [id]: checked,
+    }));
+  };
 
   const handleReturnToProfileClick = () => {
     setIsPopupVisible1(true);
@@ -184,6 +209,7 @@ const Profile = () => {
     }
 
     // notification
+    sessionStorage.setItem('checkboxesState', JSON.stringify(checkboxes));
 
     setIsPopupVisible(true);
     setTimeout(() => {
@@ -326,7 +352,7 @@ const Profile = () => {
                 <label>
                   <FaEnvelope className={styles.icon1} />
                 </label>
-                <input type="checkbox" id="email-checkbox"/>
+                <input type="checkbox" id="email" checked={checkboxes.email} onChange={handleCheckboxChange}/>
               </div>
               <div className={styles.notifyOption}>
                 <br></br>
@@ -335,29 +361,29 @@ const Profile = () => {
                   {' '}
                   <FaBell className={styles.icon1} />
                 </label>
-                <input type="checkbox" id="bell-checkbox" />
+                <input type="checkbox" id="bell" checked={checkboxes.bell} onChange={handleCheckboxChange}/>
               </div>
 
               <label>Notify Me About:</label>
               <div className={styles.notifyOption}>
                 <label id="sales-label">Sales</label>
-                <input type="checkbox" id="sales-checkbox" />
+                <input type="checkbox" id="sales" checked={checkboxes.sales} onChange={handleCheckboxChange}/>
               </div>
               <div className={styles.notifyOption}>
                 <label id="events-label">Events</label>
-                <input type="checkbox" id="events-checkbox" />
+                <input type="checkbox" id="events" checked={checkboxes.events} onChange={handleCheckboxChange}/>
               </div>
               <div className={styles.notifyOption}>
                 <label id="likes-label">Likes</label>
-                <input type="checkbox" id="likes-checkbox" />
+                <input type="checkbox" id="likes" checked={checkboxes.likes} onChange={handleCheckboxChange}/>
               </div>
               <div className={styles.notifyOption}>
                 <label id="comments-label">Comments</label>
-                <input type="checkbox" id="comments-checkbox" />
+                <input type="checkbox" id="comments" checked={checkboxes.comments} onChange={handleCheckboxChange}/>
               </div>
               <div className={styles.notifyOption}>
                 <label id="posts-label">Posts</label>
-                <input type="checkbox" id="posts-checkbox" />
+                <input type="checkbox" id="posts" checked={checkboxes.posts} onChange={handleCheckboxChange}/>
               </div>
             </div>
           )}
