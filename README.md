@@ -68,8 +68,14 @@ Then save your changes, and return to your profile.
 
 You can now see your updated profile! Now we'll move on to other sections of the app. 
 ### Home Page:
+The Home Page is available upon first opening the application, or by clicking the Home button.
+The Home Page is made of a few key elements: the Notification Center (denoted with the Bell icon), the Search, the New Post button, and the Feed.
+Using the Feed:
 ```
-info here
+The Feed displays all available posts. We have pre-loaded some posts to display various features of our posting system that can be viewed. To 
+```
+```
+ 
 ```
 ### Events Page:
 ```
