@@ -84,6 +84,11 @@ const animalTypes: string[] = [
 
 const mainUser: Member = {
   id: 1,
+  name: 'Olivia',
+  userimgsrc: '/images/default-avatar.png',
+};
+const secondUser: Member = {
+  id: 1,
   name: 'JohnTheVet',
   userimgsrc: '/images/JohnProfilePicture.png',
 };
@@ -540,11 +545,12 @@ const GroupsPage: React.FC = () => {
   const [showMembersModal, setShowMembersModal] = useState(false);
   const [currentMembers, setCurrentMembers] = useState<Member[]>([]);
 
-  // For group 1, start with John plus 44 dummy members.
+  // For group 1, start with Olivia plus 44 dummy members.
   const [groupMembers, setGroupMembers] = useState<{ [key: number]: Member[] }>(
     {
       1: [
         mainUser,
+        secondUser,
         ...Array.from({ length: 44 }, (_, i) => ({
           id: i + 2,
           name: `Member ${i + 2}`,

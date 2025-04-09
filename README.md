@@ -75,10 +75,59 @@ info here
 ```
 info here
 ```
-### Groups Page:
-```
-info here
-```
+### Group Page:
+---
+
+#### 1. Browsing, searching, and filtering groups
+1. Tap the **Groups** icon in the footer to open the **Browse Groups** page.  
+2. In the search bar at the top, type **Dog** and press Enter – only dog‑related groups should appear.  
+3. Clear the search text to reset the list.  
+4. Expand the **Filters ▾** panel:  
+    Use the **Animal Type** dropdown and pick **Dog** – groups whose animal type Dog should disappear.  
+    Switch **Group Type** between **Public** and **Invite Only** to see the list update.  
+    Choose a **Location** such as **Calgary, AB** to narrow results geographically.  
+5. Click the **✕** beside **Filters** to clear all filters and restore the full list.  
+6. Press **Join** on any public group (e.g., **New Dog Owners**).  
+    The button text changes to **Cancel Request** (or **Leave Group** if auto‑approved).  
+    Press it again to verify you can withdraw the request.
+
+---
+
+#### 2. Creating a new group
+1. From **Browse Groups**, hit the **＋ New Group** button in the top‑right corner.  
+2. Fill in the form:  
+    **Title:** “Calgary Cat Lovers”  
+    **Description:** “A friendly place to swap cat care tips.”  
+    **Location:** “Calgary, AB”  
+    **Animal Type:** select **Cat**  
+    **Group Image:** upload any square image of a cat  
+    **Joining Policy:** leave as **Public** (or switch to **Invite Only** to test that flow)  
+3. Press **Save** – you should be redirected back to **Browse Groups** and see the new group listed.  
+4. Tap on the group you just created; because you are the creator, membership is instant and the button should now read **Joined**.
+
+---
+
+#### 3. Interacting inside a group
+1. Click the group card to enter the **Group Detail** page.  
+2. Verify the header shows the group image, name, location, member count, and the buttons **Create Post** & **Leave Group**.  
+3. **Viewing members:**  
+    Click the member‑count link (e.g., “46 members”).  
+    A popup/modal should list all current members; close it with the **Close** button.  
+4. **Creating a post:**  
+    Hit **Create Post**.  
+    In the dialog, type “Does anyone have tips for crate training?” and press **Post**.  
+    Confirm it appears at the top of the feed with your username.  
+5. **Leaving the group:**  
+    Press **Leave Group**.
+    You would be prompted if you are sure you want to leave the group? Tap yes to agree or cancel.
+    You should be returned to **Browse Groups** and the button on that card reverts to **Join**.
+6. **Deleting a group**
+    Press **Delete Group**,
+    You would be asked to confirm if you want to delete the group or not.
+    Tap Yes, Delete or Cancel.
+
+---
+
 ### Shop Page:
 ```
 info here
