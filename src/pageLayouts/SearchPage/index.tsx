@@ -33,6 +33,7 @@ const SearchPage = () => {
 
   const [searchSaved, setSaved] = useState(false);
   const [searchFollowed, setFollowed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   function search() {
 
@@ -50,7 +51,21 @@ const SearchPage = () => {
       <div>Search</div>
     </div>
 
-    <div className={styles.searchContainer}><SearchBar/></div>
+    <div className={styles.filterControls}>
+      <input
+        type="text"
+        className={styles.searchBar}
+        placeholder="Search for... kittens"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+
+      <div className={styles.searchAction}>
+        <div className={styles.confirmButton} >
+          Search
+        </div>
+      </div>
+    </div>
 
     <div className={styles.postOptions}>
       <div className={styles.searchTypeContainer}>
@@ -133,12 +148,6 @@ const SearchPage = () => {
         </label>
         <div className={styles.optionText}>Only posts I've saved</div>
       </button>
-    </div>
-      
-    <div className={styles.searchAction}>
-      <div className={styles.confirmButton} >
-        Search
-      </div>
     </div>
 
     <div className = {styles.optionExtraSpace} />
