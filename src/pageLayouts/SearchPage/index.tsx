@@ -37,6 +37,14 @@ const SearchPage = () => {
   const [searchFollowed, setSearchFollowed] = useState(getFollowed());
   const [searchQuery, setSearchQuery] = useState(getQuery());
 
+  addEventListener("keydown", (event) => {});
+
+  onkeydown = (event) => {
+    if (event.key == "Enter") {
+      search();
+    }
+  };
+
   function search() {
     setSaved(searchSaved)
     setFollowed(searchFollowed)
@@ -63,6 +71,7 @@ const SearchPage = () => {
         placeholder="Search for... kittens"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        onSubmit={() => search()}
       />
 
       <div className={styles.searchAction}>
