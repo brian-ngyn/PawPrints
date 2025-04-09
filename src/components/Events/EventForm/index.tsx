@@ -39,6 +39,12 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
   const [recurrencePattern, setRecurrencePattern] = useState<
     Event['recurrencePattern']
   >(eventToEdit?.recurrencePattern || 'weekly');
+  const [recurrenceEnd, setRecurrenceEnd] = useState(
+    eventToEdit?.recurrenceEnd || '',
+  );
+  const [type, setType] = useState<Event['type']>(
+    eventToEdit?.type || 'educational',
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,20 +57,17 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
       ...(isRecurring && {
         isRecurring: true,
         recurrencePattern,
+        ...(recurrenceEnd && { recurrenceEnd }),
       }),
     };
     onSubmit(newEvent);
     onClose();
   };
 
-  const [type, setType] = useState<Event['type']>(
-    eventToEdit?.type || 'educational',
-  );
-
   return (
     <div className={styles.eventFormOverlay}>
       <div className={styles.eventForm}>
-        <h2>Create Event</h2>
+        <h2>{eventToEdit ? 'Edit Event' : 'Create Event'}</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
             <label>Title</label>
@@ -132,19 +135,37 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
 
             {isRecurring && (
               <div className={styles.recurrenceOptions}>
-                <label>Repeat every:</label>
-                <select
-                  value={recurrencePattern}
-                  onChange={(e) =>
-                    setRecurrencePattern(
-                      e.target.value as Event['recurrencePattern'],
-                    )
-                  }
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                  }}
                 >
-                  <option value="weekly">Week</option>
-                  <option value="biweekly">2 Weeks</option>
-                  <option value="monthly">Month</option>
-                </select>
+                  <div>
+                    <label>Repeat every:</label>
+                    <select
+                      value={recurrencePattern}
+                      onChange={(e) =>
+                        setRecurrencePattern(
+                          e.target.value as Event['recurrencePattern'],
+                        )
+                      }
+                    >
+                      <option value="weekly">Week</option>
+                      <option value="biweekly">2 Weeks</option>
+                      <option value="monthly">Month</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>End date (optional):</label>
+                    <input
+                      type="date"
+                      value={recurrenceEnd}
+                      onChange={(e) => setRecurrenceEnd(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -153,7 +174,9 @@ const EventForm = ({ onClose, onSubmit, eventToEdit }: EventFormProps) => {
             <button type="button" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit">Create Event</button>
+            <button type="submit">
+              {eventToEdit ? 'Update Event' : 'Create Event'}
+            </button>
           </div>
         </form>
       </div>
