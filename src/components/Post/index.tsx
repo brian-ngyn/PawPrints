@@ -5,6 +5,7 @@ import { memo } from 'react';
 import styles from './index.module.scss';
 import { type Post as PostType } from '../../contexts/PostsContext';
 import { useNavigate } from 'react-router';
+import { savedOnly } from '../../pageLayouts/SearchPage/data';
 
 const NoContent = <div></div>;
 const LineBreak = <br></br>;
@@ -84,6 +85,18 @@ const Post = ({
     preSponsor = NoContent;
   }
 
+  /*let saveColours=["black","#a1b5d8"]
+  let savedColor = 0
+  if (isSaved) {
+    savedColor = 1
+  }
+
+  function toggleSaved() {
+    console.log("flipping")
+    isSaved=(!isSaved)
+    savedColor=1-savedColor;
+    console.log("save val: ", isSaved, " col: ", savedColor)
+  }*/
   
   const handleUsernameClick = (username: string) => {
     if(username === 'JohnTheVet'){
@@ -129,9 +142,9 @@ const Post = ({
       </div>
 
       <div className={styles.buttonIcons}>
-        <div className={styles.actionButton}>
-          <FontAwesomeIcon icon={faBookmark} size="1x" />
-        </div>
+        <button className={styles.actionButton} onClick={() => /*toggleSaved()*/(0)}>
+          <FontAwesomeIcon icon={faBookmark} size="1x" color={/*saveColours[savedColor]*/"black"}/>
+        </button>
         <div className={styles.actionButton}>
           <div className={styles.mirrored}>
             <FontAwesomeIcon icon={faComment} size="1x" />
