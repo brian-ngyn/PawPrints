@@ -73,7 +73,58 @@ info here
 ```
 ### Events Page:
 ```
-info here
+Click on the calendar icon in the footer to access the Events page.
+By default you'll see a monthly calendar view with all events displayed (events you've joined, searchable events, and events you are hosting).
+
+To change views:
+- Click "Day" to see events for a single day
+- Click "Week" for a weekly overview
+- Click "Month" to return to the monthly view
+Use the arrows in the top left to navigate between time periods.
+
+Events you are hosting or have joined appear slightly faded.
+```
+To join an event:
+```
+1. Click on any non-grayed out event in the calendar (grayed events are ones you're already hosting / joined).
+2. A popup will ask "Would you like to join [Event Name]?"
+3. Click "Confirm" to join or "Cancel" to decline.
+```
+Search for a specific event:
+```
+1. Type in the search bar (e.g., "adoption" or "training")
+2. The calendar will filter to show matching events
+3. Matching events will appear in the "Search Results" section below
+4. Click "Join" on any search result to participate
+
+You may use the filter to the right of the search bar to narrow down results even further.
+```
+Managing your events:
+```
+In the "Events I'm Hosting" section:
+- Click "Edit" to modify event details (date, description, etc.)
+- Click "Delete" to remove an event
+(For recurring events, deleting will remove all occurrences)
+
+In the "My Upcoming Events" section:
+- Click "Leave" to withdraw from an event you've joined
+```
+Creating new events:
+```
+To host a new event:
+1. Click the "+ New Event" button in the top right
+2. Fill in the event details:
+   - Title (e.g., "Dog Training Workshop")
+   - Description (e.g., "Basic obedience training for puppies")
+   - Date and time using the date picker
+   - Location (e.g., "Central Park Dog Area")
+   - Event type from the dropdown (e.g., "Training")
+3. For recurring events:
+   - Toggle "Recurring Event" ON
+   - Select frequency: Weekly, Biweekly, or Monthly
+   - Set an end date (optional)
+4. Click "Create Event"
+Your new event will appear in both the calendar and "Events I'm Hosting" section.
 ```
 ### Group Page:
 ---
