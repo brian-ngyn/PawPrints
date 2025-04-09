@@ -273,6 +273,27 @@
   }
 }
 
+.resetAction {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30;
+  margin-bottom: 50px;
+}
+
+.cancelButton {
+  background-color: var(--secondary-white);
+  // color: red;
+  border: 1px solid black;
+  color: black;
+
+  &:hover {
+    background-color: var(--primary-red);
+  }
+}
+
 .optionExtraSpace {
   height:100px;
 }

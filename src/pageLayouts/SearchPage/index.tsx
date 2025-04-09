@@ -51,6 +51,13 @@ const SearchPage = () => {
     setQuery(searchQuery)
     navigate("/searchResults")
   }
+
+  function reset() {
+    resetSearch()
+    setSearchSaved(getSaved())
+    setSearchFollowed(getFollowed())
+    setSearchQuery(getQuery())
+  }
   
   return<div className={styles.page}>
     <div className={styles.pageHeading}>
@@ -162,6 +169,13 @@ const SearchPage = () => {
         </label>
         <div className={styles.optionText}>Only posts I've saved</div>
       </button>
+    </div>
+
+    <div className={styles.resetAction}>
+      <div></div>
+      <div className={styles.cancelButton} onClick={() => reset()}>
+            Clear Search Criteria
+      </div>
     </div>
 
     <div className = {styles.optionExtraSpace} />
