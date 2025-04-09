@@ -80,6 +80,37 @@ info here
 info here
 ```
 ### Shop Page:
+
+Let’s start with exploring the Shop page
 ```
-info here
+First, click on the shop icon in the bottom navigation bar to enter the shop page
+You'll see a catalog of pet-related products ready to browse
+At the top, try typing something into the search bar — like "toy" or "dog"
+Then, try using the filter icon to narrow by category or price — pick any that interest you
+You can use any combinations of a search query and a filter
+When any filter is applied, click the gray filter button to clear the filters
+```
+
+Now we’ll add items to your cart**
+```
+Scroll through the catalog and pick an item you like, then click the "Add to Cart" button
+You’ll notice the button updates to show how many of that item are in your cart
+Feel free to click it again to add more of the same item
+Repeat for a couple different products to fill your cart
+```
+
+Let’s go check your cart
+```
+Tap the cart icon in the top right to open your cart
+You’ll see all the items you’ve added, with a subtotal at the bottom
+Try increasing an item’s quantity using the plus (+) icon
+Then decrease it with the minus (-) icon, or remove it completely using the trash icon
+```
+
+Now we’ll walk through checkout
+```
+Click the checkout button at the bottom of the cart page
+You’ll be taken straight to a success screen that confirms your order
+No payment info is needed
+You can’t view past purchases yet, but you’ll see your order went through!
 ```
