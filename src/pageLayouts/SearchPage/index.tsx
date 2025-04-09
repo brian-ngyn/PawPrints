@@ -15,6 +15,8 @@ import CategorySelector from '../../components/CategorySelector';
 import SearchBar from '../../components/SearchBar';
 
 import { useNavigate } from 'react-router';
+import {getCategories,getFollowed,getQuery,getSaved} from './data'
+import {addCategory,setFollowed,setQuery,setSaved,resetSearch} from './data'
 
 const animalcategories = [
   "Amphibians", "Frogs and Toads", "Axolotls, Newts, Salamanders",
@@ -31,12 +33,15 @@ const [selectedActivityCategories, setSelectedActivityCategories] = useState<str
 const SearchPage = () => {
   let navigate = useNavigate();
 
-  const [searchSaved, setSaved] = useState(false);
-  const [searchFollowed, setFollowed] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchSaved, setSaved] = useState(getSaved());
+  const [searchFollowed, setFollowed] = useState(getFollowed());
+  const [searchQuery, setSearchQuery] = useState(getQuery());
 
   function search() {
-
+    setSaved(searchSaved)
+    setFollowed(searchFollowed)
+    setQuery(searchQuery)
+    navigate("/searchResults")
   }
   
   return<div className={styles.page}>
@@ -61,9 +66,9 @@ const SearchPage = () => {
       />
 
       <div className={styles.searchAction}>
-        <div className={styles.confirmButton} >
+        <button className={styles.confirmButton} onClick={search}>
           Search
-        </div>
+        </button>
       </div>
     </div>
 
