@@ -27,14 +27,24 @@ const NotificationCentre = () => {
       <div className={styles.feed}>
         <div className={styles.feedStart}></div>
         <PostNotification
-          title="My First Post"
-          username="John"
-          timestamp={new Date('2025-03-12T14:48:00')}
+          title="This is another post by John, which has links"
+          username="JohnTheVet"
+          timestamp={new Date('2025-03-20T14:48:00')}
         />
         <PostNotification
-          title="My Fourth Post should have a lot of content. Lorem ipsum dolor sic amet. That comes from a corruption of a Roman text on morality. The Romans also had some wacky ideas about the Egyptians, including the idea that their worship of animals was to such a degree as to be more important than their very lives."
-          username="Olivia"
-          timestamp={new Date('2025-03-10T10:14:00')}
+          title="This post has an image"
+          username="JohnTheVet"
+          timestamp={new Date('2025-03-18T14:48:00')}
+        />
+        <PostNotification
+          title="This Fourth Post should have a lot of content. Lorem ipsum dolor sic amet. That comes from a corruption of a Roman text on morality. The Romans also had some wacky ideas about the Egyptians, including the idea that their worship of animals was to such a degree as to be more important than their very lives."
+          username="JohnTheVet"
+          timestamp={new Date('2025-03-16T14:48:00')}
+        />
+        <PostNotification
+          title="John's First Post"
+          username="JohnTheVet"
+          timestamp={new Date('2025-03-12T14:48:00')}
         />
         <div className={styles.feedEnd}></div>
       </div>

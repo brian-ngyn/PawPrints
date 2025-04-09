@@ -183,8 +183,9 @@ const Profile = () => {
       sessionStorage.setItem('selectedNonsense5', selectedNonsense5[0]);
     }
 
+    // notification
+
     setIsPopupVisible(true);
-    // Optionally hide the popup after 3 seconds
     setTimeout(() => {
       setIsPopupVisible(false);
     }, 4000);
@@ -325,7 +326,7 @@ const Profile = () => {
                 <label>
                   <FaEnvelope className={styles.icon1} />
                 </label>
-                <input type="checkbox" />
+                <input type="checkbox" id="email-checkbox"/>
               </div>
               <div className={styles.notifyOption}>
                 <br></br>
@@ -334,25 +335,29 @@ const Profile = () => {
                   {' '}
                   <FaBell className={styles.icon1} />
                 </label>
-                <input type="checkbox" />
+                <input type="checkbox" id="bell-checkbox" />
               </div>
 
               <label>Notify Me About:</label>
               <div className={styles.notifyOption}>
                 <label id="sales-label">Sales</label>
-                <input type="checkbox" id="test122" />
+                <input type="checkbox" id="sales-checkbox" />
               </div>
               <div className={styles.notifyOption}>
                 <label id="events-label">Events</label>
-                <input type="checkbox" />
+                <input type="checkbox" id="events-checkbox" />
               </div>
               <div className={styles.notifyOption}>
                 <label id="likes-label">Likes</label>
-                <input type="checkbox" />
+                <input type="checkbox" id="likes-checkbox" />
               </div>
               <div className={styles.notifyOption}>
                 <label id="comments-label">Comments</label>
-                <input type="checkbox" />
+                <input type="checkbox" id="comments-checkbox" />
+              </div>
+              <div className={styles.notifyOption}>
+                <label id="posts-label">Posts</label>
+                <input type="checkbox" id="posts-checkbox" />
               </div>
             </div>
           )}
