@@ -4,9 +4,6 @@ import { pluginSass } from '@rsbuild/plugin-sass';
 
 export default defineConfig({
   plugins: [pluginReact(), pluginSass()],
-  output: {
-    assetPrefix: '/PawPrints/',
-  },
   html: {
     title: 'PawPrints',
   },
