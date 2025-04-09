@@ -137,12 +137,29 @@
   resolved "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-6.1.17.tgz"
   integrity sha512-K7m+pd7oVJ9fW4h7CLDdDGJbc9szJ1xDU1DZ2ag+7oOo1aCNLv44CehzkkknM6r8EYlOOhgaelxQpKAI4glj7A==
 
+"@fullcalendar/interaction@~6.1.17":
+  version "6.1.17"
+  resolved "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-6.1.17.tgz"
+  integrity sha512-AudvQvgmJP2FU89wpSulUUjeWv24SuyCx8FzH2WIPVaYg+vDGGYarI7K6PcM3TH7B/CyaBjm5Rqw9lXgnwt5YA==
+
+"@fullcalendar/list@~6.1.17":
+  version "6.1.17"
+  resolved "https://registry.npmjs.org/@fullcalendar/list/-/list-6.1.17.tgz"
+  integrity sha512-fkyK49F9IxwlGUBVhJGsFpd/LTi/vRVERLIAe1HmBaGkjwpxnynm8TMLb9mZip97wvDk3CmZWduMe6PxscAlow==
+
+"@fullcalendar/multimonth@~6.1.17":
+  version "6.1.17"
+  resolved "https://registry.npmjs.org/@fullcalendar/multimonth/-/multimonth-6.1.17.tgz"
+  integrity sha512-ZxA9mkTzKayCdxR5je9P9++qqhSeSbuvXmvZ6doZw6omv8K52cD7XJii+P7gvxATXxtI6hg4i+DuMyOHxP1E2g==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.17"
+
 "@fullcalendar/react@^6.1.15":
   version "6.1.17"
   resolved "https://registry.npmjs.org/@fullcalendar/react/-/react-6.1.17.tgz"
   integrity sha512-AA8soHhlfRH5dUeqHnfAtzDiXa2vrgWocJSK/F5qzw/pOxc9MqpuoS/nQBROWtHHg6yQUg3DoGqOOhi7dmylXQ==
 
-"@fullcalendar/timegrid@^6.1.15":
+"@fullcalendar/timegrid@^6.1.15", "@fullcalendar/timegrid@~6.1.17":
   version "6.1.17"
   resolved "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-6.1.17.tgz"
   integrity sha512-K4PlA3L3lclLOs3IX8cvddeiJI9ZVMD7RA9IqaWwbvac771971foc9tFze9YY+Pqesf6S+vhS2dWtEVlERaGlQ==
@@ -954,6 +971,18 @@ for-each@^0.3.3, for-each@^0.3.5:
   integrity sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==
   dependencies:
     is-callable "^1.2.7"
+
+fullcalendar@^6.1.17:
+  version "6.1.17"
+  resolved "https://registry.npmjs.org/fullcalendar/-/fullcalendar-6.1.17.tgz"
+  integrity sha512-5pq3jYo9cJnVn8TrnukJdP3uNZWk2V1uiTqVXIaSbO5qIXeF3H1jE11PAB5fBOacnZ9HLI/98IT82Y1rz/2VIw==
+  dependencies:
+    "@fullcalendar/core" "~6.1.17"
+    "@fullcalendar/daygrid" "~6.1.17"
+    "@fullcalendar/interaction" "~6.1.17"
+    "@fullcalendar/list" "~6.1.17"
+    "@fullcalendar/multimonth" "~6.1.17"
+    "@fullcalendar/timegrid" "~6.1.17"
 
 function-bind@^1.1.2:
   version "1.1.2"

@@ -3,6 +3,7 @@ import Footer from './components/Footer';
 import styles from './globals.module.scss';
 import Home from './pageLayouts/Home';
 import SearchPage from './pageLayouts/SearchPage';
+import SearchResults from './pageLayouts/SearchResults';
 import Events from './pageLayouts/Events';
 import Groups from './pageLayouts/Groups';
 import Shop from './pageLayouts/Shop';
@@ -40,6 +41,7 @@ const App = () => {
                         }
                       />
                       <Route path="/search" element={<SearchPage />} />
+                      <Route path="/searchResults" element={<SearchResults />} />
                       <Route
                         path="/notifications"
                         element={<NotificationCentre />}
