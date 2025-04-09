@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import PriceRange from '../../components/ShopPageComponents/PriceRange';
 import RatingSelector from '../../components/ShopPageComponents/RatingSelector';
@@ -255,8 +255,15 @@ const Shop = () => {
 
   const [showCheckoutScreen, setShowCheckoutScreen] = useState(false);
 
+  const shopPageRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (showCheckoutScreen && shopPageRef.current) {
+      shopPageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [showCheckoutScreen]);
+
   return (
-    <div className={styles.shopPage}>
+    <div className={styles.shopPage} ref={shopPageRef}>
       {!showCartPage ? (
         <>
           <div className={styles.pageHeading}>
@@ -462,22 +469,22 @@ const Shop = () => {
             </>
           ) : (
             <>
-              <div className={styles.cartPageHeading}>
-                <FontAwesomeIcon
-                  className={styles.backButton}
-                  icon={faChevronLeft}
-                  size="2xs"
-                  color="white"
+              <div className={styles.checkoutScreen}>
+                <div>Order #{Math.floor(Math.random() * 1000000)}</div>
+                <div>
+                  Checkout complete! Thank you for shopping with PawPrints!
+                </div>
+                <button
+                  className={styles.backToShopButton}
                   onClick={() => {
                     setItemsInCart([]);
                     setShowCartPage(false);
                     setShowCheckoutScreen(false);
+                    resetAllFilters();
                   }}
-                />
-                <div>Cart</div>
-              </div>
-              <div className={styles.checkoutScreen}>
-                Checkout complete! Thank you for shopping with PawPrints!
+                >
+                  Go back to Shop
+                </button>
               </div>
             </>
           )}
