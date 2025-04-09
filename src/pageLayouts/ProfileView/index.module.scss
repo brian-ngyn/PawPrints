@@ -195,3 +195,13 @@
   cursor: pointer;
   transition: color 0.3s ease;
 }
+
+.newPosts {
+  max-height: 350px; 
+  overflow-y: auto; 
+  padding: 10px; 
+  margin-top: 3px; 
+  &::-webkit-scrollbar {
+    display: none; 
+  }
+}

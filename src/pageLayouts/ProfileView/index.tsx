@@ -9,6 +9,7 @@ import { useProfilePic } from '../../contexts/ProfilePicContext';
 import { usePetProfilePic } from '../../contexts/PetProfilePicContext';
 import { useUserProfile } from '../../contexts/UserProfileContext';
 import { usePetProfile } from '../../contexts/PetProfileContext';
+import { usePosts } from '../../contexts/PostsContext';
 
 const ProfileView = () => {
   let navigate = useNavigate();
@@ -18,6 +19,10 @@ const ProfileView = () => {
   const { PetProfilePic } = usePetProfilePic();
   const { username, description } = useUserProfile();
   const { petUsername, petDescription } = usePetProfile();
+  const { getPosts } = usePosts();
+
+  const posts = getPosts();
+  const filteredPosts = posts.filter((post) => post.user !== 'JohnTheVet');
 
   return (
     <div className={styles.profileViewContainer}>
@@ -90,27 +95,31 @@ const ProfileView = () => {
         )}
       </div>
 
-      {/* Recent Posts Section ... 7 breaks */}
+      {/* Recent Posts Section */}
       <div className={styles.recentPosts}>
         <h3>Recent Posts</h3>
-        <Post
-          user="Olivia"
-          title="This is my first post!"
-          text=""
-          isSponsored={false}
-          isSaved={false}
-          eventLink=""
-          shopLink=""
-          media=""
-          link=""
-          userimgsrc={
-            profilePic ||
-            'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png'
-          }
-          timestamp={new Date('2025-04-02T12:00:00Z')}
-        />
-
-        {/* Could possibly add more posts here if necessary */}
+          <div className={styles.newPosts}>
+            {filteredPosts.length > 0 ? (
+              filteredPosts.map((post) => (
+                <Post
+                  user = {post.user}
+                  userimgsrc = {post.userimgsrc}
+                  title = {post.title}
+                  text = {post.text}
+                  isSaved = {post.isSaved}
+                  isSponsored = {post.isSponsored}
+                  eventLink = {post.eventLink}
+                  shopLink = {post.shopLink}
+                  media = {post.media}
+                  link = {post.link}
+                  id = {post.id}
+                  timestamp = {post.timestamp}
+                />
+              ))
+            ) : (
+              <p> No posts available.</p>
+            )}
+          </div>
       </div>
     </div>
   );

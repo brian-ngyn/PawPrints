@@ -15,26 +15,31 @@ import { useNavigate } from 'react-router';
 
 import { usePosts } from '../../contexts/PostsContext';
 
-type inUserProps = {
+import { useUserProfile } from '../../contexts/UserProfileContext'
+import { useProfilePic } from '../../contexts/ProfilePicContext'; 
+
+/*type inUserProps = {
   username: string;
   userimgsrc: string;
-};
+};*/
 
-const NewPostPage = (props: inUserProps) => {
+const NewPostPage = () => {
   const [postContent, setPostContent] = useState('');
   const [postLink, setLink] = useState('');
   const [postMedia, setMedia] = useState('');
   const [postShopLink, setShop] = useState('');
   const [postEvent, setEvent] = useState('');
   const [sponsored, setSponsor] = useState(false);
+  const { username } = useUserProfile();
+  const { profilePic } = useProfilePic();
 
   let navigate = useNavigate();
   const { addPost } = usePosts();
 
   function handleNewPost() {
     addPost({
-      user: props.username,
-      userimgsrc: props.userimgsrc,
+      user: username,
+      userimgsrc: profilePic || 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png',
       categories: [''],
       title: '',
       text: postContent,
@@ -72,13 +77,13 @@ const NewPostPage = (props: inUserProps) => {
           <div className={styles.postHeader}>
             <img
               className={styles.profileImage}
-              src={props.userimgsrc}
+              src={profilePic || 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png'}
               width="10%"
               height="10%"
               alt=""
               border-radius="50%"
             ></img>
-            <div className={styles.postUser}>{props.username}</div>
+            <div className={styles.postUser}>{username}</div>
           </div>
           <div className={styles.postText}>
             <textarea

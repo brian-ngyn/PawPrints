@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import InfoModal from '../../components/GroupPage/infoModal';
 import PlusIcon from '../../components/PlusIcon';
+import { useUserProfile } from '../../contexts/UserProfileContext';
+import { useProfilePic } from '../../contexts/ProfilePicContext';
+
+
 
 // TYPES & INTERFACES
 export type MembershipStatus = 'none' | 'requested' | 'joined';
@@ -60,9 +64,9 @@ const initialGroups: Group[] = [
   },
 ];
 
-const groupPosts: { [groupId: number]: { id: number; content: string }[] } = {
-  1: [{ id: 1, content: 'Check out my new puppy!' }],
-  2: [{ id: 1, content: 'Moose spotted by the river today.' }],
+const groupPosts: { [groupId: number]: { user: string; userimgsrc: string; id: number; content: string }[] } = {
+  1: [{ user: 'JohnTheVet', userimgsrc: '/JohnProfilePicture.png', id: 1, content: 'Check out my new puppy!' }],
+  2: [{ user: 'JohnTheVet', userimgsrc: '/JohnProfilePicture.png', id: 1, content: 'Moose spotted by the river today.' }],
 };
 
 const animalTypes: string[] = [
@@ -80,9 +84,10 @@ const animalTypes: string[] = [
 
 const mainUser: Member = {
   id: 1,
-  name: 'John',
+  name: 'JohnTheVet',
   userimgsrc: '/images/JohnProfilePicture.png',
 };
+
 
 // COMPONENTS
 
@@ -383,9 +388,11 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
+  const { username } = useUserProfile();
+  const { profilePic } = useProfilePic();
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
   const [postsState, setPostsState] = useState<
-    { id: number; content: string }[]
+    { user: string; userimgsrc: string; id: number; content: string }[]
   >(groupPosts[group.id] || []);
 
   const handleLeaveClick = () => setShowLeaveConfirm(true);
@@ -404,7 +411,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
   };
 
   const handleCreatePost = (content: string) => {
-    const newPost = { id: Date.now(), content };
+    const newPost = { user: username, userimgsrc: (profilePic ? profilePic : 'https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png'), id: Date.now(), content };
     setPostsState((prev) => [newPost, ...prev]);
     setShowCreatePostModal(false);
   };
@@ -485,7 +492,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
           postsState.map((p) => (
             <div key={p.id} className={styles.postWrapper}>
               <Post
-                user="John The Vet"
+                user={p.user}
                 title=""
                 text={p.content}
                 isSponsored={false}
@@ -494,7 +501,7 @@ const GroupDetails: React.FC<GroupDetailsProps> = ({
                 shopLink=""
                 media=""
                 link=""
-                userimgsrc="/images/JohnProfilePicture.png"
+                userimgsrc={p.userimgsrc}
                 timestamp={new Date('2025-03-25T12:00:00Z')}
               />
             </div>
@@ -760,7 +767,7 @@ const GroupsPage: React.FC = () => {
               onClick={() => setShowCreateForm(true)}
             >
               <PlusIcon width={25} height={25} colour={'#454545'} />
-              <div className={styles.newGroupText}>New Event</div>
+              <div className={styles.newGroupText}>New Group</div>
             </div>
           </div>
           <div className={styles.searchBarContainer}>

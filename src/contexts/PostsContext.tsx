@@ -4,7 +4,11 @@ import React, {
   useState,
   ReactNode,
   useCallback,
+  useEffect
 } from 'react';
+
+import { useUserProfile } from './UserProfileContext';
+import { useProfilePic } from './ProfilePicContext';
 
 export type Post = {
   user: string;
@@ -30,11 +34,13 @@ interface PostsContextType {
 const PostContext = createContext<PostsContextType | undefined>(undefined);
 
 export const PostsProvider = ({ children }: { children: ReactNode }) => {
+  const { username } = useUserProfile();
+  const { profilePic } = useProfilePic();
   const [posts, setPosts] = useState<Post[]>([
     {
-      user: 'John',
+      user: 'JohnTheVet',
       userimgsrc:
-        'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png',
+        '/JohnProfilePicture.png',
       categories: [''],
       title: '',
       text: "John's first post",
@@ -49,9 +55,9 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       timestamp: new Date('2025-03-12T14:48:00'),
     },
     {
-      user: 'Olivia',
+      user: username,
       userimgsrc:
-        'https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png',
+        profilePic ? profilePic : 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png',
       categories: [''],
       title: '',
       text: "Olivia's First Post",
@@ -66,9 +72,9 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       timestamp: new Date('2025-03-14T14:48:00'),
     },
     {
-      user: 'Olivia',
+      user: 'JohnTheVet',
       userimgsrc:
-        'https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png',
+        '/JohnProfilePicture.png',
       categories: [''],
       title: 'This Fourth Post should have a lot of content',
       text: 'Lorem ipsum dolor sic amet. That comes from a corruption of a Roman text on morality. The Romans also had some wacky ideas about the Egyptians, including the idea that their worship of animals was to such a degree as to be more important than their very lives.',
@@ -83,9 +89,9 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       timestamp: new Date('2025-03-16T14:48:00'),
     },
     {
-      user: 'Olivia',
+      user: 'JohnTheVet',
       userimgsrc:
-        'https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png',
+        '/JohnProfilePicture.png',
       categories: [''],
       title: 'This post has an image',
       text: "Here's some text about the image",
@@ -101,9 +107,9 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       timestamp: new Date('2025-03-18T14:48:00'),
     },
     {
-      user: 'John',
+      user: 'JohnTheVet',
       userimgsrc:
-        'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png',
+        '/JohnProfilePicture.png',
       categories: [''],
       title: '',
       text: 'This is another post by John, which has links',
@@ -117,6 +123,19 @@ export const PostsProvider = ({ children }: { children: ReactNode }) => {
       timestamp: new Date('2025-03-20T14:48:00'),
     },
   ]);
+
+  // 
+  useEffect(() => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) => ({
+        ...post,
+        user: post.user !== 'JohnTheVet' ? username: post.user,
+        userimgsrc: post.user !== 'JohnTheVet'
+        ? (profilePic ? profilePic : 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png')
+        : post.userimgsrc,
+      }))
+    );
+  }, [username, profilePic]);
 
   const getPosts = useCallback(() => {
     return posts.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));

@@ -22,20 +22,20 @@ const App = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
+      <ProfilePicProvider>
+      <UserProfileProvider>
         <PostsProvider>
           <LocationProvider>
-            <ProfilePicProvider>
               <PetProfilePicProvider>
                 <PetProfileProvider>
-                  <UserProfileProvider>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route
                         path="/new-post"
                         element={
                           <NewPostPage
-                            username="Olivia"
-                            userimgsrc="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png"
+                            //username="Olivia"
+                            //userimgsrc="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_1280.png"
                           />
                         }
                       />
@@ -51,13 +51,12 @@ const App = () => {
                       <Route path="/profileView" element={<ProfileView />} />
                       <Route path="/dummyProfile" element={<DummyProfile />} />
                     </Routes>
-                  </UserProfileProvider>
                 </PetProfileProvider>
               </PetProfilePicProvider>
-            </ProfilePicProvider>
           </LocationProvider>
         </PostsProvider>
-
+        </UserProfileProvider>
+        </ProfilePicProvider>
         <Footer />
       </div>
     </div>
