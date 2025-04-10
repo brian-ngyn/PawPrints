@@ -137,7 +137,7 @@ const Post = ({
           {preShop}
           <a href={shopLink}>{shopLink}</a>
           {preSponsor}
-          {sponsortext}
+          <i>{sponsortext}</i>
         </div>
       </div>
 
