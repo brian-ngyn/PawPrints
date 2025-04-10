@@ -68,8 +68,79 @@ Then save your changes, and return to your profile.
 
 You can now see your updated profile! Now we'll move on to other sections of the app. 
 ### Home Page:
+The Home Page is available upon first opening the application, or by clicking the Home button.
+The Home Page is made of a few key elements: the Notification Center (denoted with the Bell icon), the Search, the New Post button, and the Feed.
+Using the Feed:
 ```
-info here
+The Feed displays all available posts. We have pre-loaded some posts to display various features of our posting system that can be viewed. Clicking on the user's name at the top of a post will bring you to that user's profile page.
+```
+```
+The buttons below each post allow the user to save the post or reply to a post. These features are currently still under development.
+```
+The Notification Centre:
+```
+The Notification Centre features a summary of recent posts. Clicking the user's name does not currently take you to the user's profile. 
+```
+#### Search Page:
+The Search page can be accessed by clicking the searchbar at the top of the Home page.
+Alternate searches:
+```
+In case the user is looking for Events or Groups, navigational buttons are provided, linking them to the Events and Groups pages respectively, which feature their own search functions specific to those features.
+```
+Using the Search:
+```
+You may use various filters to find specific posts, or groups of posts. These filters are explained below. Once your filters have been set satisfactorially, you may click the Search button, or press the Enter key on your keyboard at any time. The filters will be applied and you will be taken to the results.
+```
+Using the Searchbar:
+```
+The Search page's searchbar can be used to search for specific text within the body of posts, such as "first post". The search results will only include posts that contain an exact, case-insensitive copy of the search query string. For example, the query "fourth cat" would include a post that included the string "FOURTH CAT this week!" in its text, but would not include a post with the text "My fourth consecutive cat". The search results will also not include any posts that include the search query somewhere outside of the post's text, such as in an image link, the user's name, or the date the post was published on.
+```
+Animal Type categories and Followed users:
+```
+These features are currently still under development.
+```
+Saved posts:
+```
+Although saving posts is still under development, the search can still filter posts by their saved status. The example database includes one saved post, and any additional posts will also be automatically saved.
+```
+Clearing filters:
+```
+Filters may be cleared manually on an individual basis, or reset to defaults automatically by pressing the Clear Search Criteria button. Hovering over the button will turn it red (though this is not visible on mobile).
+```
+#### Search Results:
+After applying their desired search filters, you will be taken to your search results. If you have selected a specific search query, the title of this page will update to reflect that query. Otherwise, only posts matching the search criteria will be displayed, even if that does not include any posts at all. These posts can be interacted with in the same manner as the Feed on the Home page.
+```
+Clicking the back arrow at the top of the page will bring you back to the search page. Your previous search criteria will be maintained. To return to the Homepage instead, the navigation bar at the bottom should be used instead.
+```
+#### Creating a New Post
+To create a New Post, return to the Home page and press the New Post button at the top of the page.
+Post text:
+```
+The main portion of the post is set by writing in the main textbox. This will be displayed as the post's text body.
+```
+Animal Type Categories:
+```
+This feature is still under development
+```
+Shop and Event Links:
+```
+These features are still under development, but would allow a user to connect the post to an item or event. To browse events and shop items, buttons are provided to easily navigate to the respective sections of the website. In full development, these would save a draft of the post, but drafts are currently also under development, and using these buttons will erase any current post progress.
+```
+External Links:
+```
+Providing an external link will put a navigable hyperlink below the post.
+```
+Sponsored Posts:
+```
+Checking the box will result in the text "This post is a sponsored advertisement." to be displayed beneath a post.
+```
+Publishing a Post:
+```
+When ready, the post can be published by pushing the Publish Post button at the bottom of the screen. This will return you to the Home page, with your new post appearing on the Feed.
+```
+Cancelling a Post:
+```
+Pushing the cancel button, or navigating away from the page, will erase all current data for the new post.
 ```
 ### Events Page:
 ```
